@@ -13,3 +13,4 @@ Encoding: UTF-8
 LazyData: true
 URL: https://github.com/jmcascalheira/MidPalSet
 BugReports: https://github.com/jmcascalheira/MidPalSet/issues
+Imports: bookdown
