@@ -1,7 +1,7 @@
 Package: MidPalSet
 Title: Research compendium for Assessing the spatial patterning of Middle Paleolithic human settlement in westernmost Iberia'
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R:
     person(given = "Joao",
            family = "Cascalheira",
            role = c("aut", "cre"),
@@ -11,3 +11,5 @@ License: MIT + file LICENSE
 ByteCompile: true
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/jmcascalheira/MidPalSet
+BugReports: https://github.com/jmcascalheira/MidPalSet/issues
