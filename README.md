@@ -3,6 +3,9 @@
 
 # Assessing the spatial patterning of Middle Paleolithic human settlement in westernmost Iberia
 
+[![Travis-CI Build
+Status](https://travis-ci.org/jmcascalheira/MidPalSet.svg?branch=master)](https://travis-ci.org/jmcascalheira/MidPalSet)
+
 This repository contains the data and code for our paper:
 
 > Cascalheira, J., Bicho, N. and Gonçalves. C., (2018). *Assessing the
@@ -13,7 +16,7 @@ Our pre-print is online here:
 
 > Cascalheira, J., Bicho, N. and Gonçalves. C., (2018). *Assessing the
 > spatial patterning of Middle Paleolithic human settlement in
-> westernmost Iberia*. Name of journal/book, Accessed 27 Oct 2018.
+> westernmost Iberia*. Name of journal/book, Accessed 05 Nov 2018.
 > Online at <https://doi.org/xxx/xxx>
 
 ### How to cite
@@ -22,7 +25,7 @@ Please cite this compendium as:
 
 > Cascalheira, J., Bicho, N. and Gonçalves. C., (2018). \_Compendium of
 > R code and data for *Assessing the spatial patterning of Middle
-> Paleolithic human settlement in westernmost Iberia*. Accessed 27 Oct
+> Paleolithic human settlement in westernmost Iberia*. Accessed 05 Nov
 > 2018. Online at <https://doi.org/xxx/xxx>
 
 ### How to download or install

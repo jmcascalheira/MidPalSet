@@ -14,6 +14,8 @@ knitr::opts_chunk$set(
 
 # Assessing the spatial patterning of Middle Paleolithic human settlement in westernmost Iberia
 
+[![Travis-CI Build Status](https://travis-ci.org/jmcascalheira/MidPalSet.svg?branch=master)](https://travis-ci.org/jmcascalheira/MidPalSet)
+
 This repository contains the data and code for our paper:
 
 > Cascalheira, J., Bicho, N. and Gonçalves. C., (2018). _Assessing the spatial patterning of Middle Paleolithic human settlement in westernmost Iberia_. Name of journal/book <https://doi.org/xxx/xxx>
