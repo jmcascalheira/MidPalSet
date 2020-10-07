@@ -46,6 +46,24 @@ Here is a citation [@Marwick2017]
 
 # Methods
 
+## Site selection
+
+Most of the sites were selected from the portuguese national database of archaeological sites - Endovélico (available at www.arqueologia.patrimoniocultural.pt). This database includes information on all the archaeological evidence found during both research projects and Cultural Resource Management works in Portugal. Particularly in the last case, most of the contexts are not published and thus the only information available is the one present in the database. This is why we had to examine against three different criteria:
+
+* Classification as Middle Paleolithic in the 'Chronology' field
+* Mention in the description of elements clearly characteristic of the Middle Paleolithic (e.g. levallois cores or blanks) - this filter was used since the classification of some sites as Middle Paleolithic sometimes resulted from the identifications of only uncharacteristic elements
+* Attribution of site horizon(s) to an approximate timeframe within the Middle Paleolithic
+
+The latter two criteria resulted in the organization of sites into two different categories that were differently used for our analysis. A first category composed of all sites that pass the first two filters, and a second category only formed by sites which correpond to the third criterium applied.
+
+
+## Mapping and GIS analysis
+
+
+## Statistical analysis
+
+
+
 # Results
 
 ```{r get-data, eval = FALSE}
