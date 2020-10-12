@@ -22,11 +22,11 @@ random_360_cut_altitude <- read.csv("analysis/data/raw_data/spatial_data/random_
 caves_altitude <- read.csv("analysis/data/raw_data/spatial_data/all_caves_elevation.csv")
 
 site_aspect <- read.csv("analysis/data/raw_data/spatial_data/site_aspect.csv", sep = ";")
-random_360_aspect <- read.csv("analysis/data/raw_data/spatial_data/random_360_cut_aspect.csv")
+random_360_cut_aspect <- read.csv("analysis/data/raw_data/spatial_data/random_360_cut_aspect.csv")
 caves_aspect <- read.csv("analysis/data/raw_data/spatial_data/all_caves_aspect.csv")
 
 site_slope <- read.csv("analysis/data/raw_data/spatial_data/site_slope.csv", sep = ";")
-random_360_slope <- read.csv("analysis/data/raw_data/spatial_data/random_360_cut_slope.csv")
+random_360_cut_slope <- read.csv("analysis/data/raw_data/spatial_data/random_360_cut_slope.csv")
 caves_slope <- read.csv("analysis/data/raw_data/spatial_data/all_caves_slope.csv")
 
 site_river <- read.csv("analysis/data/raw_data/spatial_data/site_all_river.csv")
@@ -117,10 +117,10 @@ openair <- general_tab %>%
 random_elevation <- random_360_cut_altitude %>%
   dplyr::select(ID = OBJECTID.., Elevation = MEAN)
 
-random_aspect <- random_360_aspect %>%
+random_aspect <- random_360_cut_aspect %>%
   dplyr::select(ID = OBJECTID.., Aspect = MEAN)
 
-random_slope <- random_360_slope %>%
+random_slope <- random_360_cut_slope %>%
   dplyr::select(ID = OBJECTID.., Slope = MEAN)
 
 random_river <- random_360_river %>%
