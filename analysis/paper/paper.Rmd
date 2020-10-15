@@ -14,7 +14,7 @@ csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the 
 abstract: |
   Text of abstract
 keywords: |
-  Middle Paleolithic; GIS; Western Iberia
+  Middle Paleolithic; Settlement patterns; GIS; Western Iberia
 ---
 
 
@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
   fig.path = "../figures/"
 )
 
-#library(MidPalSet) # Or use devtools::load_all('.', quiet = T) if your code is in script files, rather than as functions in the `/R` diretory
+#library(MidPalSet) # Or use devtools::load_all('.', quiet = T) if your code is in script files, rather than as functions in the `/R` directory
 
 library(rgdal)
 library(raster)
@@ -121,12 +121,18 @@ terrainstack <- stack(areaDEM_cut,
                       areaASPECT_cut,
                       areaDIST_cut)
 
-# Extract values from stack for each site within a 20 m radius
+# Extract mean values from stack for each site and all caves within a 20 m radius
 sites_vals <- raster::extract(terrainstack,
                       sites_sub_long,
                       buffer = 20,
                       fun = mean,
                       sp = TRUE)
+
+caves_vals <- raster::extract(terrainstack,
+                              caves_long,
+                              buffer = 20,
+                              fun = mean,
+                              sp = TRUE)
 
 
 # Subdivide sites for further analysis
