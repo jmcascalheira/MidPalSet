@@ -13,8 +13,17 @@ library(sf)
 
 #Download geo tif from OSF repositorium
 
-#osf_retrieve_file("6hrd8") %>%
+#osf_retrieve_file("nv6r8") %>%
 #  osf_download(path = "./analysis/data/raw_data")
+#osf_retrieve_file("jb6v8") %>%
+#  osf_download(path = "./analysis/data/raw_data")
+#osf_retrieve_file("yxk23") %>%
+#  osf_download(path = "./analysis/data/raw_data")
+#osf_retrieve_file("57qfn") %>%
+#  osf_download(path = "./analysis/data/raw_data")
+#osf_retrieve_file("mx2bt") %>%
+#  osf_download(path = "./analysis/data/raw_data")
+
 
 
 #Import geo tiffs
@@ -36,7 +45,6 @@ areaASPECT_cut <- projectRaster(areaASPECT_cut,
                              crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
 areaDIST_cut <- projectRaster(areaDIST_cut,
                              crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
-
 
 
 #Import sites

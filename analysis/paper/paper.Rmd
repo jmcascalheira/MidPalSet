@@ -1,11 +1,12 @@
 ---
-title: "Title Goes Here"
+title: "Assessing spatial patterning of Middle Paleolithic human settlement in Western Iberia"
 author:
-  - Author One
-  - Author Two
+  - João Cascalheira
+  - Célia Gonçalves
+  - Daniela Maio
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
-    bookdown::html_document2:
+    bookdown::word_document2:
       fig_caption: yes
       reference_docx: "../templates/template.docx" # Insert path for the DOCX file
 bibliography: references.bib
@@ -13,9 +14,7 @@ csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the 
 abstract: |
   Text of abstract
 keywords: |
-  keyword 1; keyword 2; keyword 3
-highlights: |
-  These are the highlights. 
+  Middle Paleolithic; GIS; Western Iberia
 ---
 
 
@@ -31,45 +30,501 @@ knitr::opts_chunk$set(
   fig.path = "../figures/"
 )
 
-library(MidPalSet) # Or use devtools::load_all('.', quiet = T) if your code is in script files, rather than as functions in the `/R` diretory
+#library(MidPalSet) # Or use devtools::load_all('.', quiet = T) if your code is in script files, rather than as functions in the `/R` diretory
+
+library(rgdal)
+library(raster)
+library(rasterVis)
+library(lattice)
+library(foreach)
+library(rnaturalearth)
+library(tidyverse)
+library(ggplot2)
+library(broom)
+library(foreach)
+library(sf)
+
 ```
+
+
+```{r load-data, eval = FALSE, echo = FALSE}
+
+#Download geo tif from OSF repositorium
+
+#osf_retrieve_file("nv6r8") %>%
+#  osf_download(path = "./analysis/data/raw_data")
+#osf_retrieve_file("jb6v8") %>%
+#  osf_download(path = "./analysis/data/raw_data")
+#osf_retrieve_file("yxk23") %>%
+#  osf_download(path = "./analysis/data/raw_data")
+#osf_retrieve_file("57qfn") %>%
+#  osf_download(path = "./analysis/data/raw_data")
+#osf_retrieve_file("mx2bt") %>%
+#  osf_download(path = "./analysis/data/raw_data")
+
+#Import geo tiffs
+areaDEM <- raster("../data/raw_data/areaDEM.tif")
+areaDEM_cut <- raster("../data/raw_data/areaDEM_cut.tif")
+areaSLOPE_cut <- raster("../data/raw_data/areaSLOPE_cut.tif")
+areaASPECT_cut <- raster("../data/raw_data/areaASPECT_cut.tif")
+areaDIST_cut <- raster("../data/raw_data/areaDIST_cut2.tif")
+
+
+# Convert coordinates to longlat WGS84
+areaDEM <- projectRaster(areaDEM, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+areaDEM_cut <- projectRaster(areaDEM_cut, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+areaSLOPE_cut <- projectRaster(areaSLOPE_cut, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+areaASPECT_cut <- projectRaster(areaASPECT_cut, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+areaDIST_cut <- projectRaster(areaDIST_cut, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+
+
+#Import sites
+sites <- read.csv("../data/raw_data/sites_short_list.csv", header=TRUE)
+caves <- read.csv("../data/raw_data/all_caves.csv", header=TRUE)
+
+#Convert to shapefile
+coordinates(sites)<-~Longitude+Latitude
+proj4string(sites) = CRS("+init=epsg:4326")
+writeOGR(sites, "../data/raw_data/spatial_data/shapefiles","sites_short", "ESRI Shapefile")
+
+coordinates(caves)<-~Longitude+Latitude
+proj4string(caves) = CRS("+init=epsg:4326")
+writeOGR(caves, "../data/raw_data/spatial_data/shapefiles","caves", "ESRI Shapefile")
+
+
+#Read shapefiles
+sites_short <- readOGR(dsn="../data/raw_data/spatial_data/shapefiles", layer="sites_short")
+caves <- readOGR(dsn="../data/raw_data/spatial_data/shapefiles", layer="caves")
+#rivers <- readOGR(dsn="../data/raw_data/spatial_data/shapefiles", layer="RHidro_Rivers_v2")
+
+#Filter sites by Type
+sites_sub <- sites_short[sites_short$Type == "Cave" | sites_short$Type == "Open air",]
+sites_sub$Type <- factor(sites_sub$Type)
+
+#Convert coordinates to longlat WGS84
+sites_sub_long <- spTransform(sites_sub, "+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+
+caves_long <- spTransform(caves, "+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+
+```
+
+```{r extract-variables, eval = FALSE, echo = FALSE}
+
+# Extract variables
+
+# Resample Distance raster
+areaDIST_cut <- resample(areaDIST_cut,areaDEM_cut, resample='bilinear')
+
+# Stack maps
+terrainstack <- stack(areaDEM_cut,
+                      areaSLOPE_cut,
+                      areaASPECT_cut,
+                      areaDIST_cut)
+
+# Extract values from stack for each site within a 20 m radius
+sites_vals <- raster::extract(terrainstack,
+                      sites_sub_long,
+                      buffer = 20,
+                      fun = mean,
+                      sp = TRUE)
+
+
+# Subdivide sites for further analysis
+open_air <- dplyr::filter(as.data.frame(sites_vals), Type == "Open air")
+cave <- dplyr::filter(as.data.frame(sites_vals), Type == "Cave")
+
+```
+
 
 # Introduction
 
-Here is a citation [@Marwick2017]
 
-# Background
+```{r general-map, eval = FALSE, echo = FALSE}
 
-```{r demo, eval = FALSE}
-1 + 1
+rasterVis::levelplot(areaDEM,
+                     margin = list(x = FALSE,
+                                   y = TRUE),
+                     col.regions = terrain.colors(16),
+                     xlab = list(label = "",
+                                 vjust = -0.25),
+                     sub = list(
+                       label = "Meters a.s.l.",
+                       font = 1,
+                       cex = .9,
+                       hjust = 0.5),
+                     colorkey=list(space="bottom"),
+                     key = list(
+                       space = "left",
+                       points = list(
+                         pch = c(18,20),
+                         col = c("red","blue")),
+                       text = list(
+                         c("Cave","Open-air"),
+                         cex=1))) +
+  spplot(sites_sub_long, # add a layer of points
+         zcol = "Type",
+         cex = 2,
+         pch = c(18,20),
+         col.regions = c("red","blue"))
+
 ```
+
 
 # Methods
 
 ## Site selection
 
-Most of the sites were selected from the portuguese national database of archaeological sites - Endovélico (available at www.arqueologia.patrimoniocultural.pt). This database includes information on all the archaeological evidence found during both research projects and Cultural Resource Management works in Portugal. Particularly in the last case, most of the contexts are not published and thus the only information available is the one present in the database. This is why we had to examine against three different criteria:
-
-* Classification as Middle Paleolithic in the 'Chronology' field
-* Mention in the description of elements clearly characteristic of the Middle Paleolithic (e.g. levallois cores or blanks) - this filter was used since the classification of some sites as Middle Paleolithic sometimes resulted from the identifications of only uncharacteristic elements
-* Attribution of site horizon(s) to an approximate timeframe within the Middle Paleolithic
-
-The latter two criteria resulted in the organization of sites into two different categories that were differently used for our analysis. A first category composed of all sites that pass the first two filters, and a second category only formed by sites which correpond to the third criterium applied.
-
-
 ## Mapping and GIS analysis
-
 
 ## Statistical analysis
 
 
-
 # Results
 
-```{r get-data, eval = FALSE}
-# Note the path that we need to use to access our data files when rendering this document
-my_data <- readr::read_csv("../data/raw_data/my_csv_file.csv")
+```{r plot-altitude, eval = FALSE, echo = FALSE}
+
+# Calculate site altitude densities
+open_air_altitude_densities <- open_air %$%
+   areaDEM_cut %>%
+   density(from = -26, to = 1993, n = 1965) %>%
+   broom::tidy() %>%
+   tibble::as_tibble() %>%
+   dplyr::mutate(y = y * 1965) %>%
+   dplyr::rename(Elevation = x,
+                Frequency = y)
+
+# Load background values into memory for fast resampling
+background_altitude_values <- areaDEM_cut %>%
+  values() %>%
+  na.omit()
+
+# Draw 1000 random samples from background and calculate their densities
+background_altitude_densities <- foreach::foreach(n = 1:1000, .combine = rbind) %do% {
+  background_altitude_values %>%
+    sample(nrow(open_air),
+           replace = FALSE) %>%
+    density(from = -26, to = 1993, n = 1965) %>%
+    broom::tidy() %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(y = y * 1965)
+} %>%
+  dplyr::group_by(x) %>%
+  purrrlyr::by_slice(function(x){
+    quantile(x$y, probs = c(0.025, 0.5, 0.975)) %>%
+      t() %>%
+      broom::tidy()
+  }, .collate = "cols") %>%
+  magrittr::set_names(c("Elevation", "Lower CI", "Frequency", "Upper CI"))
+
+
+# Plot distributions
+ggplot() +
+  geom_line(data = background_altitude_densities,
+            mapping = aes(x = Elevation,
+                          y = Frequency)) +
+  geom_ribbon(data = background_altitude_densities,
+              mapping = aes(x = Elevation,
+                            ymin = `Lower CI`,
+                            ymax = `Upper CI`),
+              alpha = 0.3) +
+  geom_line(data = open_air_altitude_densities,
+            mapping = aes(x = Elevation,
+                          y = Frequency),
+            color = "red")
+
+
 ```
+
+```{r test-altitude, echo = false, eval = FALSE}
+
+# Draw 1000 random samples from background, and compute two-sample Wilcoxon tests (Mann-Whitney U tests)
+background_altitude_MWU <- foreach(n = 1:1000, .combine = rbind) %do% {
+  background_sample <- background_altitude_values %>%
+    sample(nrow(open_air),
+           replace = FALSE) %>%
+    wilcox.test(x = open_air$areaDEM_cut,
+                y = .,
+                exact = FALSE) %>%
+    broom::tidy() %>%
+    tibble::as_tibble()
+
+} %>%
+  dplyr::select(statistic, p.value)
+
+
+# Get the median test statistic and 95% confidence interval
+background_altitude_MWU <- foreach::foreach(prob = c(0.025,0.5,0.975), .combine = rbind) %do% {
+  background_altitude_MWU %>%
+    dplyr::summarise_all(quantile, probs = prob)
+} %>%
+  t() %>%
+  magrittr::set_colnames(c("Lower CI","Median","Upper CI")) %>%
+  magrittr::set_rownames(c("U statistic","p-value"))
+
+
+round(background_altitude_MWU, 3)
+
+```
+
+
+```{r plot-slope, eval = FALSE, echo = FALSE}
+
+# Calculate site altitude densities
+open_air_slope_densities <- open_air %$%
+   areaSLOPE_cut %>%
+   density(from = 0, to = 70, n = 35) %>%
+   broom::tidy() %>%
+   tibble::as_tibble() %>%
+   dplyr::mutate(y = y * 35) %>%
+   dplyr::rename(Slope = x,
+                Frequency = y)
+
+# Load background values into memory for fast resampling
+background_slope_values <- areaSLOPE_cut %>%
+  values() %>%
+  na.omit()
+
+# Draw 1000 random samples from background and calculate their densities
+background_slope_densities <- foreach::foreach(n = 1:1000, .combine = rbind) %do% {
+  background_slope_values %>%
+    sample(nrow(open_air),
+           replace = FALSE) %>%
+    density(from = 0, to = 70, n = 35) %>%
+    broom::tidy() %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(y = y * 35)
+} %>%
+  dplyr::group_by(x) %>%
+  purrrlyr::by_slice(function(x){
+    quantile(x$y, probs = c(0.025, 0.5, 0.975)) %>%
+      t() %>%
+      broom::tidy()
+  }, .collate = "cols") %>%
+  magrittr::set_names(c("Slope", "Lower CI", "Frequency", "Upper CI"))
+
+
+# Plot distributions
+ggplot() +
+  geom_line(data = background_slope_densities,
+            mapping = aes(x = Slope,
+                          y = Frequency)) +
+  geom_ribbon(data = background_slope_densities,
+              mapping = aes(x = Slope,
+                            ymin = `Lower CI`,
+                            ymax = `Upper CI`),
+              alpha = 0.3) +
+  geom_line(data = open_air_slope_densities,
+            mapping = aes(x = Slope,
+                          y = Frequency),
+            color = "red")
+
+
+```
+
+```{r test-slope, echo = false, eval = FALSE}
+
+# Draw 1000 random samples from background, and compute two-sample Wilcoxon tests (Mann-Whitney U tests)
+background_slope_MWU <- foreach(n = 1:1000, .combine = rbind) %do% {
+  background_sample <- background_slope_values %>%
+    sample(nrow(open_air),
+           replace = FALSE) %>%
+    wilcox.test(x = open_air$areaSLOPE_cut,
+                y = .,
+                exact = FALSE) %>%
+    broom::tidy() %>%
+    tibble::as_tibble()
+
+} %>%
+  dplyr::select(statistic, p.value)
+
+
+# Get the median test statistic and 95% confidence interval
+background_slope_MWU <- foreach::foreach(prob = c(0.025,0.5,0.975), .combine = rbind) %do% {
+  background_slope_MWU %>%
+    dplyr::summarise_all(quantile, probs = prob)
+} %>%
+  t() %>%
+  magrittr::set_colnames(c("Lower CI","Median","Upper CI")) %>%
+  magrittr::set_rownames(c("U statistic","p-value"))
+
+
+round(background_slope_MWU, 3)
+
+```
+
+
+```{r plot-aspect, eval = FALSE, echo = FALSE}
+
+# Calculate site altitude densities
+open_air_aspect_densities <- open_air %$%
+   areaASPECT_cut %>%
+   density(from = -1, to = 360, n = 181) %>%
+   broom::tidy() %>%
+   tibble::as_tibble() %>%
+   dplyr::mutate(y = y * 181) %>%
+   dplyr::rename(Aspect = x,
+                Frequency = y)
+
+# Load background values into memory for fast resampling
+background_aspect_values <- areaASPECT_cut %>%
+  values() %>%
+  na.omit()
+
+# Draw 1000 random samples from background and calculate their densities
+background_aspect_densities <- foreach::foreach(n = 1:1000, .combine = rbind) %do% {
+  background_aspect_values %>%
+    sample(nrow(open_air),
+           replace = FALSE) %>%
+    density(from = -1, to = 360, n = 181) %>%
+    broom::tidy() %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(y = y * 181)
+} %>%
+  dplyr::group_by(x) %>%
+  purrrlyr::by_slice(function(x){
+    quantile(x$y, probs = c(0.025, 0.5, 0.975)) %>%
+      t() %>%
+      broom::tidy()
+  }, .collate = "cols") %>%
+  magrittr::set_names(c("Aspect", "Lower CI", "Frequency", "Upper CI"))
+
+
+# Plot distributions
+ggplot() +
+  geom_line(data = background_aspect_densities,
+            mapping = aes(x = Aspect,
+                          y = Frequency)) +
+  geom_ribbon(data = background_aspect_densities,
+              mapping = aes(x = Aspect,
+                            ymin = `Lower CI`,
+                            ymax = `Upper CI`),
+              alpha = 0.3) +
+  geom_line(data = open_air_aspect_densities,
+            mapping = aes(x = Aspect,
+                          y = Frequency),
+            color = "red")
+
+
+```
+
+```{r test-aspect, echo = false, eval = FALSE}
+
+# Draw 1000 random samples from background, and compute two-sample Wilcoxon tests (Mann-Whitney U tests)
+background_aspect_MWU <- foreach(n = 1:1000, .combine = rbind) %do% {
+  background_sample <- background_aspect_values %>%
+    sample(nrow(open_air),
+           replace = FALSE) %>%
+    wilcox.test(x = open_air$areaASPECT_cut,
+                y = .,
+                exact = FALSE) %>%
+    broom::tidy() %>%
+    tibble::as_tibble()
+
+} %>%
+  dplyr::select(statistic, p.value)
+
+
+# Get the median test statistic and 95% confidence interval
+background_aspect_MWU <- foreach::foreach(prob = c(0.025,0.5,0.975), .combine = rbind) %do% {
+  background_aspect_MWU %>%
+    dplyr::summarise_all(quantile, probs = prob)
+} %>%
+  t() %>%
+  magrittr::set_colnames(c("Lower CI","Median","Upper CI")) %>%
+  magrittr::set_rownames(c("U statistic","p-value"))
+
+
+round(background_aspect_MWU, 3)
+
+```
+
+
+```{r plot-distance, eval = FALSE, echo = FALSE}
+
+# Calculate site altitude densities
+open_air_distance_densities <- open_air %$%
+   areaDIST_cut %>%
+   density(from = 0, to = 7697, n = 350) %>%
+   broom::tidy() %>%
+   tibble::as_tibble() %>%
+   dplyr::mutate(y = y * 350) %>%
+   dplyr::rename(Distance = x,
+                Frequency = y)
+
+# Load background values into memory for fast resampling
+background_distance_values <- areaDIST_cut %>%
+  values() %>%
+  na.omit()
+
+# Draw 1000 random samples from background and calculate their densities
+background_distance_densities <- foreach::foreach(n = 1:1000, .combine = rbind) %do% {
+  background_distance_values %>%
+    sample(nrow(open_air),
+           replace = FALSE) %>%
+    density(from = 0, to = 7697, n = 350) %>%
+    broom::tidy() %>%
+    tibble::as_tibble() %>%
+    dplyr::mutate(y = y * 350)
+} %>%
+  dplyr::group_by(x) %>%
+  purrrlyr::by_slice(function(x){
+    quantile(x$y, probs = c(0.025, 0.5, 0.975)) %>%
+      t() %>%
+      broom::tidy()
+  }, .collate = "cols") %>%
+  magrittr::set_names(c("Distance", "Lower CI", "Frequency", "Upper CI"))
+
+
+# Plot distributions
+ggplot() +
+  geom_line(data = background_distance_densities,
+            mapping = aes(x = Distance,
+                          y = Frequency)) +
+  geom_ribbon(data = background_distance_densities,
+              mapping = aes(x = Distance,
+                            ymin = `Lower CI`,
+                            ymax = `Upper CI`),
+              alpha = 0.3) +
+  geom_line(data = open_air_distance_densities,
+            mapping = aes(x = Distance,
+                          y = Frequency),
+            color = "red")
+
+
+```
+
+```{r test-aspect, echo = false, eval = FALSE}
+
+# Draw 1000 random samples from background, and compute two-sample Wilcoxon tests (Mann-Whitney U tests)
+background_distance_MWU <- foreach(n = 1:1000, .combine = rbind) %do% {
+  background_sample <- background_distance_values %>%
+    sample(nrow(open_air),
+           replace = FALSE) %>%
+    wilcox.test(x = open_air$areaDIST_cut,
+                y = .,
+                exact = FALSE) %>%
+    broom::tidy() %>%
+    tibble::as_tibble()
+
+} %>%
+  dplyr::select(statistic, p.value)
+
+
+# Get the median test statistic and 95% confidence interval
+background_distance_MWU <- foreach::foreach(prob = c(0.025,0.5,0.975), .combine = rbind) %do% {
+  background_distance_MWU %>%
+    dplyr::summarise_all(quantile, probs = prob)
+} %>%
+  t() %>%
+  magrittr::set_colnames(c("Lower CI","Median","Upper CI")) %>%
+  magrittr::set_rownames(c("U statistic","p-value"))
+
+
+round(background_distance_MWU, 3)
+
+```
+
+
 
 # Discussion
 
