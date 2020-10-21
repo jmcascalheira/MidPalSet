@@ -1,5 +1,5 @@
 ---
-title: "Assessing spatial patterning of Middle Paleolithic human settlement in Western Iberia"
+title: "Assessing the spatial patterning of Middle Paleolithic human settlement in Western Iberia"
 author:
   - João Cascalheira
   - Célia Gonçalves
@@ -20,7 +20,7 @@ keywords: |
 
 <!-- This is the format for text comments that will be ignored during renderings. Do not put R code in these comments because it will not be ignored. -->
 
-```{r, setup, echo = FALSE}
+```{r, setup, eval = FALSE, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
@@ -43,24 +43,30 @@ library(ggplot2)
 library(broom)
 library(foreach)
 library(sf)
+library(osfr)
+library(cowplot)
+library(gridExtra)
+library(rela)
+library(psych)
+library(factoextra)
 
 ```
 
 
 ```{r load-data, eval = FALSE, echo = FALSE}
 
-#Download geo tif from OSF repositorium
+#Download geo tiffs from OSF repositorium when running this document for the first time
 
 #osf_retrieve_file("nv6r8") %>%
-#  osf_download(path = "./analysis/data/raw_data")
+#  osf_download(path = "../data/raw_data")
 #osf_retrieve_file("jb6v8") %>%
-#  osf_download(path = "./analysis/data/raw_data")
+#  osf_download(path = "../data/raw_data")
 #osf_retrieve_file("yxk23") %>%
-#  osf_download(path = "./analysis/data/raw_data")
+#  osf_download(path = "../data/raw_data")
 #osf_retrieve_file("57qfn") %>%
-#  osf_download(path = "./analysis/data/raw_data")
+#  osf_download(path = "../data/raw_data")
 #osf_retrieve_file("mx2bt") %>%
-#  osf_download(path = "./analysis/data/raw_data")
+#  osf_download(path = "../data/raw_data")
 
 #Import geo tiffs
 areaDEM <- raster("../data/raw_data/areaDEM.tif")
@@ -78,18 +84,18 @@ areaASPECT_cut <- projectRaster(areaASPECT_cut, crs="+proj=longlat +datum=WGS84 
 areaDIST_cut <- projectRaster(areaDIST_cut, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
 
 
-#Import sites
-sites <- read.csv("../data/raw_data/sites_short_list.csv", header=TRUE)
-caves <- read.csv("../data/raw_data/all_caves.csv", header=TRUE)
+#Import sites and convert to shapefile
+#sites <- read.csv("../data/raw_data/sites_short_list.csv", header=TRUE)
+#caves <- read.csv("../data/raw_data/all_caves.csv", header=TRUE)
 
 #Convert to shapefile
-coordinates(sites)<-~Longitude+Latitude
-proj4string(sites) = CRS("+init=epsg:4326")
-writeOGR(sites, "../data/raw_data/spatial_data/shapefiles","sites_short", "ESRI Shapefile")
+#coordinates(sites)<-~Longitude+Latitude
+#proj4string(sites) = CRS("+init=epsg:4326")
+#writeOGR(sites, "../data/raw_data/spatial_data/shapefiles","sites_short", "ESRI Shapefile")
 
-coordinates(caves)<-~Longitude+Latitude
-proj4string(caves) = CRS("+init=epsg:4326")
-writeOGR(caves, "../data/raw_data/spatial_data/shapefiles","caves", "ESRI Shapefile")
+#coordinates(caves)<-~Longitude+Latitude
+#proj4string(caves) = CRS("+init=epsg:4326")
+#writeOGR(caves, "../data/raw_data/spatial_data/shapefiles","caves", "ESRI Shapefile")
 
 
 #Read shapefiles
@@ -107,6 +113,8 @@ sites_sub_long <- spTransform(sites_sub, "+proj=longlat +datum=WGS84 +units=m +n
 caves_long <- spTransform(caves, "+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
 
 ```
+
+
 
 ```{r extract-variables, eval = FALSE, echo = FALSE}
 
@@ -137,7 +145,8 @@ caves_vals <- raster::extract(terrainstack,
 
 # Subdivide sites for further analysis
 open_air <- dplyr::filter(as.data.frame(sites_vals), Type == "Open air")
-cave <- dplyr::filter(as.data.frame(sites_vals), Type == "Cave")
+caves <- dplyr::filter(as.data.frame(sites_vals), Type == "Cave")
+all_caves <- as.data.frame(caves_vals)
 
 ```
 
@@ -187,6 +196,8 @@ rasterVis::levelplot(areaDEM,
 
 # Results
 
+## Open air
+
 ```{r plot-altitude, eval = FALSE, echo = FALSE}
 
 # Calculate site altitude densities
@@ -224,7 +235,7 @@ background_altitude_densities <- foreach::foreach(n = 1:1000, .combine = rbind) 
 
 
 # Plot distributions
-ggplot() +
+open_air_elevation <- ggplot() +
   geom_line(data = background_altitude_densities,
             mapping = aes(x = Elevation,
                           y = Frequency)) +
@@ -236,7 +247,9 @@ ggplot() +
   geom_line(data = open_air_altitude_densities,
             mapping = aes(x = Elevation,
                           y = Frequency),
-            color = "red")
+            color = "red") +
+  theme_cowplot() +
+  ylab("") + xlab("meters")
 
 
 ```
@@ -310,7 +323,7 @@ background_slope_densities <- foreach::foreach(n = 1:1000, .combine = rbind) %do
 
 
 # Plot distributions
-ggplot() +
+open_air_slope <- ggplot() +
   geom_line(data = background_slope_densities,
             mapping = aes(x = Slope,
                           y = Frequency)) +
@@ -322,7 +335,9 @@ ggplot() +
   geom_line(data = open_air_slope_densities,
             mapping = aes(x = Slope,
                           y = Frequency),
-            color = "red")
+            color = "red") +
+  theme_cowplot() +
+  ylab("") + xlab("degrees")
 
 
 ```
@@ -396,7 +411,7 @@ background_aspect_densities <- foreach::foreach(n = 1:1000, .combine = rbind) %d
 
 
 # Plot distributions
-ggplot() +
+open_air_aspect <- ggplot() +
   geom_line(data = background_aspect_densities,
             mapping = aes(x = Aspect,
                           y = Frequency)) +
@@ -408,7 +423,9 @@ ggplot() +
   geom_line(data = open_air_aspect_densities,
             mapping = aes(x = Aspect,
                           y = Frequency),
-            color = "red")
+            color = "red") +
+  theme_cowplot() +
+  ylab("") + xlab("degrees")
 
 
 ```
@@ -482,7 +499,7 @@ background_distance_densities <- foreach::foreach(n = 1:1000, .combine = rbind) 
 
 
 # Plot distributions
-ggplot() +
+open_air_distance <- ggplot() +
   geom_line(data = background_distance_densities,
             mapping = aes(x = Distance,
                           y = Frequency)) +
@@ -494,7 +511,9 @@ ggplot() +
   geom_line(data = open_air_distance_densities,
             mapping = aes(x = Distance,
                           y = Frequency),
-            color = "red")
+            color = "red") +
+  theme_cowplot() +
+  ylab("") + xlab("meters")
 
 
 ```
@@ -519,7 +538,7 @@ background_distance_MWU <- foreach(n = 1:1000, .combine = rbind) %do% {
 # Get the median test statistic and 95% confidence interval
 background_distance_MWU <- foreach::foreach(prob = c(0.025,0.5,0.975), .combine = rbind) %do% {
   background_distance_MWU %>%
-    dplyr::summarise_all(quantile, probs = prob)
+  dplyr::summarise_all(quantile, probs = prob)
 } %>%
   t() %>%
   magrittr::set_colnames(c("Lower CI","Median","Upper CI")) %>%
@@ -530,6 +549,180 @@ round(background_distance_MWU, 3)
 
 ```
 
+```{r open-air-plots, eval = FALSE, echo = FALSE}
+
+plot_grid(open_air_elevation, open_air_slope, open_air_aspect, open_air_distance, labels = c("A", "B", "C", "D"), nrow = 2, ncol = 2)
+
+```
+
+
+
+## Caves
+
+
+```{r caves-boxplots, eval = FALSE, echo = FALSE}
+
+
+cave <- caves %>% 
+  dplyr::select(SITE, areaDEM_cut, areaSLOPE_cut, areaASPECT_cut, areaDIST_cut2) %>% 
+  mutate(TYPE = "MP Caves")
+
+
+all_caves <- all_caves %>% 
+  rename(SITE = Ã.__SITE) %>% 
+  dplyr::select(SITE, areaDEM_cut, areaSLOPE_cut, areaASPECT_cut, areaDIST_cut2) %>% 
+  mutate(TYPE = "All Caves")
+
+cave <- rbind(cave, all_caves)
+
+caves_elevation <- cave %>%
+  mutate(TYPE = fct_relevel(TYPE, 
+            "MP Caves", "All Caves")) %>% 
+  ggplot(aes(x = TYPE, y = areaDEM_cut, fill = TYPE)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter() +
+  ylab("meters") + xlab("") +
+  theme_cowplot() +
+  theme(legend.position="none") +
+  scale_fill_brewer(palette = "Dark2")
+
+
+caves_slope <- cave %>%
+  mutate(TYPE = fct_relevel(TYPE, 
+            "MP Caves", "All Caves")) %>%
+  ggplot(aes(x = TYPE, y = areaSLOPE_cut, fill = TYPE)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter() +
+  ylab("degrees") + xlab("") +
+  theme_cowplot() +
+  theme(legend.position="none") +
+  scale_fill_brewer(palette = "Dark2")
+
+
+caves_aspect <- cave %>% 
+  mutate(TYPE = fct_relevel(TYPE, 
+            "MP Caves", "All Caves")) %>%
+  ggplot(aes(x = TYPE, y = areaASPECT_cut, fill = TYPE)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter() +
+  ylab("degrees") + xlab("") +
+  theme_cowplot() +
+  theme(legend.position="none") +
+  scale_fill_brewer(palette = "Dark2")
+
+caves_distance <- cave %>% 
+  mutate(TYPE = fct_relevel(TYPE, 
+            "MP Caves", "All Caves")) %>%
+  ggplot(aes(x = TYPE, y = areaDIST_cut2, fill = TYPE)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter() +
+  ylab("meters") + xlab("") +
+  theme_cowplot() +
+  theme(legend.position="none") +
+  scale_fill_brewer(palette = "Dark2")
+
+plot_grid(caves_elevation, caves_slope, caves_aspect, caves_distance, labels=c("A", "B", "C", "D"), ncol = 2, nrow = 2)
+
+
+
+```
+
+```{r caves-statistics, eval = FALSE, echo = FALSE}
+
+caves_elevation_MWU <- wilcox.test(areaDEM_cut ~ TYPE, data = cave,
+                   exact = FALSE)
+
+caves_slope_MWU <- wilcox.test(areaSLOPE_cut ~ TYPE, data = cave,
+                   exact = FALSE)
+
+
+caves_aspect_MWU <- wilcox.test(areaASPECT_cut ~ TYPE, data = cave,
+                   exact = FALSE)
+
+
+caves_distance_MWU <- wilcox.test(areaDIST_cut2 ~ TYPE, data = cave,
+                   exact = FALSE)
+
+variables <- c("Elevation", "Slope", "Altitude", "Distance")
+
+u_statistics <- c(caves_elevation_MWU$statistic, caves_slope_MWU$statistic,
+                   caves_aspect_MWU$statistic, caves_distance_MWU$statistic)
+
+p_values <- c(caves_elevation_MWU$p.value, caves_slope_MWU$p.value,
+                   caves_aspect_MWU$p.value, caves_distance_MWU$p.value)
+
+caves_stats <- data.frame(variables, u_statistics, p_values)
+
+caves_stats <- caves_stats %>% 
+  rename(Variables = variables, `U statistic` = u_statistics, "p-value" = p_values) %>% 
+  mutate(across(where(is.numeric), round, 2))
+
+knitr::kable(caves_stats, caption = "Results of the Mann-Whitney U test, for each spatial variable, between caves with Middle Paleolithic occupations and all other archaeological caves identified in westernmost Iberia.")
+
+
+```
+
+
+
+## Principal Component Analysis
+
+```{r PCA, eval = FALSE, echo = FALSE}
+
+
+pca_data <- as.data.frame(sites_vals)
+
+pca_data <- pca_data %>% 
+  dplyr::select(SITE, Type, Dmn_R_M, Elevation = areaDEM_cut, Slope = areaSLOPE_cut, Aspect = areaASPECT_cut,
+                Distance = areaDIST_cut2)
+
+pca_data_active <- dplyr::select(pca_data, Elevation,
+                                 Aspect, Slope, Distance)
+
+
+# Test assumptions
+pca_Cor <- cor(pca_data_active)
+
+# Sampling adequacy or an appropriate number of observations relative to the number of variables being examined
+assumptions <- paf(as.matrix(pca_data_active), eigcrit = 1, convcrit = .001)
+round(print(assumptions$KMO), 3)
+
+
+# Positive determinant of the correlation or variance-covariance matrices
+round(det(pca_Cor), 3)
+
+
+# Sphericity or the existence of the identity matrix
+bartlettTest <- cortest.bartlett(pca_Cor, n = 54)
+round(bartlettTest$p.value, 3)
+
+
+
+# Plot Results
+
+res.pca <- prcomp(pca_data_active, scale = TRUE)
+
+groups <- as.factor(pca_data$Dmn_R_M)
+
+fviz_pca_biplot(res.pca,
+                col.ind = groups, # color by groups
+                addEllipses = TRUE, # Concentration ellipses
+                ellipse.type = "confidence",
+                legend.title = "Raw Material",
+                repel = TRUE,
+                label = "var",
+                pointsize = 3
+) +
+  theme(text = element_text(size=15), plot.title = element_text(lineheight=.8, face="bold"), plot.margin=unit(c(1,1,1,1),"cm"))
+
+
+
+loadings_table <- round(as.data.frame(res.pca$rotation[,1:2]), 3)
+
+
+
+
+
+```
 
 
 # Discussion
