@@ -655,7 +655,7 @@ background_distance_tab <- background_distance_tab %>%
 
 ```
 
-```{r open-air-plots, eval = FALSE, echo = FALSE}
+```{r open-air-plots, eval = FALSE, echo = FALSE, fig.cap = "Kernel density plots comparing open-air sites and randomly resampled background points for A) Elevation, B) Slope, C) Aspect, and D) Distance to rivers. The grey areas represent the 95% confidence interval calculated from the resampling."}
 
 plot_grid(open_air_elevation, open_air_slope, open_air_aspect, open_air_distance, labels = c("A", "B", "C", "D"), nrow = 2, ncol = 2)
 
