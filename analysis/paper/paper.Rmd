@@ -202,7 +202,9 @@ knitr::kable(chrono, caption = "Absolutes dates for the Middle Paleolithic in we
 
 ## Site selection
 
-A dataset comprising all Middle Paleolithic sites reported in Portugal was created using the Endovélico – Archaeological Management and Information System, curated by the Direção Geral do Património Cultural (DGPC) (http://arqueologia.patrimoniocultural.pt/). This initial dataset included all entries with associated geographic information, in a total of 274 locations. Most of these sites, however, are dubiously attributed to the Middle Paleolithic, since in most cases there is no associated dating, nor reporting of any clear evidence of distinctive Middle Paleolithic stone tools within the assemblages. These inconsistencies are a result of the fact that many of the reported locations are surface findings, attributed to the Middle Paleolithic based on the rudimentary aspect of the lithic materials. To avoid, as much as possible, the inclusion of erroneous information in the database we adopted the filtering scheme presented in Figure XXX. Thus, using the initial list we cross-check information with data from publications and reports, subdividing the sample into two other sub-samples: the first, represented by 54 sites, integrating all contexts for which we were able to confirm their chronological attribution to the Middle Paleolithic, either by absolute or relative chronology; the second, comprising 46 sites, composed of all the contexts for which we were able to collect lithic raw materials information. Sites were characterized as open-air or cave/rockshelter sites, and the dominant raw material in each site, measured as the material representing more than 60% of all lithic artifacts in the assemblage, was recorded.
+A dataset comprising all Middle Paleolithic sites reported in Portugal was created using the Endovélico – Archaeological Management and Information System, curated by the Direção Geral do Património Cultural (DGPC) (http://arqueologia.patrimoniocultural.pt/). This initial dataset included all entries with associated geographic information, in a total of 274 locations. Most of these sites, however, are dubiously attributed to the Middle Paleolithic, since in most cases there is no associated dating, nor reporting of any clear evidence of distinctive Middle Paleolithic stone tools within the assemblages. These inconsistencies are a result of the fact that many of the reported locations are surface findings, attributed to the Middle Paleolithic based on the rudimentary aspect of the lithic materials. 
+
+To avoid, as much as possible, the inclusion of erroneous information in the database we adopted the filtering scheme presented in Figure XXX. Thus, using the initial list we cross-check information with data from publications and reports, subdividing the sample into two other sub-samples: the first, represented by 54 sites, integrating all contexts for which we were able to confirm their chronological attribution to the Middle Paleolithic, either by absolute or relative chronology; the second, comprising 46 sites, composed of all the contexts for which we were able to collect lithic raw materials information. Sites were characterized as open-air or cave/rockshelter sites, and the dominant raw material in each site, measured as the material representing more than 60% of all lithic artifacts in the assemblage, was recorded.
 
 
 ## GIS and statistical analysis
@@ -263,7 +265,21 @@ The complete R code used for all the analysis and visualizations contained in th
 
 ## General Patterns
 
-Figure XXX presents the distribution of the 54 sites included in our short sample. A first evaluation of the distribution of the sites across the territory reveals a more dense concentration of sites in Central Portugal, a very weak presence of sites in northern regions, with only one site located in the Côa River valley (Aubry et al., 2020), and no sites located to the North of the Douro valley. Most of the sites present in this sample are open-air locations (n = 36), being noteworthy that both coastal (using current coastline as reference) and inland territories appear represented. Table XXX summarizes the median and interquartile ranges for each of the geographical variables used. Except for Slope, all remaining variables are not significantly different between open-air and cave sites location. In fact, cave and rockshelter sites tend to be located in areas with steeper slopes than open-air sites. In terms of elevation, the maximum altitude at which archaeological sites are found is 512 meters above current sea level (a.c.s.l.), corresponding this value to the cave site of Lapa do Picareiro, in central Portugal (Benedetti et al., 2019).
+Figure XXX presents the distribution of the 54 sites included in our short sample. A first evaluation of the distribution of the sites across the territory reveals a more dense concentration of sites in Central Portugal, a very weak presence of sites in northern regions, with only one site located in the Côa River valley (Aubry et al., 2020), and no sites located to the North of the Douro valley. Most of the sites present in this sample are open-air locations (n = 36), being noteworthy that both coastal (using current coastline as reference) and inland territories appear represented. Table \@ref(tab:general-table) summarizes the median and interquartile ranges for each of the extracted variables. Except for Slope, all remaining variables are not significantly different between open-air and cave sites. This is because cave and rockshelter sites tend to be located in areas with steeper slopes than open-air sites. In terms of elevation, the maximum altitude at which archaeological sites are found is 511 meters above current sea level (a.c.s.l.), corresponding this value to the cave site of Lapa do Picareiro, in central Portugal (Benedetti et al., 2019).
+
+
+```{r general-table, eval = FALSE, echo = FALSE}
+
+
+general_table <- as.data.frame(tabmulti(data = as.data.frame(sites_vals), xvarname = "Type",
+              yvarnames = c("areaDEM_cut", "areaSLOPE_cut", "areaASPECT_cut", "areaDIST_cut2"),
+              ymeasures = c("median", "median", "median", "median"),
+              yvarlabels = list(areaDEM_cut = "Elevation", areaSLOPE_cut = "Slope", areaASPECT_cut = "Aspect", areaDIST_cut2 = "Distance")))
+
+knitr::kable(general_table, caption = "Median and Interquartile Range (IQR) for all considered variables and site type. P-value is based on a Mann-Whitney U test.")
+
+```
+
 
 ## Open air sites
 
@@ -350,7 +366,13 @@ background_altitude_MWU <- foreach::foreach(prob = c(0.025,0.5,0.975), .combine 
   magrittr::set_rownames(c("U statistic","p-value"))
 
 
-round(background_altitude_MWU, 3)
+background_altitude_tab <- as.data.frame(round(background_altitude_MWU, 3))
+
+background_altitude_tab <- background_altitude_tab %>% 
+  rownames_to_column("Statistic") %>% 
+  mutate(Variable = c("Elevation", "")) %>% 
+  dplyr::select(Variable, Statistic, `Lower CI`, Median, `Upper CI`)
+
 
 ```
 
@@ -438,7 +460,12 @@ background_slope_MWU <- foreach::foreach(prob = c(0.025,0.5,0.975), .combine = r
   magrittr::set_rownames(c("U statistic","p-value"))
 
 
-round(background_slope_MWU, 3)
+background_slope_tab <- as.data.frame(round(background_slope_MWU, 3))
+
+background_slope_tab <- background_slope_tab %>% 
+  rownames_to_column("Statistic") %>% 
+  mutate(Variable = c("Slope", "")) %>% 
+  dplyr::select(Variable, Statistic, `Lower CI`, Median, `Upper CI`)
 
 ```
 
@@ -526,7 +553,12 @@ background_aspect_MWU <- foreach::foreach(prob = c(0.025,0.5,0.975), .combine = 
   magrittr::set_rownames(c("U statistic","p-value"))
 
 
-round(background_aspect_MWU, 3)
+background_aspect_tab <- as.data.frame(round(background_aspect_MWU, 3))
+
+background_aspect_tab <- background_aspect_tab %>% 
+  rownames_to_column("Statistic") %>% 
+  mutate(Variable = c("Aspect", "")) %>% 
+  dplyr::select(Variable, Statistic, `Lower CI`, Median, `Upper CI`)
 
 ```
 
@@ -614,13 +646,27 @@ background_distance_MWU <- foreach::foreach(prob = c(0.025,0.5,0.975), .combine 
   magrittr::set_rownames(c("U statistic","p-value"))
 
 
-round(background_distance_MWU, 3)
+background_distance_tab <- as.data.frame(round(background_distance_MWU, 3))
+
+background_distance_tab <- background_distance_tab %>% 
+  rownames_to_column("Statistic") %>% 
+  mutate(Variable = c("Distance", "")) %>% 
+  dplyr::select(Variable, Statistic, `Lower CI`, Median, `Upper CI`)
 
 ```
 
 ```{r open-air-plots, eval = FALSE, echo = FALSE}
 
 plot_grid(open_air_elevation, open_air_slope, open_air_aspect, open_air_distance, labels = c("A", "B", "C", "D"), nrow = 2, ncol = 2)
+
+```
+
+```{r table-stats-open, eval = FALSE, echo = FALSE}
+
+stats_table_open_air <- rbind(background_altitude_tab, background_slope_tab, background_aspect_tab, background_distance_tab)
+
+
+knitr::kable(stats_table_open_air, caption = "Mann-Whitney U test results for the comparison between open-air sites and randomly resampled background points for the four variables considered in this study.")
 
 ```
 
