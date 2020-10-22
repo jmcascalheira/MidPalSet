@@ -283,6 +283,9 @@ knitr::kable(general_table, caption = "Median and Interquartile Range (IQR) for 
 
 ## Open air sites
 
+Results of the analysis of individual variables comparing open-air sites with randomly resampled background points is presented in Figure \@ref(fig:open-air-plots) and Table \@ref(tab:table-stats-open). Only one of the variables, elevation, seems to attest that Middle Paleolithic sites are not randomly located in the landscape. In fact, while both curves are right skewed, there seems to be a clear tendency for the location of open-air sites at lower altitudes than the range of available elevations across the territory. The validity of this observation is confirmed by the results of the Mann-Whitney U test, which revealed a p-value of 0.00. The remaining three variables, Slope, Aspect and Distance to rivers, do not revealed any statistically significant differences between sites and background.  
+
+
 ```{r plot-altitude, eval = FALSE, echo = FALSE}
 
 # Calculate site altitude densities
@@ -655,7 +658,7 @@ background_distance_tab <- background_distance_tab %>%
 
 ```
 
-```{r open-air-plots, eval = FALSE, echo = FALSE, fig.cap = "Kernel density plots comparing open-air sites and randomly resampled background points for A) Elevation, B) Slope, C) Aspect, and D) Distance to rivers. The grey areas represent the 95% confidence interval calculated from the resampling."}
+```{r open-air-plots, eval = FALSE, echo = FALSE, fig.cap = "Kernel density plots comparing open-air sites (red line) and randomly resampled background points (black line) for A) Elevation, B) Slope, C) Aspect, and D) Distance to rivers. The grey areas represent the 95% confidence interval calculated from the resampling."}
 
 plot_grid(open_air_elevation, open_air_slope, open_air_aspect, open_air_distance, labels = c("A", "B", "C", "D"), nrow = 2, ncol = 2)
 
