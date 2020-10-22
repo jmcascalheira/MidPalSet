@@ -281,9 +281,9 @@ knitr::kable(general_table, caption = "Median and Interquartile Range (IQR) for 
 ```
 
 
-## Open air sites
+## Open-air sites
 
-Results of the analysis of individual variables comparing open-air sites with randomly resampled background points is presented in Figure \@ref(fig:open-air-plots) and Table \@ref(tab:table-stats-open). Only one of the variables, elevation, seems to attest that Middle Paleolithic sites are not randomly located in the landscape. In fact, while both curves are right skewed, there seems to be a clear tendency for the location of open-air sites at lower altitudes than the range of available elevations across the territory. The validity of this observation is confirmed by the results of the Mann-Whitney U test, which revealed a p-value of 0.00. The remaining three variables, Slope, Aspect and Distance to rivers, do not revealed any statistically significant differences between sites and background.  
+Results of the analysis of individual variables comparing open-air sites with randomly resampled background points is presented in Figure \@ref(fig:open-air-plots) and Table \@ref(tab:table-stats-open). Only one of the variables, elevation, seems to attest that Middle Paleolithic sites are not randomly located in the landscape. In fact, while both curves are right skewed, there seems to be a clear tendency for the location of open-air sites at lower altitudes than the range of available elevations across the territory. The validity of this observation is confirmed by the results of the Mann-Whitney U test, which revealed a p-value of 0.00. The remaining three variables, Slope, Aspect and Distance to rivers, do not revealed any statistically significant differences between sites and the background. In the case of distance to rivers, however, the sites curve seems to reveal a more pronounced preference for near-river locations within the variability present in the landscape.
 
 
 ```{r plot-altitude, eval = FALSE, echo = FALSE}
@@ -675,6 +675,7 @@ knitr::kable(stats_table_open_air, caption = "Mann-Whitney U test results for th
 
 
 ## Caves
+
 
 
 ```{r caves-boxplots, eval = FALSE, echo = FALSE}
