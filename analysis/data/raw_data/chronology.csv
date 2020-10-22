@@ -1,0 +1,87 @@
+﻿Site,Layer,Material,Method,Lab Code,Age,SD,Obs,Reference
+Gruta do Caldeirão,K topo (J6),Cervus,AMS,OxA-5541,21255,159,"Low collagen (0,32%N;366C;0,53%H)",Zilhão 1993
+Gruta do Caldeirão,K base (k5),Capra,AMS,OxA-5521,26069,293,"0,32%N;2,39C",Zilhão 2000
+Gruta do Caldeirão,K topo,Cervus,AMS,OxA-1941,31358,633,,Zilhão 1993
+Conceição,C,Sedimento,OSL,QTLS-CNC11,27200,2500,Layer C above the archaeological level,Raposo e Cardoso 1998
+Conceição,E,Sedimento,OSL,QTLS-CC12,74500,+11600/-10400,Layer E below the archaeological level,Rapso e Cardoso 1998
+Gruta do Escoural,Sondagem 3a (90-100 cm),Bos (dente),U-Th,SMU- 248,26400,+11000/-10000,Low uranium content,Zilhão 2000
+Gruta do Escoural,Sondagem 3a (80-90 cm),Cervus (dente),U-Th,SMU-249,39800,+10000/-9000,"Low urium content (3,4%)",Zilhão 2000
+Gruta do Escoural,Sondagem 3a (60-70 cm),Equus (dente),U-Th,SMU-250,48900,+5800/-5500,,Zilhão 2000
+Gruta da Figueira Brava,2,Patella sp.,C14,ICEN-387,34878,787,,"Antunes, et al. 1998"
+Gruta da Figueira Brava,2,Cervus (dente),U-Th,SMU-232E1,30561,+11759-1011759/-10725,,Antunes 1991
+Gruta da Figueira Brava,Nível inferior,Concha marinha,C14,ICEN-387,33374,854,,Antunes 1991
+Gruta da Figueira Brava,2,Cervus (dente),U-Th,SMU-233E2,44806,+15889/-13958,,Antunes 1991
+Foz do Enxarrique,C,Equus (dente),U-Th,SMU-225,32938,1055,,Raposo 1995
+Foz do Enxarrique,C,Equus (dente),U-Th,SMU-226,34088,800,,Raposo 1995
+Foz do Enxarrique,C,Equus (dente),U-Th,SMU-224,34093,920,,Raposo 1995
+Gruta Nova da Columbeira,7 (=16),Lareira carbonatada,C14,Gif-2703,26400,700,,Zilhão 2000
+Gruta Nova da Columbeira,7,Lamela de dente,U-Th,SMU-235E1,35876,+27299/-35583,,Zilhão 2000
+Gruta Nova da Columbeira,7,Lamela de dente,U-Th,SMU-238E1,54365,+22240/-27525,,Zilhão 2000
+Gruta Nova da Columbeira,8(=20),Lareira carbonatada,C14,Gif-2704,28900,950,,Zilhão 2000
+Gruta Nova da Columbeira,8,Lamela de dente,U-Th,SMU-236E1,60927,+27405/-35522,,Zilhão 2000
+Gruta Nova da Columbeira,8,Lamela de dente,U-Th,SMU-236E1,101487,+38406/-55919,,Zilhão 2000
+Lapa dos Furos,4,Helix nemoralis,C14,ICEN-473,38697,1518,Below the archaeological level,"Straus, et al. 1993"
+Lapa dos Furos,4,Brecha [Helix sp],C14,ICEN-472,34030,1267,Sterile (pre-Mousterian),"Straus, et al. 1993"
+Pedreira de Salmeas,1,Cologénio de osso,C14,ICEN-366,29890,"+1890+1,130/-130130-980",Mixed level,"Straus, et al. 1993"
+Santo Antão do Tojal,2,Elephas (osso),U-Th,SMU-305,81900,+4000/-3800,,Raposo 1995
+Vilas Ruivas,B,Sedimentos,TL,BM-VRU1,51000,+1300/-12000,Average of two results,Raposo 1995
+Vilas Ruivas,,,,,54000,+12000/-11000,,Raposo 1995
+Vilas Ruivas,B,Sedimentos,TL,BM-VRU2,68000,+35000/-26000,,Raposo 1995
+Galerias Pesadas,,,,,241000,+30000/-22000,,Marks 2005
+Furninha,base,,,,80880,+42420/-31260,,Raposo 1995
+Salemas[algar],T.V.b,Cologénio de osso,C14,ICEN-379,28118,924,,Zilhão 2000
+Salemas[algar],T.V.b,Osso,C14,ICEN-384,24090,533,,Zilhão 2000
+Salemas[algar],T.V.b,Osso,C14,ICEN-383,27457,1127,,Zilhão 2000
+Salemas[algar],T.V.b,Osso,C14,ICEN-384[!],28118,924,,Zilhão 2000
+Salemas [gruta],Nível inferior,Osso,C14,ICEN-361,30696,1142,,Raposo 1995
+Salemas [gruta],Nível inferior,Osso,C14,ICEN-371,>29200,NA,,Raposo 1995
+Salemas [gruta],Nível inferior [1],Cologénio de osso,C14,ICEN-366,33632,1180,,Raposo 1995
+Vale do Forno 8,VF01,Sedimento,TL,,127000,+infinite/-26000,,Mozzi et al. 2000
+Vale do Forno 8,VF02,Sedimento,TL,,119000,+infinite/-32000,,Mozzi et al. 2000
+Vale do Forno 8,VF05,Sedimento,TL,,117000,+infinite/-26000,,Mozzi et al. 2000
+Vale do Forno 8,VF06,Sedimento,TL,,>124000,NA,,Mozzi et al. 2000
+Mira Nascente,MN2,Sedimento,OSL,UIC-1875,36035,2750,,Benedetti et al. 2009
+Mira Nascente,MN2,Sedimento,OSL,UIC-1863,33905,2690,,Benedetti et al. 2009
+Mira Nascente,MN3b,Sedimento,OSL,UCI-1864,40450,2980,,Benedetti et al. 2009
+Mira Nascente,MN3c,Sedimento,OSL,UCI-1923,34300,2630,,Benedetti et al. 2009
+Mira Nascente,MN4,Sedimento,OSL,UIC-1868,>110050,8460,,Benedetti et al. 2009
+Mira Nascente,MN5,Sedimento,OSL,UIC-2065,150920,12575,,Benedetti et al. 2009
+Mira Nascente,MN3a,Carvão,AMS,Beta-234375,42175,461,,Benedetti et al. 2009
+Mira Nascente,MN3a,soil organic matter,AMS,Beta-208223,20628,292,,Benedetti et al. 2009
+Mira Nascente,MN3b,charred stump,,Beta-208224,26110,499,,Benedetti et al. 2009
+Mira Nascente,MN3c,charcoal,,Beta-234376,47717,311,,Benedetti et al. 2009
+Mira Nascente,MN3C,charcoal,,Beta-208225,40744,1025,,Benedetti et al. 2009
+Praia Rei Cortiço,PC2b,Sedimento,OSL,UIC-2399,15060,980,,Benedetti et al. 2009
+Praia Rei Cortiço,PC4,Sedimento,OSL,UIC-2398,101010,7870,,Benedetti et al. 2009
+Praia Rei Cortiço,PC2a,,,Beta-234368,4448,56,,Benedetti et al. 2009
+Praia Rei Cortiço,PC5b,charcoal,,UGAMS-3254,50536,1854,,Benedetti et al. 2009
+Praia Rei Cortiço,PC5c,charcoal,,UGAMS-3255,>49600,NA,,Benedetti et al. 2009
+Praia Rei Cortiço,PC5c,charcoal,,UGAMS-3912,53781,2055,,Benedetti et al. 2009
+Praia Rei Cortiço,PC5c,charcoal,,UGAMS-3913,>49600,NA,,Benedetti et al. 2009
+Gruta da Oliveira,8,Olea sp.,AMS,GrA-29384,6055,45,Intrusive (from a burrow),Angelucci e Zilhão 2009
+Gruta da Oliveira,8,Osso queimado,AMS,GrA-10200,35760,280,Alcaline fraction,Angelucci e Zilhão 2009
+Gruta da Oliveira,8,Osso queimado,AMS,OxA-8671,37100,830,,Angelucci e Zilhão 2009
+Gruta da Oliveira,9,Osso queimado,AMS,GrA-9760,42610,390,Alacaline fraction,Angelucci e Zilhão 2009
+Gruta da Oliveira,9,Osso queimado,AMS,Beta-111967,44080,990,,Angelucci e Zilhão 2009
+Gruta da Oliveira,11,Osso queimado,AMS,OxA-8672,46070,1330,,Angelucci e Zilhão 2009
+Gruta da Oliveira,11,Osso queimado,AMS,OxA-9379,>25850,550,Low collagen,Angelucci e Zilhão 2009
+Gruta da Oliveira,12,Pinus sp.,AMS,GrA-24408,26940,1.08,Minimum age,Angelucci e Zilhão 2009
+Gruta da Oliveira,13,Erica sp.,AMS,GrA-24410,43310,490,,Angelucci e Zilhão 2009
+Gruta da Oliveira,14,Pinus sylvestris,AMS,GrA-22024,46350,2050,,Angelucci e Zilhão 2009
+Gruta da Oliveira,14,Pinus sylvestris,AMS,OxA-13137,27850,550,Minimum age,Angelucci e Zilhão 2009
+Gruta da Oliveira,14,Pinus sylvestris,AMS,Beta-183537,44380,960,,Angelucci e Zilhão 2009
+Gruta da Oliveira,15,Pinus sylvestris,AMS,GrA-24407,42160,340,,Angelucci e Zilhão 2009
+Gruta da Oliveira,18,Osso queimado,AMS,GrA-29385,41960,330,,Angelucci e Zilhão 2009
+Gruta da Oliveira,Cone Moustierense,Equus sp. (dente),U-Th,SMU-247E1,70250,9000,,Angelucci e Zilhão 2009
+Gruta da Oliveira,Cone Moustierense,Equus sp. (dente),U-Th,SMU-308-247E2,53000,+5600/-5300,Second measurement of SMU-247,Angelucci e Zilhão 2009
+Almonda,EVS Cone,Equus (dente),U-Th,SMU-231E1,35000,2000,Low ratio of 230Th/232Th,"Zilhão, et al. 1993"
+Almonda,ES2 Nível 4,Equus (dente),U-Th,307-260E1,131000,"+32000/-25,000",,Zilhão e McKinney 1995
+Almonda,"EVS, Cone",Equus (dente),,231  E1 ,35000,2000,,Zilhão e McKinney 1995
+Almonda,"EVS, caos de blocos",Equus (dente),,228 E1 ,136000,8000,,Zilhão e McKinney 1995
+Almonda,"EVS, Praia dos Bifaces",Equus (dente),,230 E1,170000,13000,,Zilhão e McKinney 1995
+Pêgo do Diabo,3,Cologénio de osso,C14,ICEN-491,21973,689,Impure collagen,Zilhão 2000
+Pêgo do Diabo,2 e 3,Osso,AMS,OxA-15499,34900,1000,,Zilhão et al. 2010
+Pêgo do Diabo,2 e 3 ,(Equus sp.) dente,AMS,OxA-15004,38750,650,,Zilhão et al. 2010
+Gruta da Figueira Brava,AREA C 1025-9 (top),Speleothem,U-Th,UEVA-1737,24308,873,"Samples from the flowstone capping the Area C Pleistocene deposit, for which FB1025-1 provides a minimum age of 51.6 ka",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA C 1025-1 (base),Speleothem,U-Th,UEVA-1731,52194,618,"Samples from the flowstone capping the Area C Pleistocene deposit, for which FB1025-1 provides a minimum age of 51.6 ka",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA C 1107-1 (top),Speleothem,U-Th,,,,,

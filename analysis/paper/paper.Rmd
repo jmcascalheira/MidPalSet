@@ -53,7 +53,7 @@ library(factoextra)
 ```
 
 
-```{r load-data, eval = FALSE, echo = FALSE}
+```{r load-spatial-data, eval = FALSE, echo = FALSE}
 
 #Download geo tiffs from OSF repositorium when running this document for the first time
 
@@ -116,7 +116,7 @@ caves_long <- spTransform(caves, "+proj=longlat +datum=WGS84 +units=m +no_defs +
 
 
 
-```{r extract-variables, eval = FALSE, echo = FALSE}
+```{r extract-spatial-variables, eval = FALSE, echo = FALSE}
 
 # Extract variables
 
@@ -154,6 +154,9 @@ all_caves <- as.data.frame(caves_vals)
 # Introduction
 
 
+
+
+
 ```{r general-map, eval = FALSE, echo = FALSE}
 
 rasterVis::levelplot(areaDEM,
@@ -185,18 +188,84 @@ rasterVis::levelplot(areaDEM,
 ```
 
 
+```{r chrono-table, eval = FALSE, echo = FALSE}
+
+chrono <- read_csv("../data/raw_data/chronology.csv")
+
+knitr::kable(chrono, caption = "Absolutes dates for the Middle Paleolithic in westernmost Europe.")
+
+
+```
+
+
 # Methods
 
 ## Site selection
 
-## Mapping and GIS analysis
+A dataset comprising all Middle Paleolithic sites reported in Portugal was created using the Endovélico – Archaeological Management and Information System, curated by the Direção Geral do Património Cultural (DGPC) (http://arqueologia.patrimoniocultural.pt/). This initial dataset included all entries with associated geographic information, in a total of 274 locations. Most of these sites, however, are dubiously attributed to the Middle Paleolithic, since in most cases there is no associated dating, nor reporting of any clear evidence of distinctive Middle Paleolithic stone tools within the assemblages. These inconsistencies are a result of the fact that many of the reported locations are surface findings, attributed to the Middle Paleolithic based on the rudimentary aspect of the lithic materials. To avoid, as much as possible, the inclusion of erroneous information in the database we adopted the filtering scheme presented in Figure XXX. Thus, using the initial list we cross-check information with data from publications and reports, subdividing the sample into two other sub-samples: the first, represented by 54 sites, integrating all contexts for which we were able to confirm their chronological attribution to the Middle Paleolithic, either by absolute or relative chronology; the second, comprising 46 sites, composed of all the contexts for which we were able to collect lithic raw materials information. Sites were characterized as open-air or cave/rockshelter sites, and the dominant raw material in each site, measured as the material representing more than 60% of all lithic artifacts in the assemblage, was recorded.
 
-## Statistical analysis
+
+## GIS and statistical analysis
+
+The location of sites included in the short samples were checked and validated by visual inspection using satellite imagery in Google Earth. A series of raster layers with digital geographical information were exported from ArcGIS (v.10.6), including: a 30X30-m pixel Digital Elevation Model (DEM), obtained from the Shuttle Radar Topography Mission (Farr et al., 2007); Slope and Aspect maps were obtained from the DEM raster (see Burrough et al., 2015 for the definition and calculation details), and a euclidean distance raster using a 1:25.000-scale water courses vector layer as input source, including all hydrological classes in the dataset.
+
+All raster layers and sites' database were imported into the R Statistical Environment. Spatial variables (Elevation, Slope, Aspect and Distance to rivers) were extracted from these rasters using a series of functions within the Raster package. Following previous works by XXX, values were extracted calculating a 20 meters radius buffer around each site location and then averaging the values of each spatial variable within those buffers.
+
+To analyze individual variables two approaches were undertaken separating open-air sites and caves. This separation is based on the fact that while open-air sites can presumably be located in any point across the landscape, the same is not true for cave sites, since their location is limited in terms of lithological background.
+
+Thus, for open-air sites, following standard approaches in spatial pattern analysis, comparisons were made between site variable distributions and random samples variable distributions. Here, we adopted the approach used by Bocinsky (XXX) based on the calculation of the probability density estimate for sites, the estimation of a probability density curve for all cells composing the landscape using Monte Carlo resampling, and finally comparing the two distributions using a Mann-Whitney U test. For random locations, the probability densities for 1000 random samples were extracted from each raster layer. Each sample was of the same number of locations as there are open-air archaeological sites (i.e. n = 36). Based on this, a 95% confidence interval for the sampled data using quantiles was calculated and plotted together with the kernel density curves. The same resampling method was used to generate confidence intervals for the Mann-Whitney U test statistic.
+
+Random points extraction was limited to the territories south of the Douro river valley because our database did not include any archaeological sites situated to the north of that river.
+
+For the caves sample, site locations were instead compared with a dataset comprising all caves with attested human occupations present in the Endovélico database (n = 114). Given the small sample size, statistical comparisons were accomplished without resampling, based on independent 2-group Mann-Whitney U Test.
+
+A Principal Component Analysis (PCA) was also used to explore any latent patterns of association among the different spatial and archaeological variables. This step combined open-air and cave locations, using all four spatial variables (Elevation, Slope, Aspect and Distance to rivers) as active variables and the dominant raw material as grouping variable.
+
+
+
+```{r pca-eval, eval = FALSE, echo = FALSE}
+
+pca_data <- as.data.frame(sites_vals)
+
+pca_data <- pca_data %>% 
+  dplyr::select(SITE, Type, Dmn_R_M, Elevation = areaDEM_cut, Slope = areaSLOPE_cut, Aspect = areaASPECT_cut,
+                Distance = areaDIST_cut2)
+
+pca_data_active <- dplyr::select(pca_data, Elevation,
+                                 Aspect, Slope, Distance)
+
+# Test assumptions
+pca_Cor <- cor(pca_data_active)
+
+# Sampling adequacy or an appropriate number of observations relative to the number of variables being examined
+assumptions <- paf(as.matrix(pca_data_active), eigcrit = 1, convcrit = .001)
+round(print(assumptions$KMO), 3)
+
+# Positive determinant of the correlation or variance-covariance matrices
+round(det(pca_Cor), 3)
+
+# Sphericity or the existence of the identity matrix
+bartlettTest <- cortest.bartlett(pca_Cor, n = 54)
+round(bartlettTest$p.value, 3)
+
+```
+
+
+Three key assumptions were checked before applying PCA to our dataset: (1) the Bartlett’s Test for Sphericity p-value result of `r round(bartlettTest$p.value, 3)` rejects the null hypothesis that the intercorrelation matrix comes from a noncollinear population; (2) the Kaiser-Meyer-Olkin (KMO) value of `r round(print(assumptions$KMO)`, 3) approves sampling adequacy; (3) and the determinant of the correlation matrix is positive at `r round(det(pca_Cor), 3)`.
+
+
+## Reproducibility and open source materials
+
+The complete R code used for all the analysis and visualizations contained in this paper is available at XXX. To produce those files the procedures described by Marwick et al. XXX for the creation of research compendiums to enhance the reproducibility of research were followed. The files provided contain all the raw data used in our analysis as well as a custom R package XXX holding the code to produce all tables and figures. To enable maximum re-use, code is released under the MIT license, data as CC-0, and figures as CC-BY (for more information see XXX).
 
 
 # Results
 
-## Open air
+## General Patterns
+
+Figure XXX presents the distribution of the 54 sites included in our short sample. A first evaluation of the distribution of the sites across the territory reveals a more dense concentration of sites in Central Portugal, a very weak presence of sites in northern regions, with only one site located in the Côa River valley (Aubry et al., 2020), and no sites located to the North of the Douro valley. Most of the sites present in this sample are open-air locations (n = 36), being noteworthy that both coastal (using current coastline as reference) and inland territories appear represented. Table XXX summarizes the median and interquartile ranges for each of the geographical variables used. Except for Slope, all remaining variables are not significantly different between open-air and cave sites location. In fact, cave and rockshelter sites tend to be located in areas with steeper slopes than open-air sites. In terms of elevation, the maximum altitude at which archaeological sites are found is 512 meters above current sea level (a.c.s.l.), corresponding this value to the cave site of Lapa do Picareiro, in central Portugal (Benedetti et al., 2019).
+
+## Open air sites
 
 ```{r plot-altitude, eval = FALSE, echo = FALSE}
 
@@ -556,7 +625,6 @@ plot_grid(open_air_elevation, open_air_slope, open_air_aspect, open_air_distance
 ```
 
 
-
 ## Caves
 
 
@@ -666,36 +734,11 @@ knitr::kable(caves_stats, caption = "Results of the Mann-Whitney U test, for eac
 
 ## Principal Component Analysis
 
-```{r PCA, eval = FALSE, echo = FALSE}
+
+Table X presents the ‘loadings’ of each variable in the composition of the two first components, which represent, respectively c. 40.1% and c. 27.1% of the overall variability. Latitude and Slope were the variables that explained most variance in PC1, while Altitude and Distance to rivers explain most of the variance in PC2. Conversely, in PC1, the variables with less impact on the variability, i.e. Altitude, Aspect and Distance to water courses, can be considered the most important variables for settlement location, since their more restricted values represent the most sought after qualities for site occupation.
 
 
-pca_data <- as.data.frame(sites_vals)
-
-pca_data <- pca_data %>% 
-  dplyr::select(SITE, Type, Dmn_R_M, Elevation = areaDEM_cut, Slope = areaSLOPE_cut, Aspect = areaASPECT_cut,
-                Distance = areaDIST_cut2)
-
-pca_data_active <- dplyr::select(pca_data, Elevation,
-                                 Aspect, Slope, Distance)
-
-
-# Test assumptions
-pca_Cor <- cor(pca_data_active)
-
-# Sampling adequacy or an appropriate number of observations relative to the number of variables being examined
-assumptions <- paf(as.matrix(pca_data_active), eigcrit = 1, convcrit = .001)
-round(print(assumptions$KMO), 3)
-
-
-# Positive determinant of the correlation or variance-covariance matrices
-round(det(pca_Cor), 3)
-
-
-# Sphericity or the existence of the identity matrix
-bartlettTest <- cortest.bartlett(pca_Cor, n = 54)
-round(bartlettTest$p.value, 3)
-
-
+```{r pca-plot, eval = FALSE, echo = FALSE}
 
 # Plot Results
 
@@ -704,16 +747,14 @@ res.pca <- prcomp(pca_data_active, scale = TRUE)
 groups <- as.factor(pca_data$Dmn_R_M)
 
 fviz_pca_biplot(res.pca,
-                col.ind = groups, # color by groups
-                addEllipses = TRUE, # Concentration ellipses
+                col.ind = groups,
+                addEllipses = TRUE,
                 ellipse.type = "confidence",
                 legend.title = "Raw Material",
                 repel = TRUE,
                 label = "var",
-                pointsize = 3
-) +
-  theme(text = element_text(size=15), plot.title = element_text(lineheight=.8, face="bold"), plot.margin=unit(c(1,1,1,1),"cm"))
-
+                pointsize = 3) +
+                theme(text = element_text(size=15), plot.title = element_text(lineheight=.8, face="bold"),                       plot.margin=unit(c(1,1,1,1),"cm"))
 
 
 loadings_table <- round(as.data.frame(res.pca$rotation[,1:2]), 3)
