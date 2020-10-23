@@ -49,6 +49,7 @@ library(gridExtra)
 library(rela)
 library(psych)
 library(factoextra)
+library(FactoMineR)
 
 ```
 
@@ -231,7 +232,7 @@ pca_data <- as.data.frame(sites_vals)
 
 pca_data <- pca_data %>% 
   dplyr::select(SITE, Type, Dmn_R_M, Elevation = areaDEM_cut, Slope = areaSLOPE_cut, Aspect = areaASPECT_cut,
-                Distance = areaDIST_cut2)
+                Distance = areaDIST_cut2, Latitude = coords.x2)
 
 pca_data_active <- dplyr::select(pca_data, Elevation,
                                  Aspect, Slope, Distance)
@@ -283,7 +284,7 @@ knitr::kable(general_table, caption = "Median and Interquartile Range (IQR) for 
 
 ## Open-air sites
 
-Results of the analysis of individual variables comparing open-air sites with randomly resampled background points is presented in Figure \@ref(fig:open-air-plots) and Table \@ref(tab:table-stats-open). Only one of the variables, elevation, seems to attest that Middle Paleolithic sites are not randomly located in the landscape. In fact, while both curves are right skewed, there seems to be a clear tendency for the location of open-air sites at lower altitudes than the range of available elevations across the territory. The validity of this observation is confirmed by the results of the Mann-Whitney U test, which revealed a p-value of 0.00. The remaining three variables, Slope, Aspect and Distance to rivers, do not revealed any statistically significant differences between sites and the background. In the case of distance to rivers, however, the sites curve seems to reveal a more pronounced preference for near-river locations within the variability present in the landscape.
+Results of the analysis of individual variables comparing open-air sites with randomly resampled background points is presented in Figure \@ref(fig:open-air-plots) and Table \@ref(tab:table-stats-open). Only one of the variables, Elevation, seems to attest that Middle Paleolithic sites are not randomly located in the landscape. In fact, while both curves are right skewed, there seems to be a clear tendency for the location of open-air sites at lower altitudes than the range of available elevations across the territory. The validity of this observation is confirmed by the results of the Mann-Whitney U test, which revealed a p-value of 0.00. The remaining three variables, Slope, Aspect and Distance to rivers, do not revealed any statistically significant differences between sites and the background. In the case of distance to rivers, however, the sites curve seems to reveal a more pronounced preference for near-river locations within the variability present in the landscape.
 
 
 ```{r plot-altitude, eval = FALSE, echo = FALSE}
@@ -478,12 +479,23 @@ background_slope_tab <- background_slope_tab %>%
 # Calculate site altitude densities
 open_air_aspect_densities <- open_air %$%
    areaASPECT_cut %>%
-   density(from = -1, to = 360, n = 181) %>%
+   density(from = -1, to = 360, n = 9) %>%
    broom::tidy() %>%
    tibble::as_tibble() %>%
-   dplyr::mutate(y = y * 181) %>%
+   dplyr::mutate(y = y * 9) %>%
    dplyr::rename(Aspect = x,
-                Frequency = y)
+                Frequency = y) %>%
+  dplyr::mutate(Aspect_groups = dplyr::case_when(Aspect == -1 ~ "Flat", 
+                                   between(Aspect, 0, 22.5) | between(Aspect, 337.5, 360) ~ "North", 
+                                   between(Aspect, 22.5, 67.5) ~ "Northeast", 
+                                   between(Aspect, 67.5, 112.5) ~ "East",
+                                   between(Aspect, 112.5, 157.5) ~ "Southeast",
+                                   between(Aspect, 157.5, 202.5) ~ "South",
+                                   between(Aspect, 202.5, 247.5) ~ "Southwest",
+                                   between(Aspect, 247.5, 292.5) ~ "West",
+                                   between(Aspect, 292.5, 337.5) ~ "Northwest")) %>% 
+  mutate(Sample = "Sites") %>% 
+  add_column(`Lower CI` = NA) %>% add_column(`Upper CI` = NA)
 
 # Load background values into memory for fast resampling
 background_aspect_values <- areaASPECT_cut %>%
@@ -495,10 +507,10 @@ background_aspect_densities <- foreach::foreach(n = 1:1000, .combine = rbind) %d
   background_aspect_values %>%
     sample(nrow(open_air),
            replace = FALSE) %>%
-    density(from = -1, to = 360, n = 181) %>%
+    density(from = -1, to = 360, n = 9) %>%
     broom::tidy() %>%
     tibble::as_tibble() %>%
-    dplyr::mutate(y = y * 181)
+    dplyr::mutate(y = y * 9)
 } %>%
   dplyr::group_by(x) %>%
   purrrlyr::by_slice(function(x){
@@ -509,22 +521,51 @@ background_aspect_densities <- foreach::foreach(n = 1:1000, .combine = rbind) %d
   magrittr::set_names(c("Aspect", "Lower CI", "Frequency", "Upper CI"))
 
 
-# Plot distributions
-open_air_aspect <- ggplot() +
-  geom_line(data = background_aspect_densities,
-            mapping = aes(x = Aspect,
-                          y = Frequency)) +
-  geom_ribbon(data = background_aspect_densities,
-              mapping = aes(x = Aspect,
-                            ymin = `Lower CI`,
-                            ymax = `Upper CI`),
-              alpha = 0.3) +
-  geom_line(data = open_air_aspect_densities,
-            mapping = aes(x = Aspect,
-                          y = Frequency),
-            color = "red") +
-  theme_cowplot() +
-  ylab("") + xlab("degrees")
+
+background_aspect_densities_groups <- background_aspect_densities %>% 
+  dplyr::mutate(Aspect_groups = dplyr::case_when(Aspect == -1 ~ "Flat", 
+                                   between(Aspect, 0, 22.5) | between(Aspect, 337.5, 360) ~ "North", 
+                                   between(Aspect, 22.5, 67.5) ~ "Northeast", 
+                                   between(Aspect, 67.5, 112.5) ~ "East",
+                                   between(Aspect, 112.5, 157.5) ~ "Southeast",
+                                   between(Aspect, 157.5, 202.5) ~ "South",
+                                   between(Aspect, 202.5, 247.5) ~ "Southwest",
+                                   between(Aspect, 247.5, 292.5) ~ "West",
+                                   between(Aspect, 292.5, 337.5) ~ "Northwest")) %>% 
+  mutate(Sample = "Random points")
+
+
+
+aspect_table <- rbind(open_air_aspect_densities, background_aspect_densities_groups)
+
+
+
+aspect_plot <- ggplot(aspect_table, aes(x=Aspect_groups, y=Frequency, fill = Sample, ymin=`Lower CI`, ymax=`Upper CI`)) +
+    geom_bar(position = "dodge", stat="identity") +
+    geom_errorbar(position=position_dodge(.9), width=0.5, alpha=0.9, size=0.7,) +
+    theme_cowplot() +
+    scale_fill_manual(values=c("gray80", "red")) +
+#scale_fill_brewer(palette = "Dark2") +
+    xlab("Direction") + ylab("") +
+    theme(legend.position = "none")
+
+
+  # Plot distributions
+#open_air_aspect <- ggplot() +
+#  geom_line(data = background_aspect_densities,
+#            mapping = aes(x = Aspect,
+#                          y = Frequency)) +
+#  geom_ribbon(data = background_aspect_densities,
+#              mapping = aes(x = Aspect,
+#                            ymin = `Lower CI`,
+#                            ymax = `Upper CI`),
+#              alpha = 0.3) +
+#  geom_line(data = open_air_aspect_densities,
+#            mapping = aes(x = Aspect,
+#                          y = Frequency),
+#            color = "red") +
+#  theme_cowplot() +
+#  ylab("") + xlab("degrees")
 
 
 ```
@@ -622,7 +663,7 @@ open_air_distance <- ggplot() +
 
 ```
 
-```{r test-aspect, echo = false, eval = FALSE}
+```{r test-distance, echo = false, eval = FALSE}
 
 # Draw 1000 random samples from background, and compute two-sample Wilcoxon tests (Mann-Whitney U tests)
 background_distance_MWU <- foreach(n = 1:1000, .combine = rbind) %do% {
@@ -660,7 +701,7 @@ background_distance_tab <- background_distance_tab %>%
 
 ```{r open-air-plots, eval = FALSE, echo = FALSE, fig.cap = "Kernel density plots comparing open-air sites (red line) and randomly resampled background points (black line) for A) Elevation, B) Slope, C) Aspect, and D) Distance to rivers. The grey areas represent the 95% confidence interval calculated from the resampling."}
 
-plot_grid(open_air_elevation, open_air_slope, open_air_aspect, open_air_distance, labels = c("A", "B", "C", "D"), nrow = 2, ncol = 2)
+plot_grid(open_air_elevation, open_air_slope, aspect_plot, open_air_distance, labels = c("A", "B", "C", "D"), nrow = 2, ncol = 2)
 
 ```
 
@@ -676,6 +717,7 @@ knitr::kable(stats_table_open_air, caption = "Mann-Whitney U test results for th
 
 ## Caves
 
+The results of individual variables analysis for the cave sites are presented in Figure \@ref(fig:caves-boxplots) and Table \@ref(tab:caves-statistics). Comparisons between Middle Paleolithic caves and all other caves revealed no statistical significant differences in the distribution of all considered variables. In fact, the distribution of Middle Paleolithic sites is always constrained within the variability of the all caves sample, presenting very similar median and interquartile range values across. As with the open-air sample, the distribution of the variable Distance to rivers reveals a preference for caves located closer to rivers, particularly when having into consideration the presence of a number of caves  
 
 
 ```{r caves-boxplots, eval = FALSE, echo = FALSE}
@@ -792,7 +834,10 @@ Table X presents the ‘loadings’ of each variable in the composition of the t
 
 # Plot Results
 
-res.pca <- prcomp(pca_data_active, scale = TRUE)
+pca_data_active2 <- dplyr::select(pca_data, Elevation,
+                                 Aspect, Slope, Distance, Latitude)
+
+res.pca <- PCA(pca_data_active2, scale = TRUE, graph = F, quanti.sup = 5)
 
 groups <- as.factor(pca_data$Dmn_R_M)
 
