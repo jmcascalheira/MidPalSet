@@ -232,7 +232,7 @@ pca_data <- as.data.frame(sites_vals)
 
 pca_data <- pca_data %>% 
   dplyr::select(SITE, Type, Dmn_R_M, Elevation = areaDEM_cut, Slope = areaSLOPE_cut, Aspect = areaASPECT_cut,
-                Distance = areaDIST_cut2, Latitude = coords.x2)
+                Distance = areaDIST_cut2, Latitude = coords.x2, Longitude = coords.x1)
 
 pca_data_active <- dplyr::select(pca_data, Elevation,
                                  Aspect, Slope, Distance)
@@ -266,7 +266,7 @@ The complete R code used for all the analysis and visualizations contained in th
 
 ## General Patterns
 
-Figure XXX presents the distribution of the 54 sites included in our short sample. A first evaluation of the distribution of the sites across the territory reveals a more dense concentration of sites in Central Portugal, a very weak presence of sites in northern regions, with only one site located in the Côa River valley (Aubry et al., 2020), and no sites located to the North of the Douro valley. Most of the sites present in this sample are open-air locations (n = 36), being noteworthy that both coastal (using current coastline as reference) and inland territories appear represented. Table \@ref(tab:general-table) summarizes the median and interquartile ranges for each of the extracted variables. Except for Slope, all remaining variables are not significantly different between open-air and cave sites. This is because cave and rockshelter sites tend to be located in areas with steeper slopes than open-air sites. In terms of elevation, the maximum altitude at which archaeological sites are found is 511 meters above current sea level (a.c.s.l.), corresponding this value to the cave site of Lapa do Picareiro, in central Portugal (Benedetti et al., 2019).
+Figure XXX presents the distribution of the 54 sites included in our short sample. A first evaluation of the distribution of the sites across the territory reveals a more dense concentration of sites in Central Portugal, a very weak presence of sites in northern regions, with only one site located in the Côa River valley (Aubry et al., 2020), and no sites located to the North of the Douro valley. Most of the sites present in this sample are open-air locations (n = 36), being noteworthy that both coastal (using current coastline as reference) and inland territories appear represented. Table \@ref(tab:general-table) summarizes the median and interquartile ranges for each of the extracted variables. Except for Slope, all remaining variables are not significantly different between open-air and cave sites. This is because cave and rockshelter sites tend to be located in areas with steeper slopes than open-air sites. In terms of elevation, the maximum altitude at which archaeological sites are found is 511 meters above current sea level (a.s.l.), corresponding this value to the cave site of Lapa do Picareiro, in central Portugal. Cave sites tend, in fact, to be located at higher altitudes but in closer proximity to water lines. Both open-air and cave locations present median values for Aspect that indicate preference for the occupation of south-facing slopes.
 
 
 ```{r general-table, eval = FALSE, echo = FALSE}
@@ -274,7 +274,7 @@ Figure XXX presents the distribution of the 54 sites included in our short sampl
 
 general_table <- as.data.frame(tabmulti(data = as.data.frame(sites_vals), xvarname = "Type",
               yvarnames = c("areaDEM_cut", "areaSLOPE_cut", "areaASPECT_cut", "areaDIST_cut2"),
-              ymeasures = c("median", "median", "median", "median"),
+              ymeasures = c("median", "median", "median", "median"), , n.headings = TRUE,
               yvarlabels = list(areaDEM_cut = "Elevation", areaSLOPE_cut = "Slope", areaASPECT_cut = "Aspect", areaDIST_cut2 = "Distance")))
 
 knitr::kable(general_table, caption = "Median and Interquartile Range (IQR) for all considered variables and site type. P-value is based on a Mann-Whitney U test.")
@@ -479,10 +479,10 @@ background_slope_tab <- background_slope_tab %>%
 # Calculate site altitude densities
 open_air_aspect_densities <- open_air %$%
    areaASPECT_cut %>%
-   density(from = -1, to = 360, n = 9) %>%
+   density(from = -1, to = 360, n = 180) %>%
    broom::tidy() %>%
    tibble::as_tibble() %>%
-   dplyr::mutate(y = y * 9) %>%
+   dplyr::mutate(y = y * 180) %>%
    dplyr::rename(Aspect = x,
                 Frequency = y) %>%
   dplyr::mutate(Aspect_groups = dplyr::case_when(Aspect == -1 ~ "Flat", 
@@ -507,10 +507,10 @@ background_aspect_densities <- foreach::foreach(n = 1:1000, .combine = rbind) %d
   background_aspect_values %>%
     sample(nrow(open_air),
            replace = FALSE) %>%
-    density(from = -1, to = 360, n = 9) %>%
+    density(from = -1, to = 360, n = 180) %>%
     broom::tidy() %>%
     tibble::as_tibble() %>%
-    dplyr::mutate(y = y * 9)
+    dplyr::mutate(y = y * 180)
 } %>%
   dplyr::group_by(x) %>%
   purrrlyr::by_slice(function(x){
@@ -536,37 +536,37 @@ background_aspect_densities_groups <- background_aspect_densities %>%
 
 
 
-aspect_table <- rbind(open_air_aspect_densities, background_aspect_densities_groups)
+#aspect_table <- rbind(open_air_aspect_densities, background_aspect_densities_groups)
 
 
 
-aspect_plot <- ggplot(aspect_table, aes(x=Aspect_groups, y=Frequency, fill = Sample, ymin=`Lower CI`, ymax=`Upper CI`)) +
-    geom_bar(position = "dodge", stat="identity") +
-    geom_errorbar(position=position_dodge(.9), width=0.5, alpha=0.9, size=0.7,) +
-    theme_cowplot() +
-    scale_fill_manual(values=c("gray80", "red")) +
+#aspect_plot <- ggplot(aspect_table, aes(x=Aspect_groups, y=Frequency, fill = Sample, ymin=`Lower CI`, ymax=`Upper CI`)) +
+#    geom_bar(position = "dodge", stat="identity") +
+#    geom_errorbar(position=position_dodge(.9), width=0.5, alpha=0.9, size=0.7,) +
+#    theme_cowplot() +
+#    scale_fill_manual(values=c("gray80", "red")) +
 #scale_fill_brewer(palette = "Dark2") +
-    xlab("Direction") + ylab("") +
-    theme(legend.position = "none")
+#    xlab("slope direction") + ylab("") +
+#    theme(legend.position = "none")
 
 
-  # Plot distributions
-#open_air_aspect <- ggplot() +
-#  geom_line(data = background_aspect_densities,
-#            mapping = aes(x = Aspect,
-#                          y = Frequency)) +
-#  geom_ribbon(data = background_aspect_densities,
-#              mapping = aes(x = Aspect,
-#                            ymin = `Lower CI`,
-#                            ymax = `Upper CI`),
-#              alpha = 0.3) +
-#  geom_line(data = open_air_aspect_densities,
-#            mapping = aes(x = Aspect,
-#                          y = Frequency),
-#            color = "red") +
-#  theme_cowplot() +
-#  ylab("") + xlab("degrees")
-
+##   Plot distributions
+  open_air_aspect <- ggplot() +
+  geom_line(data = background_aspect_densities,
+            mapping = aes(x = Aspect,
+                          y = Frequency)) +
+  geom_ribbon(data = background_aspect_densities,
+              mapping = aes(x = Aspect,
+                            ymin = `Lower CI`,
+                            ymax = `Upper CI`),
+              alpha = 0.3) +
+  geom_line(data = open_air_aspect_densities,
+            mapping = aes(x = Aspect,
+                          y = Frequency),
+            color = "red") +
+  theme_cowplot() +
+  ylab("") + xlab("degrees") +
+  xlim(-1, 360)
 
 ```
 
@@ -701,7 +701,7 @@ background_distance_tab <- background_distance_tab %>%
 
 ```{r open-air-plots, eval = FALSE, echo = FALSE, fig.cap = "Kernel density plots comparing open-air sites (red line) and randomly resampled background points (black line) for A) Elevation, B) Slope, C) Aspect, and D) Distance to rivers. The grey areas represent the 95% confidence interval calculated from the resampling."}
 
-plot_grid(open_air_elevation, open_air_slope, aspect_plot, open_air_distance, labels = c("A", "B", "C", "D"), nrow = 2, ncol = 2)
+plot_grid(open_air_elevation, open_air_slope, open_air_aspect, open_air_distance, labels = c("A", "B", "C", "D"), nrow = 2, ncol = 2)
 
 ```
 
@@ -744,7 +744,7 @@ caves_elevation <- cave %>%
   ylab("meters") + xlab("") +
   theme_cowplot() +
   theme(legend.position="none") +
-  scale_fill_brewer(palette = "Dark2")
+  scale_fill_manual(values = c("red", "gray70"))
 
 
 caves_slope <- cave %>%
@@ -756,7 +756,7 @@ caves_slope <- cave %>%
   ylab("degrees") + xlab("") +
   theme_cowplot() +
   theme(legend.position="none") +
-  scale_fill_brewer(palette = "Dark2")
+  scale_fill_manual(values = c("red", "gray70"))
 
 
 caves_aspect <- cave %>% 
@@ -768,7 +768,7 @@ caves_aspect <- cave %>%
   ylab("degrees") + xlab("") +
   theme_cowplot() +
   theme(legend.position="none") +
-  scale_fill_brewer(palette = "Dark2")
+  scale_fill_manual(values = c("red", "gray70"))
 
 caves_distance <- cave %>% 
   mutate(TYPE = fct_relevel(TYPE, 
@@ -779,7 +779,7 @@ caves_distance <- cave %>%
   ylab("meters") + xlab("") +
   theme_cowplot() +
   theme(legend.position="none") +
-  scale_fill_brewer(palette = "Dark2")
+  scale_fill_manual(values = c("red", "gray70"))
 
 plot_grid(caves_elevation, caves_slope, caves_aspect, caves_distance, labels=c("A", "B", "C", "D"), ncol = 2, nrow = 2)
 
@@ -826,8 +826,15 @@ knitr::kable(caves_stats, caption = "Results of the Mann-Whitney U test, for eac
 
 ## Principal Component Analysis
 
+Principal Component analysis was conducted using all four considered variables as active variables, and including Longitude and Latitude as quantitative supplementary variables.
 
-Table X presents the ‘loadings’ of each variable in the composition of the two first components, which represent, respectively c. 40.1% and c. 27.1% of the overall variability. Latitude and Slope were the variables that explained most variance in PC1, while Altitude and Distance to rivers explain most of the variance in PC2. Conversely, in PC1, the variables with less impact on the variability, i.e. Altitude, Aspect and Distance to water courses, can be considered the most important variables for settlement location, since their more restricted values represent the most sought after qualities for site occupation.
+The first two Principal Components (PC) of analysis express 67.23% of the total dataset variability. This percentage is relatively high and greater than the reference value (i.e., the 0.95-quantile of the inertia percentages distribution obtained by simulating 1266 data tables of equivalent size on the basis of a normal distribution) of 64.64%.
+
+Tables X and X present the correlation coefficients and significant test between variables and each one of the first two principal components. Slope, Elevation and Aspect all significantly contribute to PC1 positive side. Latitude and Distance to rivers have smaller contributions, the latter negatively associated with that axis. For PC2, only two variables present significant positive correlation - Distance to rivers and Elevation. 
+
+The distribution of sites within the PC1 and PC2 is presented in Figure \@ref(fig:pca-plot). Most of the sites plot in the center of the graphic, not being clearly associated with any of the components just described. Still, there are at least two clearly isolated groups: sites associated with high values of Elevation, namely the cave site of Lapa do Picareiro and the open-air location of Lagoa do Bando; and sites associated with high values of Distance to rivers, namely the coastal sites of Curva do Belixe, Lagoa Funda 1 and 2, Gruta da Furninha, Pedrogão, and Vale do Pardo, as well as the inland cave of Gruta do Escoural. More interesting, however, is the plotting of Gruta do Escoural with other quartz-dominated Middle Paleolithic assemblages of Gruta da Figueira Brava, and Lagoa Funda as shown by the confidence ellipse based on the dominant raw materials for each site. Also noteworthy regarding the raw material association with the PCA results is the plotting of most of the sites with quartzite dominated lithic assemblages, in the negative section of PC2, corresponding to locations closer to rivers and at lower elevations.
+
+
 
 
 ```{r pca-plot, eval = FALSE, echo = FALSE}
@@ -835,11 +842,12 @@ Table X presents the ‘loadings’ of each variable in the composition of the t
 # Plot Results
 
 pca_data_active2 <- dplyr::select(pca_data, Elevation,
-                                 Aspect, Slope, Distance, Latitude)
+                                 Slope, Aspect, Distance, Latitude)
 
-res.pca <- PCA(pca_data_active2, scale = TRUE, graph = F, quanti.sup = 5)
+res.pca <- PCA(pca_data_active2, scale = TRUE, graph = F, quanti.sup = c(5))
 
 groups <- as.factor(pca_data$Dmn_R_M)
+groups_2 <- as.factor(pca_data$Type)
 
 fviz_pca_biplot(res.pca,
                 col.ind = groups,
@@ -849,13 +857,16 @@ fviz_pca_biplot(res.pca,
                 repel = TRUE,
                 label = "var",
                 pointsize = 3) +
-                theme(text = element_text(size=15), plot.title = element_text(lineheight=.8, face="bold"),                       plot.margin=unit(c(1,1,1,1),"cm"))
+                theme(text = element_text(size=15), plot.title = element_text(lineheight=.8, face="bold"),                       plot.margin=unit(c(1,1,1,1),"cm")) +
+  theme_cowplot()
 
+corr_table <- dimdesc(res.pca, axes=c(1,2))
 
-loadings_table <- round(as.data.frame(res.pca$rotation[,1:2]), 3)
+dim_1 <- as.data.frame(corr_table$Dim.1$quanti)
+round(dim_1, 3)
 
-
-
+dim_2 <- as.data.frame(corr_table$Dim.2$quanti)
+round(dim_2, 3)
 
 
 ```
