@@ -86,13 +86,13 @@ areaDIST_cut <- projectRaster(areaDIST_cut, crs="+proj=longlat +datum=WGS84 +uni
 
 
 #Import sites and convert to shapefile
-#sites <- read.csv("../data/raw_data/sites_short_list.csv", header=TRUE)
+sites <- read.csv("../data/raw_data/sites_short_list.csv", header=TRUE)
 #caves <- read.csv("../data/raw_data/all_caves.csv", header=TRUE)
 
 #Convert to shapefile
-#coordinates(sites)<-~Longitude+Latitude
-#proj4string(sites) = CRS("+init=epsg:4326")
-#writeOGR(sites, "../data/raw_data/spatial_data/shapefiles","sites_short", "ESRI Shapefile")
+coordinates(sites)<-~Longitude+Latitude
+proj4string(sites) = CRS("+init=epsg:4326")
+writeOGR(sites, "../data/raw_data/spatial_data/shapefiles","sites_short", "ESRI Shapefile")
 
 #coordinates(caves)<-~Longitude+Latitude
 #proj4string(caves) = CRS("+init=epsg:4326")

@@ -1,87 +1,176 @@
 ﻿Site,Layer,Material,Method,Lab Code,Age,SD,Obs,Reference
-Gruta do Caldeirão,K topo (J6),Cervus,AMS,OxA-5541,21255,159,"Low collagen (0,32%N;366C;0,53%H)",Zilhão 1993
-Gruta do Caldeirão,K base (k5),Capra,AMS,OxA-5521,26069,293,"0,32%N;2,39C",Zilhão 2000
-Gruta do Caldeirão,K topo,Cervus,AMS,OxA-1941,31358,633,,Zilhão 1993
-Conceição,C,Sedimento,OSL,QTLS-CNC11,27200,2500,Layer C above the archaeological level,Raposo e Cardoso 1998
-Conceição,E,Sedimento,OSL,QTLS-CC12,74500,+11600/-10400,Layer E below the archaeological level,Rapso e Cardoso 1998
-Gruta do Escoural,Sondagem 3a (90-100 cm),Bos (dente),U-Th,SMU- 248,26400,+11000/-10000,Low uranium content,Zilhão 2000
-Gruta do Escoural,Sondagem 3a (80-90 cm),Cervus (dente),U-Th,SMU-249,39800,+10000/-9000,"Low urium content (3,4%)",Zilhão 2000
-Gruta do Escoural,Sondagem 3a (60-70 cm),Equus (dente),U-Th,SMU-250,48900,+5800/-5500,,Zilhão 2000
-Gruta da Figueira Brava,2,Patella sp.,C14,ICEN-387,34878,787,,"Antunes, et al. 1998"
-Gruta da Figueira Brava,2,Cervus (dente),U-Th,SMU-232E1,30561,+11759-1011759/-10725,,Antunes 1991
-Gruta da Figueira Brava,Nível inferior,Concha marinha,C14,ICEN-387,33374,854,,Antunes 1991
-Gruta da Figueira Brava,2,Cervus (dente),U-Th,SMU-233E2,44806,+15889/-13958,,Antunes 1991
+Almonda,EVS Cone,Equus (dente),U-Th,SMU-231E1,35000,2000,Low ratio of 230Th/232Th,"Zilhão, et al. 1993"
+Almonda,ES2 Nível 4,Equus (dente),U-Th,307-260E1,131000,"+32000/-25,000",,Zilhão e McKinney 1995
+Almonda,"EVS, Cone",Equus (dente),,231  E1 ,35000,2000,,Zilhão e McKinney 1995
+Almonda,"EVS, caos de blocos",Equus (dente),,228 E1 ,136000,8000,,Zilhão e McKinney 1995
+Almonda,"EVS, Praia dos Bifaces",Equus (dente),,230 E1,170000,13000,,Zilhão e McKinney 1995
+Conceição,C,Sediment,OSL,QTLS-CNC11,27200,2500,Layer C above the archaeological level,Raposo e Cardoso 1998
+Conceição,E,Sediment,OSL,QTLS-CC12,74500,-1.115384615,Layer E below the archaeological level,Rapso e Cardoso 1998
 Foz do Enxarrique,C,Equus (dente),U-Th,SMU-225,32938,1055,,Raposo 1995
 Foz do Enxarrique,C,Equus (dente),U-Th,SMU-226,34088,800,,Raposo 1995
 Foz do Enxarrique,C,Equus (dente),U-Th,SMU-224,34093,920,,Raposo 1995
-Gruta Nova da Columbeira,7 (=16),Lareira carbonatada,C14,Gif-2703,26400,700,,Zilhão 2000
-Gruta Nova da Columbeira,7,Lamela de dente,U-Th,SMU-235E1,35876,+27299/-35583,,Zilhão 2000
-Gruta Nova da Columbeira,7,Lamela de dente,U-Th,SMU-238E1,54365,+22240/-27525,,Zilhão 2000
-Gruta Nova da Columbeira,8(=20),Lareira carbonatada,C14,Gif-2704,28900,950,,Zilhão 2000
-Gruta Nova da Columbeira,8,Lamela de dente,U-Th,SMU-236E1,60927,+27405/-35522,,Zilhão 2000
-Gruta Nova da Columbeira,8,Lamela de dente,U-Th,SMU-236E1,101487,+38406/-55919,,Zilhão 2000
-Lapa dos Furos,4,Helix nemoralis,C14,ICEN-473,38697,1518,Below the archaeological level,"Straus, et al. 1993"
-Lapa dos Furos,4,Brecha [Helix sp],C14,ICEN-472,34030,1267,Sterile (pre-Mousterian),"Straus, et al. 1993"
-Pedreira de Salmeas,1,Cologénio de osso,C14,ICEN-366,29890,"+1890+1,130/-130130-980",Mixed level,"Straus, et al. 1993"
-Santo Antão do Tojal,2,Elephas (osso),U-Th,SMU-305,81900,+4000/-3800,,Raposo 1995
-Vilas Ruivas,B,Sedimentos,TL,BM-VRU1,51000,+1300/-12000,Average of two results,Raposo 1995
-Vilas Ruivas,,,,,54000,+12000/-11000,,Raposo 1995
-Vilas Ruivas,B,Sedimentos,TL,BM-VRU2,68000,+35000/-26000,,Raposo 1995
-Galerias Pesadas,,,,,241000,+30000/-22000,,Marks 2005
-Furninha,base,,,,80880,+42420/-31260,,Raposo 1995
-Salemas[algar],T.V.b,Cologénio de osso,C14,ICEN-379,28118,924,,Zilhão 2000
-Salemas[algar],T.V.b,Osso,C14,ICEN-384,24090,533,,Zilhão 2000
-Salemas[algar],T.V.b,Osso,C14,ICEN-383,27457,1127,,Zilhão 2000
-Salemas[algar],T.V.b,Osso,C14,ICEN-384[!],28118,924,,Zilhão 2000
-Salemas [gruta],Nível inferior,Osso,C14,ICEN-361,30696,1142,,Raposo 1995
-Salemas [gruta],Nível inferior,Osso,C14,ICEN-371,>29200,NA,,Raposo 1995
-Salemas [gruta],Nível inferior [1],Cologénio de osso,C14,ICEN-366,33632,1180,,Raposo 1995
-Vale do Forno 8,VF01,Sedimento,TL,,127000,+infinite/-26000,,Mozzi et al. 2000
-Vale do Forno 8,VF02,Sedimento,TL,,119000,+infinite/-32000,,Mozzi et al. 2000
-Vale do Forno 8,VF05,Sedimento,TL,,117000,+infinite/-26000,,Mozzi et al. 2000
-Vale do Forno 8,VF06,Sedimento,TL,,>124000,NA,,Mozzi et al. 2000
-Mira Nascente,MN2,Sedimento,OSL,UIC-1875,36035,2750,,Benedetti et al. 2009
-Mira Nascente,MN2,Sedimento,OSL,UIC-1863,33905,2690,,Benedetti et al. 2009
-Mira Nascente,MN3b,Sedimento,OSL,UCI-1864,40450,2980,,Benedetti et al. 2009
-Mira Nascente,MN3c,Sedimento,OSL,UCI-1923,34300,2630,,Benedetti et al. 2009
-Mira Nascente,MN4,Sedimento,OSL,UIC-1868,>110050,8460,,Benedetti et al. 2009
-Mira Nascente,MN5,Sedimento,OSL,UIC-2065,150920,12575,,Benedetti et al. 2009
-Mira Nascente,MN3a,Carvão,AMS,Beta-234375,42175,461,,Benedetti et al. 2009
-Mira Nascente,MN3a,soil organic matter,AMS,Beta-208223,20628,292,,Benedetti et al. 2009
-Mira Nascente,MN3b,charred stump,,Beta-208224,26110,499,,Benedetti et al. 2009
-Mira Nascente,MN3c,charcoal,,Beta-234376,47717,311,,Benedetti et al. 2009
-Mira Nascente,MN3C,charcoal,,Beta-208225,40744,1025,,Benedetti et al. 2009
-Praia Rei Cortiço,PC2b,Sedimento,OSL,UIC-2399,15060,980,,Benedetti et al. 2009
-Praia Rei Cortiço,PC4,Sedimento,OSL,UIC-2398,101010,7870,,Benedetti et al. 2009
-Praia Rei Cortiço,PC2a,,,Beta-234368,4448,56,,Benedetti et al. 2009
-Praia Rei Cortiço,PC5b,charcoal,,UGAMS-3254,50536,1854,,Benedetti et al. 2009
-Praia Rei Cortiço,PC5c,charcoal,,UGAMS-3255,>49600,NA,,Benedetti et al. 2009
-Praia Rei Cortiço,PC5c,charcoal,,UGAMS-3912,53781,2055,,Benedetti et al. 2009
-Praia Rei Cortiço,PC5c,charcoal,,UGAMS-3913,>49600,NA,,Benedetti et al. 2009
+Furninha,base,,,,80880,-1.357005758,,Raposo 1995
+Galerias Pesadas,,,,,241000,-1.363636364,,Marks 2005
+Gruta da Figueira Brava,2,Patella sp.,C14,ICEN-387,34878,787,,"Antunes, et al. 1998"
+Gruta da Figueira Brava,2,Cervus (dente),U-Th,SMU-232E1,30561,11853.3365,,Antunes 1991
+Gruta da Figueira Brava,Nível inferior,Shell,C14,ICEN-387,33374,854,,Antunes 1991
+Gruta da Figueira Brava,2,Cervus (dente),U-Th,SMU-233E2,44806,-1.138343602,,Antunes 1991
+Gruta da Figueira Brava,AREA C 1025-9 (top),Speleothem,U-Th,UEVA-1737,24308,873,"Samples from the flowstone capping the Area C Pleistocene deposit, for which FB1025-1 provides a minimum age of 51.6 ka",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA C 1025-1 (base),Speleothem,U-Th,UEVA-1731,52194,618,"Samples from the flowstone capping the Area C Pleistocene deposit, for which FB1025-1 provides a minimum age of 51.6 ka",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA C 1107-1 (top),Speleothem,U-Th,UTO 436,25945,2428,"Samples from the flowstone capping the Area C Pleistocene deposit, for which FB1025-1 provides a minimum age of 51.6 ka",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA C 1107-2 (base),Speleothem,U-Th,UTO 437,51123,1236,"Samples from the flowstone capping the Area C Pleistocene deposit, for which FB1025-1 provides a minimum age of 51.6 ka",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1028-2 (middle),Speleothem,U-Th,UTO 209,57595,1085,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1028-1 (base),Speleothem,U-Th,UTO 208,60669,1308,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1101-2 (top),Speleothem,U-Th,UTO 428,63653,2261,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1101-1 (base),Speleothem,U-Th,UTO 427,66484,778,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1102-1 (top),Speleothem,U-Th,UTO 431,47117,1545,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1102-2 (base),Speleothem,U-Th,UTO 432,67294,897,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1103-1 (top),Speleothem,U-Th,UTO 770,28574,599,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1103-2 (base),Speleothem,U-Th,UTO 771,52329,821,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1104-2 (top),Speleothem,U-Th,UTO 426,61853,1041,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1104-1 (base),Speleothem,U-Th,UTO 425,64873,957,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1105-1 (top),Speleothem,U-Th,UTO-433,6226,918,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1105-3 (base),Speleothem,U-Th,UEVA 417,62890,1240,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1207-4 (middle),Speleothem,U-Th,UTO 777,48162,1084,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1207-6 (base),Speleothem,U-Th,UTO 776,79400,2511,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1303-3 (top),Speleothem,U-Th,UEVA 1390,49608,526,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1303-1 (bottom),Speleothem,U-Th,UEVA 1384,58851,862,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1304-5 (IT1top),Speleothem,U-Th,UEVA 1724,17072,3530,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1304-4 (IT1base),Speleothem,U-Th,UEVA 1723,16487,3637,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1304-3 (IH1top),Speleothem,U-Th,dlh 1211,15764,863,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1304-1 (IH1base),Speleothem,U-Th,dlh 1029,28941,730,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1305-9 (top),Speleothem,U-Th,dlh 1213,55800,552,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1305-1 (base),Speleothem,U-Th,dlh 1212,69232,926,"Samples from stalagmites and flowstone capping the Area F Pleistocene deposit, for which FB1207-6 implies a minimum age of 76.9 ka. Based on the lower limit of the range for sub-sample 1304-3, FB1304 provides a maximum age of 16.6 ka for the IT2 black lens, which laterally abutted (and, in certain areas, infiltrated) it.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1208-5,Speleothem,U-Th,UEVA 1729,87693,762,"Corresponds to unit IH5, an episode of calcite precipitation for which subsamples 1208-5 and 1208-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1208-4,Speleothem,U-Th,UEVA 1728,88137,742,"Corresponds to unit IH5, an episode of calcite precipitation for which subsamples 1208-5 and 1208-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1208-3,Speleothem,U-Th,UEVA 1727,87797,649,"Corresponds to unit IH5, an episode of calcite precipitation for which subsamples 1208-5 and 1208-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1208-2,Speleothem,U-Th,UEVA 1726,88924,688,"Corresponds to unit IH5, an episode of calcite precipitation for which subsamples 1208-5 and 1208-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1208-1,Speleothem,U-Th,UEVA 1725,87559,626,"Corresponds to unit IH5, an episode of calcite precipitation for which subsamples 1208-5 and 1208-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1106-2 (top),Speleothem,U-Th,dlh 1326,89766,1643,"Corresponds to unit IH7, an episode of calcite precipitation for which the isochron date and sub-sample 1106-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1106-3 (top),Speleothem,U-Th,dlh 1327,88044,1237,"Corresponds to unit IH7, an episode of calcite precipitation for which the isochron date and sub-sample 1106-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1106-4 (top),Speleothem,U-Th,dlh 1328,86765,1078,"Corresponds to unit IH7, an episode of calcite precipitation for which the isochron date and sub-sample 1106-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1106-5 (top),Speleothem,U-Th,dlh 1329,93590,2320,"Corresponds to unit IH7, an episode of calcite precipitation for which the isochron date and sub-sample 1106-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1106-6 (top),Speleothem,U-Th,dlh 1330,91563,2467,"Corresponds to unit IH7, an episode of calcite precipitation for which the isochron date and sub-sample 1106-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1106-top isochron,Speleothem,U-Th,,87000,1600,"Corresponds to unit IH7, an episode of calcite precipitation for which the isochron date and sub-sample 1106-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1106-1 (base),Speleothem,U-Th,dlh 1325,88670,1162,"Corresponds to unit IH7, an episode of calcite precipitation for which the isochron date and sub-sample 1106-1 provide, respectively, minimum and maximum ages.",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1301-7,Speleothem,U-Th,UEVA 1713,87582,913,"Formed during the deposition of unit IH8 (FB-1301 at a slightly higher elevation than FB-1302, in agreement with the results obtained).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1301-6,Speleothem,U-Th,UEVA 1712,95614,2368,"Formed during the deposition of unit IH8 (FB-1301 at a slightly higher elevation than FB-1302, in agreement with the results obtained).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1301-5,Speleothem,U-Th,UEVA 1711,87444,870,"Formed during the deposition of unit IH8 (FB-1301 at a slightly higher elevation than FB-1302, in agreement with the results obtained).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1301-4,Speleothem,U-Th,UEVA 1710,89641,1592,"Formed during the deposition of unit IH8 (FB-1301 at a slightly higher elevation than FB-1302, in agreement with the results obtained).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1301-3,Speleothem,U-Th,UEVA 1709,88475,1457,"Formed during the deposition of unit IH8 (FB-1301 at a slightly higher elevation than FB-1302, in agreement with the results obtained).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1301-2,Speleothem,U-Th,UEVA 1708,86094,871,"Formed during the deposition of unit IH8 (FB-1301 at a slightly higher elevation than FB-1302, in agreement with the results obtained).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1301-1,Speleothem,U-Th,UEVA 1707,87194,979,"Formed during the deposition of unit IH8 (FB-1301 at a slightly higher elevation than FB-1302, in agreement with the results obtained).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1302-3,Speleothem,U-Th,UEVA 1705,89260,3459,"Formed during the deposition of unit IH8 (FB-1301 at a slightly higher elevation than FB-1302, in agreement with the results obtained).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1302-2,Speleothem,U-Th,UEVA 1704,90818,1625,"Formed during the deposition of unit IH8 (FB-1301 at a slightly higher elevation than FB-1302, in agreement with the results obtained).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1302-1,Speleothem,U-Th,UEVA 1703,90343,1432,"Formed during the deposition of unit IH8 (FB-1301 at a slightly higher elevation than FB-1302, in agreement with the results obtained).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1209-3,Speleothem,U-Th,UEVA 1389,94326,4102,Corresponds to unit IL1 and is a stalagmite for which sub-samples 1209-3 and -4 provide a minimum age and subsample 1209-5 provides a maximum age.,Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1209-4,Speleothem,U-Th,UEVA 1701,90875,968,Corresponds to unit IL1 and is a stalagmite for which sub-samples 1209-3 and -4 provide a minimum age and subsample 1209-5 provides a maximum age.,Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1209-5,Speleothem,U-Th,UEVA 1702,92113,1134,Corresponds to unit IL1 and is a stalagmite for which sub-samples 1209-3 and -4 provide a minimum age and subsample 1209-5 provides a maximum age.,Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1306-1 (top),Speleothem,U-Th,dlh 1206,107361,3929,"Corresponds to unit IB1, an episode of flowstone formation constrained by subsamples 1306-1 (minimum age) and 1306-2 (maximum age).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1306-3 (basal),Speleothem,U-Th,dlh 1208,141513,1588,"Corresponds to unit IB1, an episode of flowstone formation constrained by subsamples 1306-1 (minimum age) and 1306-2 (maximum age).",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA F 1306-2 (bottom),Speleothem,U-Th,dlh 1207,150169,2072,"Corresponds to unit IB1, an episode of flowstone formation constrained by subsamples 1306-1 (minimum age) and 1306-2 (maximum age).",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 2 1406-4 (top),Speleothem,U-Th,UEVA 993,40742,496,"Both document flowstone formation across the whole area, with sub-sample 1406-1 providing a minimum age of 45.0 ka for the underlying, eroded sedimentary fill.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 2 1406-1 (base),Speleothem,U-Th,UEVA 990,45649,613,"Both document flowstone formation across the whole area, with sub-sample 1406-1 providing a minimum age of 45.0 ka for the underlying, eroded sedimentary fill.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 2 1407-5 (top),Speleothem,U-Th,UEVA 1025,26965,10083,"Both document flowstone formation across the whole area, with sub-sample 1406-1 providing a minimum age of 45.0 ka for the underlying, eroded sedimentary fill.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 2 1407-1 (base),Speleothem,U-Th,UEVA 1021,78212,52273,"Both document flowstone formation across the whole area, with sub-sample 1406-1 providing a minimum age of 45.0 ka for the underlying, eroded sedimentary fill.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1026-1a,Speleothem,U-Th,UEVA 1823,56835,6317,"All three samples document flowstone formation across the whole area, with subsample 1402-1 providing a minimum age of 57.3 ka for the underlying, eroded sedimentary fill. The sub-samples from sample 1026 are for a single calcite lamina from the flowstone (unit UC1) capping a remnant of the UC complex.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1026-1b,Speleothem,U-Th,UEVA 1824,59524,5425,"All three samples document flowstone formation across the whole area, with subsample 1402-1 providing a minimum age of 57.3 ka for the underlying, eroded sedimentary fill. The sub-samples from sample 1026 are for a single calcite lamina from the flowstone (unit UC1) capping a remnant of the UC complex.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1026-1c,Speleothem,U-Th,UEVA 1825,61180,6123,"All three samples document flowstone formation across the whole area, with subsample 1402-1 providing a minimum age of 57.3 ka for the underlying, eroded sedimentary fill. The sub-samples from sample 1026 are for a single calcite lamina from the flowstone (unit UC1) capping a remnant of the UC complex.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1402-1,Speleothem,U-Th,UEVA 1051,61816,4478,"All three samples document flowstone formation across the whole area, with subsample 1402-1 providing a minimum age of 57.3 ka for the underlying, eroded sedimentary fill. The sub-samples from sample 1026 are for a single calcite lamina from the flowstone (unit UC1) capping a remnant of the UC complex.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1402-2,Speleothem,U-Th,UEVA 1052,63355,7217,"All three samples document flowstone formation across the whole area, with subsample 1402-1 providing a minimum age of 57.3 ka for the underlying, eroded sedimentary fill. The sub-samples from sample 1026 are for a single calcite lamina from the flowstone (unit UC1) capping a remnant of the UC complex.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1405-1 (top),Speleothem,U-Th,UEVA 987,46184,16162,"All three samples document flowstone formation across the whole area, with subsample 1402-1 providing a minimum age of 57.3 ka for the underlying, eroded sedimentary fill. The sub-samples from sample 1026 are for a single calcite lamina from the flowstone (unit UC1) capping a remnant of the UC complex.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1405-3 (base),Speleothem,U-Th,UEVA 989,46360,13105,"All three samples document flowstone formation across the whole area, with subsample 1402-1 providing a minimum age of 57.3 ka for the underlying, eroded sedimentary fill. The sub-samples from sample 1026 are for a single calcite lamina from the flowstone (unit UC1) capping a remnant of the UC complex.",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1027-1,Speleothem,U-Th,UTO 264,78666,3482,Dates a single calcite lamina taken along the outer rind of a stalagmite hanging from the roof above the erosionally truncated sedimentary fill. The isochron date provides a minimum age (75.0 ka) for the underlying sequence and a maximum age (87.0 ka) for the deposition of the sediments of the UC complex that eventually buried the speleothem.,Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1027-2,Speleothem,U-Th,UTO 265,83866,9771,Dates a single calcite lamina taken along the outer rind of a stalagmite hanging from the roof above the erosionally truncated sedimentary fill. The isochron date provides a minimum age (75.0 ka) for the underlying sequence and a maximum age (87.0 ka) for the deposition of the sediments of the UC complex that eventually buried the speleothem.,Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1027-3,Speleothem,U-Th,UTO 266,81850,1717,Dates a single calcite lamina taken along the outer rind of a stalagmite hanging from the roof above the erosionally truncated sedimentary fill. The isochron date provides a minimum age (75.0 ka) for the underlying sequence and a maximum age (87.0 ka) for the deposition of the sediments of the UC complex that eventually buried the speleothem.,Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1027-4,Speleothem,U-Th,UEVA 1821,81841,3697,Dates a single calcite lamina taken along the outer rind of a stalagmite hanging from the roof above the erosionally truncated sedimentary fill. The isochron date provides a minimum age (75.0 ka) for the underlying sequence and a maximum age (87.0 ka) for the deposition of the sediments of the UC complex that eventually buried the speleothem.,Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1027-5,Speleothem,U-Th,UEVA 1822,84445,3997,Dates a single calcite lamina taken along the outer rind of a stalagmite hanging from the roof above the erosionally truncated sedimentary fill. The isochron date provides a minimum age (75.0 ka) for the underlying sequence and a maximum age (87.0 ka) for the deposition of the sediments of the UC complex that eventually buried the speleothem.,Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1027 isochron,Speleothem,U-Th,,81000,6000,Dates a single calcite lamina taken along the outer rind of a stalagmite hanging from the roof above the erosionally truncated sedimentary fill. The isochron date provides a minimum age (75.0 ka) for the underlying sequence and a maximum age (87.0 ka) for the deposition of the sediments of the UC complex that eventually buried the speleothem.,Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1029-2,Speleothem,U-Th,UEVA 1820,93162,2382,"From the rind of the column separating Area F from Entrance 3, constrains the deposition of the UC complex to <91.0 ka",Zilhão et al. 2020
+Gruta da Figueira Brava,ENTRANCE 3 1029-1,Speleothem,U-Th,UEVA 1819,89573,1395,"From the rind of the column separating Area F from Entrance 3, constrains the deposition of the UC complex to <91.0 ka",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA C Layer 2,Patella depressa,C14,OxA-19978,2677,28,complete,Zilhão et al. 2020
+Gruta da Figueira Brava,"AREA C Layer 2, 60 cm below 1st bone bed",Patella vulgata,C14,OxA-19979,36420,240,top missing,Zilhão et al. 2020
+Gruta da Figueira Brava,AREA C Layer 2,Patella vulgata,C14,OxA-19980,39750,400,complete,Zilhão et al. 2020
+Gruta da Figueira Brava,AREA C Layer 2,Patella vulgata,C14,OxA-19981,40380,340,"almost complete, broken in 3 pieces, hole on the top",Zilhão et al. 2020
+Gruta da Figueira Brava,AREA C Layer 2,Patella vulgata,C14,OxA-19982,44900,500,"almost complete, broken in 3 pieces, hole on the top",Zilhão et al. 2020
+Gruta da Figueira Brava,"AREA F spit A1, unit IT0",Patella vulgata,C14,OxA-24055,12880,45,"almost complete, minor edge break",Zilhão et al. 2020
+Gruta da Figueira Brava,"AREA F spit A1, unit IT0",Littorina obtusata,C14,OS-114170,7390,25,perforated,Zilhão et al. 2020
+Gruta da Figueira Brava,"ENTRANCE 3 unit MC2, 6.705 m asl",Patella sp.,,OxA-24051,44050,450,"complete, in rock-grade breccia",Zilhão et al. 2020
+Gruta da Figueira Brava,"ENTRANCE 3 unit MC2, 6.576 m asl",Patella vulgata,,OxA-24052,41890,360,"complete, in rock-grade breccia",Zilhão et al. 2020
+Gruta da Figueira Brava,"ENTRANCE 3 unit MC2, 5.914 m asl",Glycymeris sp.,,OxA-24053,23120,90,"small ventral margin fragment, in rock-grade breccia",Zilhão et al. 2020
+Gruta da Figueira Brava,"ENTRANCE 3 unit MC2, 5.784 m asl",Glycymeris sp.,,OxA-24054,36530,230,"large valve fragment, in rock-grade breccia",Zilhão et al. 2020
+Gruta da Figueira Brava,"ENTRANCE 3 unit MC2, 5.784 m asl",Mytilus sp.,,OxA-X-2446-7,32250,180,"small valve fragment, in rock-grade breccia",Zilhão et al. 2020
+Gruta da Figueira Brava,"ENTRANCE 3 unit MC3, 5.464 m asl",Patella sp.,,OxA-24050,36420,230,"broken, in rock-grade breccia",Zilhão et al. 2020
+Gruta da Figueira Brava,"ENTRANCE 3 unit LC1, 4.918 m asl",Mytilus sp.,,OxA-X-2442-10,13720,50,"valve fragments, in rock-grade breccia",Zilhão et al. 2020
 Gruta da Oliveira,8,Olea sp.,AMS,GrA-29384,6055,45,Intrusive (from a burrow),Angelucci e Zilhão 2009
-Gruta da Oliveira,8,Osso queimado,AMS,GrA-10200,35760,280,Alcaline fraction,Angelucci e Zilhão 2009
-Gruta da Oliveira,8,Osso queimado,AMS,OxA-8671,37100,830,,Angelucci e Zilhão 2009
-Gruta da Oliveira,9,Osso queimado,AMS,GrA-9760,42610,390,Alacaline fraction,Angelucci e Zilhão 2009
-Gruta da Oliveira,9,Osso queimado,AMS,Beta-111967,44080,990,,Angelucci e Zilhão 2009
-Gruta da Oliveira,11,Osso queimado,AMS,OxA-8672,46070,1330,,Angelucci e Zilhão 2009
-Gruta da Oliveira,11,Osso queimado,AMS,OxA-9379,>25850,550,Low collagen,Angelucci e Zilhão 2009
+Gruta da Oliveira,8,Burnt bone,AMS,GrA-10200,35760,280,Alcaline fraction,Angelucci e Zilhão 2009
+Gruta da Oliveira,8,Burnt bone,AMS,OxA-8671,37100,830,,Angelucci e Zilhão 2009
+Gruta da Oliveira,9,Burnt bone,AMS,GrA-9760,42610,390,Alacaline fraction,Angelucci e Zilhão 2009
+Gruta da Oliveira,9,Burnt bone,AMS,Beta-111967,44080,990,,Angelucci e Zilhão 2009
+Gruta da Oliveira,11,Burnt bone,AMS,OxA-8672,46070,1330,,Angelucci e Zilhão 2009
+Gruta da Oliveira,11,Burnt bone,AMS,OxA-9379,>25850,550,Low collagen,Angelucci e Zilhão 2009
 Gruta da Oliveira,12,Pinus sp.,AMS,GrA-24408,26940,1.08,Minimum age,Angelucci e Zilhão 2009
 Gruta da Oliveira,13,Erica sp.,AMS,GrA-24410,43310,490,,Angelucci e Zilhão 2009
 Gruta da Oliveira,14,Pinus sylvestris,AMS,GrA-22024,46350,2050,,Angelucci e Zilhão 2009
 Gruta da Oliveira,14,Pinus sylvestris,AMS,OxA-13137,27850,550,Minimum age,Angelucci e Zilhão 2009
 Gruta da Oliveira,14,Pinus sylvestris,AMS,Beta-183537,44380,960,,Angelucci e Zilhão 2009
 Gruta da Oliveira,15,Pinus sylvestris,AMS,GrA-24407,42160,340,,Angelucci e Zilhão 2009
-Gruta da Oliveira,18,Osso queimado,AMS,GrA-29385,41960,330,,Angelucci e Zilhão 2009
+Gruta da Oliveira,18,Burnt bone,AMS,GrA-29385,41960,330,,Angelucci e Zilhão 2009
 Gruta da Oliveira,Cone Moustierense,Equus sp. (dente),U-Th,SMU-247E1,70250,9000,,Angelucci e Zilhão 2009
-Gruta da Oliveira,Cone Moustierense,Equus sp. (dente),U-Th,SMU-308-247E2,53000,+5600/-5300,Second measurement of SMU-247,Angelucci e Zilhão 2009
-Almonda,EVS Cone,Equus (dente),U-Th,SMU-231E1,35000,2000,Low ratio of 230Th/232Th,"Zilhão, et al. 1993"
-Almonda,ES2 Nível 4,Equus (dente),U-Th,307-260E1,131000,"+32000/-25,000",,Zilhão e McKinney 1995
-Almonda,"EVS, Cone",Equus (dente),,231  E1 ,35000,2000,,Zilhão e McKinney 1995
-Almonda,"EVS, caos de blocos",Equus (dente),,228 E1 ,136000,8000,,Zilhão e McKinney 1995
-Almonda,"EVS, Praia dos Bifaces",Equus (dente),,230 E1,170000,13000,,Zilhão e McKinney 1995
-Pêgo do Diabo,3,Cologénio de osso,C14,ICEN-491,21973,689,Impure collagen,Zilhão 2000
-Pêgo do Diabo,2 e 3,Osso,AMS,OxA-15499,34900,1000,,Zilhão et al. 2010
+Gruta da Oliveira,Cone Moustierense,Equus sp. (dente),U-Th,SMU-308-247E2,53000,-1.056603774,Second measurement of SMU-247,Angelucci e Zilhão 2009
+Gruta do Caldeirão,K topo (J6),Cervus,AMS,OxA-5541,21255,159,"Low collagen (0,32%N;366C;0,53%H)",Zilhão 1993
+Gruta do Caldeirão,K base (k5),Capra,AMS,OxA-5521,26069,293,"0,32%N;2,39C",Zilhão 2000
+Gruta do Caldeirão,K topo,Cervus,AMS,OxA-1941,31358,633,,Zilhão 1993
+Gruta do Escoural,Sondagem 3a (90-100 cm),Bos (tooth),U-Th,SMU- 248,26400,-1.1,Low uranium content,Zilhão 2000
+Gruta do Escoural,Sondagem 3a (80-90 cm),Cervus (dente),U-Th,SMU-249,39800,-1.111111111,"Low urium content (3,4%)",Zilhão 2000
+Gruta do Escoural,Sondagem 3a (60-70 cm),Equus (dente),U-Th,SMU-250,48900,-1.054545455,,Zilhão 2000
+Gruta Nova da Columbeira,7 (=16),Carbonated hearth,C14,Gif-2703,26400,700,,Zilhão 2000
+Gruta Nova da Columbeira,7,Tooth,U-Th,SMU-235E1,35876,-0.767192199,,Zilhão 2000
+Gruta Nova da Columbeira,7,Tooth,U-Th,SMU-238E1,54365,-0.807992734,,Zilhão 2000
+Gruta Nova da Columbeira,8(=20),Carbonated hearth,C14,Gif-2704,28900,950,,Zilhão 2000
+Gruta Nova da Columbeira,8,Tooth,U-Th,SMU-236E1,60927,-0.771493722,,Zilhão 2000
+Gruta Nova da Columbeira,8,Tooth,U-Th,SMU-236E1,101487,-0.686814857,,Zilhão 2000
+Lapa dos Furos,4,Helix nemoralis,C14,ICEN-473,38697,1518,Below the archaeological level,"Straus, et al. 1993"
+Lapa dos Furos,4,Breccia [Helix sp],C14,ICEN-472,34030,1267,Sterile (pre-Mousterian),"Straus, et al. 1993"
+Mira Nascente,MN2,Sediment,OSL,UIC-1875,36035,2750,,Benedetti et al. 2009
+Mira Nascente,MN2,Sediment,OSL,UIC-1863,33905,2690,,Benedetti et al. 2009
+Mira Nascente,MN3b,Sediment,OSL,UCI-1864,40450,2980,,Benedetti et al. 2009
+Mira Nascente,MN3c,Sediment,OSL,UCI-1923,34300,2630,,Benedetti et al. 2009
+Mira Nascente,MN4,Sediment,OSL,UIC-1868,>110050,8460,,Benedetti et al. 2009
+Mira Nascente,MN5,Sediment,OSL,UIC-2065,150920,12575,,Benedetti et al. 2009
+Mira Nascente,MN3a,Charcoal,AMS,Beta-234375,42175,461,,Benedetti et al. 2009
+Mira Nascente,MN3a,Soil organic matter,AMS,Beta-208223,20628,292,,Benedetti et al. 2009
+Mira Nascente,MN3b,Charred stump,,Beta-208224,26110,499,,Benedetti et al. 2009
+Mira Nascente,MN3c,charcoal,,Beta-234376,47717,311,,Benedetti et al. 2009
+Mira Nascente,MN3C,charcoal,,Beta-208225,40744,1025,,Benedetti et al. 2009
+Pedreira de Salmeas,1,Bone,C14,ICEN-366,29890,"+1890+1,130/-130130-980",Mixed level,"Straus, et al. 1993"
+Pêgo do Diabo,3,Bone,C14,ICEN-491,21973,689,Impure collagen,Zilhão 2000
+Pêgo do Diabo,2 e 3,Bone,AMS,OxA-15499,34900,1000,,Zilhão et al. 2010
 Pêgo do Diabo,2 e 3 ,(Equus sp.) dente,AMS,OxA-15004,38750,650,,Zilhão et al. 2010
-Gruta da Figueira Brava,AREA C 1025-9 (top),Speleothem,U-Th,UEVA-1737,24308,873,"Samples from the flowstone capping the Area C Pleistocene deposit, for which FB1025-1 provides a minimum age of 51.6 ka",Zilhão et al. 2020
-Gruta da Figueira Brava,AREA C 1025-1 (base),Speleothem,U-Th,UEVA-1731,52194,618,"Samples from the flowstone capping the Area C Pleistocene deposit, for which FB1025-1 provides a minimum age of 51.6 ka",Zilhão et al. 2020
-Gruta da Figueira Brava,AREA C 1107-1 (top),Speleothem,U-Th,,,,,
+Praia Rei Cortiço,PC2b,Sediment,OSL,UIC-2399,15060,980,,Benedetti et al. 2009
+Praia Rei Cortiço,PC4,Sediment,OSL,UIC-2398,101010,7870,,Benedetti et al. 2009
+Praia Rei Cortiço,PC2a,,,Beta-234368,4448,56,,Benedetti et al. 2009
+Praia Rei Cortiço,PC5b,charcoal,,UGAMS-3254,50536,1854,,Benedetti et al. 2009
+Praia Rei Cortiço,PC5c,charcoal,,UGAMS-3255,>49600,NA,,Benedetti et al. 2009
+Praia Rei Cortiço,PC5c,charcoal,,UGAMS-3912,53781,2055,,Benedetti et al. 2009
+Praia Rei Cortiço,PC5c,charcoal,,UGAMS-3913,>49600,NA,,Benedetti et al. 2009
+Salemas [gruta],Nível inferior,Bone,C14,ICEN-361,30696,1142,,Raposo 1995
+Salemas [gruta],Nível inferior,Bone,C14,ICEN-371,>29200,NA,,Raposo 1995
+Salemas [gruta],Nível inferior [1],Bone,C14,ICEN-366,33632,1180,,Raposo 1995
+Salemas[algar],T.V.b,Bone,C14,ICEN-379,28118,924,,Zilhão 2000
+Salemas[algar],T.V.b,Bone,C14,ICEN-384,24090,533,,Zilhão 2000
+Salemas[algar],T.V.b,Bone,C14,ICEN-383,27457,1127,,Zilhão 2000
+Salemas[algar],T.V.b,Bone,C14,ICEN-384[!],28118,924,,Zilhão 2000
+Santo Antão do Tojal,2,Elephas (osso),U-Th,SMU-305,81900,-1.052631579,,Raposo 1995
+Vale do Forno 8,VF01,Sediment,TL,,127000,#NAME?,,Mozzi et al. 2000
+Vale do Forno 8,VF02,Sediment,TL,,119000,#NAME?,,Mozzi et al. 2000
+Vale do Forno 8,VF05,Sediment,TL,,117000,#NAME?,,Mozzi et al. 2000
+Vale do Forno 8,VF06,Sediment,TL,,>124000,NA,,Mozzi et al. 2000
+Vilas Ruivas,B,Sediment,TL,BM-VRU1,51000,-0.108333333,Average of two results,Raposo 1995
+Vilas Ruivas,,,,,54000,-1.090909091,,Raposo 1995
+Vilas Ruivas,B,Sediment,TL,BM-VRU2,68000,-1.346153846,,Raposo 1995
+Salto do Boi,GFU5,Sediment,OSL,172219,80300,3600,,
+Salto do Boi,GFU5,Sediment,OSL,172206,51000,2400,,
+Salto do Boi,GFU5,Sediment,OSL,172207,49900,2700,,
+Salto do Boi,GFU5,Sediment,OSL,172208,43900,2100,,
+Salto do Boi,GFU5,Sediment,OSL,172209,42900,1900,,
