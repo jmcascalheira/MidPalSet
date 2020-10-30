@@ -50,6 +50,7 @@ library(rela)
 library(psych)
 library(factoextra)
 library(FactoMineR)
+library(tab)
 
 ```
 
@@ -108,11 +109,6 @@ caves <- readOGR(dsn="../data/raw_data/spatial_data/shapefiles", layer="caves")
 sites_sub <- sites_short[sites_short$Type == "Cave" | sites_short$Type == "Open air",]
 sites_sub$Type <- factor(sites_sub$Type)
 
-#Convert coordinates to longlat WGS84
-sites_sub_long <- spTransform(sites_sub, "+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
-
-caves_long <- spTransform(caves, "+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
-
 ```
 
 
@@ -132,7 +128,7 @@ terrainstack <- stack(areaDEM_cut,
 
 # Extract mean values from stack for each site and all caves within a 20 m radius
 sites_vals <- raster::extract(terrainstack,
-                      sites_sub_long,
+                      sites_sub,
                       buffer = 20,
                       fun = mean,
                       sp = TRUE)
@@ -180,7 +176,7 @@ rasterVis::levelplot(areaDEM,
                        text = list(
                          c("Cave","Open-air"),
                          cex=1))) +
-  spplot(sites_sub_long, # add a layer of points
+  spplot(sites_sub, # add a layer of points
          zcol = "Type",
          cex = 2,
          pch = c(18,20),
@@ -841,12 +837,17 @@ The distribution of sites within the PC1 and PC2 is presented in Figure \@ref(fi
 
 # Plot Results
 
-pca_data_active2 <- dplyr::select(pca_data, Elevation,
-                                 Slope, Aspect, Distance, Latitude)
+pca_data_active2 <- pca_data %>%  
+  drop_na() %>% 
+  dplyr::select(Elevation, Slope, Aspect, Distance, Latitude)
 
-res.pca <- PCA(pca_data_active2, scale = TRUE, graph = F, quanti.sup = c(5))
+res.pca <- PCA(pca_data_active2, scale = TRUE, graph = F, quanti.sup = 5)
 
-groups <- as.factor(pca_data$Dmn_R_M)
+groups <- pca_data %>% 
+  dplyr::select(Dmn_R_M) %>% 
+  drop_na()
+groups <- as.factor(groups$Dmn_R_M)
+  
 groups_2 <- as.factor(pca_data$Type)
 
 fviz_pca_biplot(res.pca,
