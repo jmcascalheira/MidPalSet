@@ -10,7 +10,7 @@ output:
       fig_caption: yes
       reference_docx: "../templates/template.docx" # Insert path for the DOCX file
 bibliography: references.bib
-csl: "../templates/journal-of-archaeological-science.csl" # Insert path for the bib-style
+csl: "../templates/elsevier-harvard.csl" # Insert path for the bib-style
 abstract: |
   Text of abstract
 keywords: |
@@ -20,7 +20,7 @@ keywords: |
 
 <!-- This is the format for text comments that will be ignored during renderings. Do not put R code in these comments because it will not be ignored. -->
 
-```{r, setup, eval = FALSE, echo = FALSE}
+```{r, setup, eval = FALSE, echo = FALSE, warning = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
@@ -71,29 +71,24 @@ library(tab)
 #  osf_download(path = "../data/raw_data")
 
 #Import geo tiffs
-areaDEM <- raster("../data/raw_data/areaDEM.tif")
+areaDEM <- raster("../data/raw_data/areaDEM_2.tif")
 areaDEM_cut <- raster("../data/raw_data/areaDEM_cut.tif")
-areaSLOPE_cut <- raster("../data/raw_data/areaSLOPE_cut.tif")
 areaASPECT_cut <- raster("../data/raw_data/areaASPECT_cut.tif")
+areaSLOPE_cut <- raster("../data/raw_data/areaSLOPE_cut.tif")
 areaDIST_cut <- raster("../data/raw_data/areaDIST_cut2.tif")
 
-
-# Convert coordinates to longlat WGS84
-areaDEM <- projectRaster(areaDEM, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
-areaDEM_cut <- projectRaster(areaDEM_cut, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
-areaSLOPE_cut <- projectRaster(areaSLOPE_cut, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
-areaASPECT_cut <- projectRaster(areaASPECT_cut, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
-areaDIST_cut <- projectRaster(areaDIST_cut, crs="+proj=longlat +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0")
+# Calculate SLOPE and ASPECT
+areaASPECT_cut <- resample(areaASPECT_cut, areaDEM_cut, method = "bilinear")
+areaSLOPE_cut <- resample(areaSLOPE_cut, areaDEM_cut, method = "bilinear")
 
 
 #Import sites and convert to shapefile
-sites <- read.csv("../data/raw_data/sites_short_list.csv", header=TRUE)
+#sites <- read.csv("../data/raw_data/sites_short_list.csv", header=TRUE)
 #caves <- read.csv("../data/raw_data/all_caves.csv", header=TRUE)
 
-#Convert to shapefile
-coordinates(sites)<-~Longitude+Latitude
-proj4string(sites) = CRS("+init=epsg:4326")
-writeOGR(sites, "../data/raw_data/spatial_data/shapefiles","sites_short", "ESRI Shapefile")
+#coordinates(sites)<-~Longitude+Latitude
+#proj4string(sites) = CRS("+init=epsg:4326")
+#writeOGR(sites, "../data/raw_data/spatial_data/shapefiles","sites_short", "ESRI Shapefile")
 
 #coordinates(caves)<-~Longitude+Latitude
 #proj4string(caves) = CRS("+init=epsg:4326")
@@ -115,15 +110,12 @@ sites_sub$Type <- factor(sites_sub$Type)
 
 ```{r extract-spatial-variables, eval = FALSE, echo = FALSE}
 
-# Extract variables
 
-# Resample Distance raster
-areaDIST_cut <- resample(areaDIST_cut,areaDEM_cut, resample='bilinear')
 
 # Stack maps
 terrainstack <- stack(areaDEM_cut,
-                      areaSLOPE_cut,
                       areaASPECT_cut,
+                      areaSLOPE_cut,
                       areaDIST_cut)
 
 # Extract mean values from stack for each site and all caves within a 20 m radius
@@ -134,7 +126,7 @@ sites_vals <- raster::extract(terrainstack,
                       sp = TRUE)
 
 caves_vals <- raster::extract(terrainstack,
-                              caves_long,
+                              caves,
                               buffer = 20,
                               fun = mean,
                               sp = TRUE)
@@ -270,7 +262,7 @@ Figure XXX presents the distribution of the 54 sites included in our short sampl
 
 general_table <- as.data.frame(tabmulti(data = as.data.frame(sites_vals), xvarname = "Type",
               yvarnames = c("areaDEM_cut", "areaSLOPE_cut", "areaASPECT_cut", "areaDIST_cut2"),
-              ymeasures = c("median", "median", "median", "median"), , n.headings = TRUE,
+              ymeasures = c("median", "median", "median", "median"), n.headings = TRUE,
               yvarlabels = list(areaDEM_cut = "Elevation", areaSLOPE_cut = "Slope", areaASPECT_cut = "Aspect", areaDIST_cut2 = "Distance")))
 
 knitr::kable(general_table, caption = "Median and Interquartile Range (IQR) for all considered variables and site type. P-value is based on a Mann-Whitney U test.")
@@ -833,22 +825,45 @@ The distribution of sites within the PC1 and PC2 is presented in Figure \@ref(fi
 
 
 
-```{r pca-plot, eval = FALSE, echo = FALSE}
+```{r pca-table, eval = FALSE, echo = FALSE}
 
 # Plot Results
 
-pca_data_active2 <- pca_data %>%  
-  drop_na() %>% 
+pca_data_active2 <- pca_data %>% 
   dplyr::select(Elevation, Slope, Aspect, Distance, Latitude)
 
 res.pca <- PCA(pca_data_active2, scale = TRUE, graph = F, quanti.sup = 5)
 
+
+corr_table <- dimdesc(res.pca, axes=c(1,2))
+
+dim_1 <- as.data.frame(corr_table$Dim.1$quanti)
+
+dim_1 <- dim_1 %>% 
+  rownames_to_column("Variable") %>% 
+  mutate(PC = c("PC1", "", "", "", "")) %>% 
+  dplyr::select(PC, Variable, correlation, p.value)
+
+dim_2 <- as.data.frame(corr_table$Dim.2$quanti)
+
+dim_2 <- dim_2 %>% 
+  rownames_to_column("Variable") %>% 
+  mutate(PC = c("PC2", "")) %>% 
+  dplyr::select(PC, Variable, correlation, p.value)
+
+pca_table <- rbind(dim_1, dim_2)
+
+
+knitr::kable(pca_table, caption = "Correlation coefficients between variables and the first two Principal Components, and corresponding significance test result.")
+
+
+```
+
+```{r pca-plot, eval = FALSE, echo = FALSE}
+
 groups <- pca_data %>% 
-  dplyr::select(Dmn_R_M) %>% 
-  drop_na()
+  dplyr::select(Dmn_R_M)
 groups <- as.factor(groups$Dmn_R_M)
-  
-groups_2 <- as.factor(pca_data$Type)
 
 fviz_pca_biplot(res.pca,
                 col.ind = groups,
@@ -861,14 +876,25 @@ fviz_pca_biplot(res.pca,
                 theme(text = element_text(size=15), plot.title = element_text(lineheight=.8, face="bold"),                       plot.margin=unit(c(1,1,1,1),"cm")) +
   theme_cowplot()
 
-corr_table <- dimdesc(res.pca, axes=c(1,2))
 
-dim_1 <- as.data.frame(corr_table$Dim.1$quanti)
-round(dim_1, 3)
+```
 
-dim_2 <- as.data.frame(corr_table$Dim.2$quanti)
-round(dim_2, 3)
 
+groups <- pca_data %>% 
+  dplyr::select(Dmn_R_M) %>% 
+  drop_na()
+groups <- as.factor(groups$Dmn_R_M)
+
+fviz_pca_biplot(res.pca,
+                col.ind = groups,
+                addEllipses = TRUE,
+                ellipse.type = "confidence",
+                legend.title = "Raw Material",
+                repel = TRUE,
+                label = "var",
+                pointsize = 3) +
+                theme(text = element_text(size=15), plot.title = element_text(lineheight=.8, face="bold"),                       plot.margin=unit(c(1,1,1,1),"cm")) +
+  theme_cowplot()
 
 ```
 
