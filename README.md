@@ -1,15 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# The spatial patterning of Middle Paleolithic human settlement in Western Iberia
+# The spatial patterning of Middle Paleolithic human settlement in westernmost Iberia
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh///master?urlpath=rstudio)
 
 This repository contains the data and code for our paper:
 
 > Cascalheira, J., Gonçalves, C. and Maio D. (2020). *The spatial
-> patterning of Middle Paleolithic human settlement in Western Iberia*.
-> Quaternary International
+> patterning of Middle Paleolithic human settlement in westernmost
+> Iberia*. Quaternary International
 > <https://doi.org/10.1016/j.quaint.2020.08.027>
 
 ### How to cite
@@ -18,7 +18,7 @@ Please cite this compendium as:
 
 > Cascalheira, J., Gonçalves, C. and Maio D., (2020). *Compendium of R
 > code and data for The spatial patterning of Middle Paleolithic human
-> settlement in Western Iberia*. Accessed 04 Nov 2020. Online at
+> settlement in westernmost Iberia*. Accessed 04 Nov 2020. Online at
 > <https://doi.org/10.17605/OSF.IO/456EG>
 
 ## Contents

@@ -11,11 +11,11 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 # Please put your title here to include it in the file below.
-Title <- "The spatial patterning of Middle Paleolithic human settlement in Western Iberia"
+Title <- "The spatial patterning of Middle Paleolithic human settlement in westernmost Iberia"
 
 ```
 
-# The spatial patterning of Middle Paleolithic human settlement in Western Iberia
+# The spatial patterning of Middle Paleolithic human settlement in westernmost Iberia
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh///master?urlpath=rstudio)
 
