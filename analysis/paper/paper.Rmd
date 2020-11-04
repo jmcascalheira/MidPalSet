@@ -1,5 +1,5 @@
 ---
-title: "Assessing the spatial patterning of Middle Paleolithic human settlement in Western Iberia"
+title: "The spatial patterning of Middle Paleolithic human settlement in Western Iberia"
 author:
   - João Cascalheira
   - Célia Gonçalves
@@ -12,20 +12,23 @@ output:
 bibliography: references.bib
 csl: "../templates/elsevier-harvard.csl" # Insert path for the bib-style
 abstract: |
-  Text of abstract
+  Currently available data on the Pleistocene human occupation of the westernmost territories of Iberia attests the presence of Middle Paleolithic industries from c. 240 ka cal BP until c. 37 ka cal BP. Previous studies focusing on this timeframe have suggested that Middle Paleolithic populations were highly mobile and predominately utilized locally available raw materials, with many of cave and open-air sites being located near fluvial settings. Other than these observations, no specific studies have focused on exploring the factors influencing human site location choice during that time range. Employing statistical and GIS approaches, this paper provides an initial assessment of spatial patterning in human settlement during the Middle Paleolithic of westernmost Iberia. Results show that sites’ location are biased towards lower elevations and riverine settings and suggest that distance to rivers might have had an impact on the diversity and specific types of lithic raw materials used at each site. These results help to shed light on the particularities of Neanderthal adaptations in a region regarded as refugium during periods of unfavorable climate during the Middle Paleolithic.
 keywords: |
-  Middle Paleolithic; Settlement patterns; GIS; Western Iberia
+  GIS; Settlement patterns; Middle Paleolithic; Western Iberia; Portugal
 ---
 
 
 <!-- This is the format for text comments that will be ignored during renderings. Do not put R code in these comments because it will not be ignored. -->
 
-```{r, setup, eval = FALSE, echo = FALSE, warning = FALSE}
+```{r, setup, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
   echo = FALSE,
+  dpi = 900,
+  fig.width = 9,
+  fig.height = 6,
   comment = "#>",
   fig.path = "../figures/"
 )
@@ -55,7 +58,7 @@ library(tab)
 ```
 
 
-```{r load-spatial-data, eval = FALSE, echo = FALSE}
+```{r load-spatial-data, echo = FALSE}
 
 #Download geo tiffs from OSF repositorium when running this document for the first time
 
@@ -77,9 +80,10 @@ areaASPECT_cut <- raster("../data/raw_data/areaASPECT_cut.tif")
 areaSLOPE_cut <- raster("../data/raw_data/areaSLOPE_cut.tif")
 areaDIST_cut <- raster("../data/raw_data/areaDIST_cut2.tif")
 
-# Calculate SLOPE and ASPECT
+# Resample non-DEM layers
 areaASPECT_cut <- resample(areaASPECT_cut, areaDEM_cut, method = "bilinear")
 areaSLOPE_cut <- resample(areaSLOPE_cut, areaDEM_cut, method = "bilinear")
+areaDIST_cut <- resample(areaDIST_cut, areaDEM_cut, method = "bilinear")
 
 
 #Import sites and convert to shapefile
@@ -108,14 +112,14 @@ sites_sub$Type <- factor(sites_sub$Type)
 
 
 
-```{r extract-spatial-variables, eval = FALSE, echo = FALSE}
+```{r extract-spatial-variables, echo = FALSE}
 
 
 
 # Stack maps
 terrainstack <- stack(areaDEM_cut,
-                      areaASPECT_cut,
-                      areaSLOPE_cut,
+                     areaSLOPE_cut,
+                     areaASPECT_cut,
                       areaDIST_cut)
 
 # Extract mean values from stack for each site and all caves within a 20 m radius
@@ -142,11 +146,53 @@ all_caves <- as.data.frame(caves_vals)
 
 # Introduction
 
+Iberia is often thought as one of the best examples of how Neanderthal final chapters have unfold differently across Europe. Several studies suggest that Neanderthals survived in southwestern Iberia until 37 ka cal BP, if not later, maintaining typical Mousterian technologies and no evidence for transitional industries (Finlayson et al., 2006; Zilhão et al., 2017). In this context, according to the Ebro Frontier model, southern Iberia served as a Neanderthal refugium for several thousand years after the initial arrival of AMH north of the Ebro c. 42 ka cal BP (Zilhão, 2009, 2000). However, most of the dates for late Neanderthal occupations in southern Iberia have been questioned due to possible underestimations (Higham et al., 2014; Wood et al., 2013). In the case of Portugal, for example, a number of key sites yielded absolute dating results for Middle Paleolithic occupations under 40 ka cal BP, including Gruta da Figueira Brava (Antunes and Cardoso, 2000), Gruta Nova da Columbeira (Cardoso et al., 2002), Foz do Enxarrique (Raposo et al., 1985) and Gruta da Oliveira (Angelucci and Zilhão, 2009; Marks et al., 2001). The first three of these sites have been recently reassessed, with the new results indicating either considerable underestimations of the original dates or a lack of solid evidence for the association of dates and stratigraphy (see Cunha et al., 2019; Zilhão et al., 2020, 2011). Thus, the radiocarbon dates for Level 8 of Gruta da Oliveira are currently the only piece of evidence for a late survival of Neanderthals in the region.
+
+The separation proposed by the Ebro model is also not compatible with recent evidence for the presence of Anatomically Modern Humans (AMH) in southern Iberia at c. 44 ka cal BP (Cortés-Sánchez et al., 2019) and in Central Portugal at c. 40 ka cal BP (Haws et al., 2018). Moreover, some authors suggest that a chain reaction of habitat fragmentation, diminished social networks and low fertility rates were the triggers for Neanderthal demise in Iberia (Dalén et al., 2012; Melchionna, 2018), possibly resulting in independent disappearance of regional groups well before the arrival of AMH (Galván et al., 2014).
+
+A consensus exists that currently available archaeological data south of the Ebro is fragile, and that the Middle Paleolithic record along these territories is largely unknown. In fact, most of current efforts in Mousterian research, both in southern Spain and Portugal, have been privileging the transition to the Upper Paleolithic, leaving an important gap in the knowledge of the long historical trajectory of Neanderthal adaptations (de la Torre et al., 2013).
+
+In the case of Portugal, this is aggravated by the fact that very few excavations were carried out using modern archaeological methods, and sequences with good organic preservation, that can provide diachronic comprehensive approaches to the Middle Paleolithic archaeological and paleoecological records, are particularly rare (Cardoso, 2006).
+Still, over the past few years, the potential of the Middle Paleolithic archaeological record in the westernmost regions of Iberia has been proved very promising. On the one hand, the re-investigation of previously known sites has exposed new exceptional data, from the systematic exploitation of aquatic resources and the stone pine economy at Gruta da Figueira Brava during the Marine Isotope Stage (MIS) 5 (Zilhão et al., 2020), to the confirmation of the importance of small size prey and slow-moving species to Neanderthals diet (Carvalho et al., 2018; Nabais and Zilhão, 2019). On the other hand, the discovery of new sites, such as Cobrinhos (Pereira et al., 2019), Praia do Rei Cortiço, Mira Nascente (Haws et al., 2011, 2010), or Gruta da Companheira, and the excavation of novel stratigraphical units in previously known sites such as Lapa do Picareiro (Benedetti et al., 2019) and Cardina-Salto do Boi (Aubry et al., 2020), have allowed to expand the chrono-cultural evidence of the Neanderthal presence in the region.
+
+However, the discovery of many of the new Middle Paleolithic sites in Portugal has been mostly fortuitous. With exception of some survey projects in the central and southern parts of the country (Bicho, 2004; Burke et al., 2011; Haws et al., 2020), very few projects have developed a landscape approach, with a clear focus on settlement patterns and the potential that this type of data might have for the location of new sites, or in explaining different bias in the biogeographic and paleoecological characterization of Neanderthal adaptations. 
+In this paper we present a first quantitative assessment of the distribution and spatial patterning of Middle Paleolithic sites in westernmost Iberia, making use of GIS and statistical approaches. The main goals of this work are: (1) to test whether the location of Middle Paleolithic sites appear to be randomly distributed or spatially biased in what relates to specific geographic and landscape features; (2) try to discern if any, and which, of these features seem to have been more important for site location; (3) and finally, explore any possible association between location features and certain aspects of the material culture.
+
+
+
+# Regional setting
+
+The territory considered for this study is a rectangular strip with a maximum North-South length of c. 560 km and a maximum East-West width of c. 220 km, corresponding with the current political borders of Portugal. Altitudes range from 0 meters above current sea level (a.c.s.l.) to 1993 meters a.c.s.l. in the mountain peak of Serra da Estrela to the northeast.
+From north to south, the primary rivers are the Minho, Douro, Mondego, Tagus, Sado and Guadiana. Most of these rivers flow from east to west disgorging in the Atlantic Ocean, with exception of the Sado and Guadiana rivers, which flow in a northerly and southerly direction, respectively. The Portuguese coastline has c. 1794 km in length. To the north the landscape is mountainous in the interior areas with plateaus. The south features mostly rolling plains with a climate that is somewhat warmer and drier than the cooler and rainier north. 
+
+Three great structural geologic units can be distinguished (1) the Hesperic Massif, with crystalline metamorphic and igneous rocks, and Paleozoic formations; (2) the western and southern Meso-Cenozoic rims (3) and the Tagus and Sado Meso-Cenozoic basin (Ribeiro et al., 1979). Calcareous massifs, mostly composed of Jurassic limestones with significant karst development, can be found in five major mountain areas located close to the western and southern borders (Manuppella and Moreira, 1975). Traces of Pleistocene coastal landforms are known from many areas along the coast, even though most of the Pleistocene littoral areas have been destroyed or drowned due to sea level fluctuations (Haws et al., 2011). 
+
+Over 1200 archaeological locations attributed to the Paleolithic are identified within the Portuguese borders. Lower, Middle and Upper Paleolithic phases are represented. The earliest absolute date for the Paleolithic in this territory is the c. 400 ka hominin cranium and related Acheulean assemblage from the cave site of Aroeira (Central Portugal) (Daura et al., 2018, 2017).
 
 
 
 
-```{r general-map, eval = FALSE, echo = FALSE}
+# Materials and Methods
+
+# Archaeological sites
+A dataset comprising all Middle Paleolithic sites reported in Portugal was created using the Endovélico – Archaeological Management and Information System, curated by the Direção Geral do Património Cultural (DGPC) (http://arqueologia.patrimoniocultural.pt/). This initial dataset included all entries with associated geographic information, in a total of 274 locations. Most of these sites, however, are dubiously attributed to the Middle Paleolithic, since in most cases there is no associated dating, nor reporting of any clear evidence of distinctive Middle Paleolithic stone tools within the assemblages. These inconsistencies result from the fact that many of the reported locations are surface findings, attributed to the Middle Paleolithic based on the lithic materials’ rudimentary aspect.
+To avoid, as much as possible, the inclusion of erroneous information in the database we cross-checked the initial dataset with data from publications and reports, subdividing the sample into two other sub-samples: the first, represented by 55 sites, integrating all contexts for which we were able to confirm their chronological attribution to the Middle Paleolithic, either by absolute or relative chronology; the second, comprising 52 sites, composed of all the contexts for which we were able to collect lithic raw materials information. Sites were characterized as open-air or cave/rockshelter sites. The dominant raw material in each site, measured as the material representing more than 60% of all lithic artifacts in the assemblage, was also recorded. Although other information on the lithic assemblages was available, the number of articles with stone tool description is rather low, and data comparison is problematic due to the variety of nomenclatures and analytical perspectives employed (see de la Torre et al., 2013 for a discussion on this type of problems within the archaeology of the Middle Paleolithic in Iberia).
+Chronologically, the selected sites span a timeframe between c. 240 ka cal BP at Galeria Pesada (Marks et al., 2002a, 2002b, 1999) and c. 37 ka cal BP at Gruta da Oliveira (Angelucci and Zilhão, 2009; Marks et al., 1998).  A reliable chronological attribution was only possible for a rather small number of the selected sites (less than 25 %). In fact, despite the significant number of absolute dates coming from 21 locations (see Online Supplementary Materials), most of the available results are not reliable due to their large Standard Deviations, problematic stratigraphic conditions, or sample inadequacy. Additionally, a significant number of sites (e.g., Sapateiros 2, Porto Meirinho, Santa Cita, Estrada do Prado, Arneiro Cortiço), excavated in the context of salvage archaeology, have never been dated (Pereira et al., 2011). Naturally, the uncertainty in the chronological attribution of most of the sites does represents a major caveat of the analysis presented below (see section 3.3.).
+
+## GIS and statistical analysis
+
+The location of sites included in the short samples were checked and validated by visual inspection using satellite imagery in Google Earth. A series of raster layers with digital geographical information were exported from ArcGIS (v.10.6), including: (1) a 30X30-m pixel Digital Elevation Model (DEM), obtained from the Shuttle Radar Topography Mission (Farr et al., 2007); (2) Slope and Aspect maps, obtained from the DEM raster (see Burrough et al., 2015 for a definition and calculation details); and a (3) Euclidean distance raster using a 1:25.000-scale water courses vector layer as input source, and including all hydrological classes in the dataset.
+
+All raster layers and sites' database were imported into the R Statistical Environment. Spatial variables (Elevation, Slope, Aspect and Distance to rivers) were extracted from these raster layers using a series of functions within the Raster package (Hijmans and van Etten, 2012). Following previous works by Turrero et al. (2013) and Cascalheira and Bicho (2018), values were extracted calculating a 20 meter radius buffer around each site location and then averaging the values of each spatial variable within those buffers.
+
+To analyze individual variables two approaches were undertaken, separating open-air sites and caves. This division is based on the fact that while open-air sites can presumably be located in any point across the landscape, the same is not true for cave sites, since their location is limited in terms of lithological background.
+
+Thus, for open-air sites, following standard spatial pattern analysis approaches, comparisons were made between site variable distributions and random samples variable distributions. Here, we adopted the approach used by Bocinsky (2017) based on calculating the probability density estimate for sites, the estimation of a probability density curve for all cells composing the landscape using Monte Carlo resampling, and finally comparing the two distributions using a Mann-Whitney U test. For random locations, the probability densities for 1000 random samples were extracted from each raster layer. Each sample was of the same number of locations as open-air archaeological sites (i.e. n = 37). A 95% confidence interval for the sampled data using quantiles was calculated and plotted together with the kernel density curves. The same resampling method was used to generate confidence intervals for the Mann-Whitney U test statistic.
+
+Random points extraction was limited to the territories south of the Douro river valley because our database did not include any archaeological sites situated to the north of that river (Figure 1).
+
+
+```{r general-map, echo = FALSE}
 
 rasterVis::levelplot(areaDEM,
                      margin = list(x = FALSE,
@@ -177,44 +223,13 @@ rasterVis::levelplot(areaDEM,
 ```
 
 
-```{r chrono-table, eval = FALSE, echo = FALSE}
-
-chrono <- read_csv("../data/raw_data/chronology.csv")
-
-knitr::kable(chrono, caption = "Absolutes dates for the Middle Paleolithic in westernmost Europe.")
-
-
-```
-
-
-# Methods
-
-## Site selection
-
-A dataset comprising all Middle Paleolithic sites reported in Portugal was created using the Endovélico – Archaeological Management and Information System, curated by the Direção Geral do Património Cultural (DGPC) (http://arqueologia.patrimoniocultural.pt/). This initial dataset included all entries with associated geographic information, in a total of 274 locations. Most of these sites, however, are dubiously attributed to the Middle Paleolithic, since in most cases there is no associated dating, nor reporting of any clear evidence of distinctive Middle Paleolithic stone tools within the assemblages. These inconsistencies are a result of the fact that many of the reported locations are surface findings, attributed to the Middle Paleolithic based on the rudimentary aspect of the lithic materials. 
-
-To avoid, as much as possible, the inclusion of erroneous information in the database we adopted the filtering scheme presented in Figure XXX. Thus, using the initial list we cross-check information with data from publications and reports, subdividing the sample into two other sub-samples: the first, represented by 54 sites, integrating all contexts for which we were able to confirm their chronological attribution to the Middle Paleolithic, either by absolute or relative chronology; the second, comprising 46 sites, composed of all the contexts for which we were able to collect lithic raw materials information. Sites were characterized as open-air or cave/rockshelter sites, and the dominant raw material in each site, measured as the material representing more than 60% of all lithic artifacts in the assemblage, was recorded.
-
-
-## GIS and statistical analysis
-
-The location of sites included in the short samples were checked and validated by visual inspection using satellite imagery in Google Earth. A series of raster layers with digital geographical information were exported from ArcGIS (v.10.6), including: a 30X30-m pixel Digital Elevation Model (DEM), obtained from the Shuttle Radar Topography Mission (Farr et al., 2007); Slope and Aspect maps were obtained from the DEM raster (see Burrough et al., 2015 for the definition and calculation details), and a euclidean distance raster using a 1:25.000-scale water courses vector layer as input source, including all hydrological classes in the dataset.
-
-All raster layers and sites' database were imported into the R Statistical Environment. Spatial variables (Elevation, Slope, Aspect and Distance to rivers) were extracted from these rasters using a series of functions within the Raster package. Following previous works by XXX, values were extracted calculating a 20 meters radius buffer around each site location and then averaging the values of each spatial variable within those buffers.
-
-To analyze individual variables two approaches were undertaken separating open-air sites and caves. This separation is based on the fact that while open-air sites can presumably be located in any point across the landscape, the same is not true for cave sites, since their location is limited in terms of lithological background.
-
-Thus, for open-air sites, following standard approaches in spatial pattern analysis, comparisons were made between site variable distributions and random samples variable distributions. Here, we adopted the approach used by Bocinsky (XXX) based on the calculation of the probability density estimate for sites, the estimation of a probability density curve for all cells composing the landscape using Monte Carlo resampling, and finally comparing the two distributions using a Mann-Whitney U test. For random locations, the probability densities for 1000 random samples were extracted from each raster layer. Each sample was of the same number of locations as there are open-air archaeological sites (i.e. n = 36). Based on this, a 95% confidence interval for the sampled data using quantiles was calculated and plotted together with the kernel density curves. The same resampling method was used to generate confidence intervals for the Mann-Whitney U test statistic.
-
-Random points extraction was limited to the territories south of the Douro river valley because our database did not include any archaeological sites situated to the north of that river.
-
-For the caves sample, site locations were instead compared with a dataset comprising all caves with attested human occupations present in the Endovélico database (n = 114). Given the small sample size, statistical comparisons were accomplished without resampling, based on independent 2-group Mann-Whitney U Test.
+For the caves sample, site locations were compared with a dataset comprising all caves with attested human occupations present in the Endovélico database (n = 114). Given the small sample size, statistical comparisons were accomplished without resampling, based on independent 2-group Mann-Whitney U Test.
 
 A Principal Component Analysis (PCA) was also used to explore any latent patterns of association among the different spatial and archaeological variables. This step combined open-air and cave locations, using all four spatial variables (Elevation, Slope, Aspect and Distance to rivers) as active variables and the dominant raw material as grouping variable.
+Three key assumptions were checked before applying PCA to our dataset: (1) the Bartlett’s Test for Sphericity p-value result of 0.004, which rejected the null hypothesis that the intercorrelation matrix comes from a noncollinear population; (2) the Kaiser-Meyer-Olkin value of 0.415, approving sampling adequacy; (3) and the determinant of the correlation matrix, being positive at 0.685.
 
 
-
-```{r pca-eval, eval = FALSE, echo = FALSE}
+```{r pca-eval, echo = FALSE}
 
 pca_data <- as.data.frame(sites_vals)
 
@@ -241,23 +256,22 @@ round(bartlettTest$p.value, 3)
 
 ```
 
+## Caveats
 
-Three key assumptions were checked before applying PCA to our dataset: (1) the Bartlett’s Test for Sphericity p-value result of `r round(bartlettTest$p.value, 3)` rejects the null hypothesis that the intercorrelation matrix comes from a noncollinear population; (2) the Kaiser-Meyer-Olkin (KMO) value of `r round(print(assumptions$KMO)`, 3) approves sampling adequacy; (3) and the determinant of the correlation matrix is positive at `r round(det(pca_Cor), 3)`.
-
+The nature and quality of the archaeological and locational data used for this study raises a series of  common caveats in spatial analysis of archaeological sites, particularly when gathering information to be used in predictive modelling (Kvamme, 2005; Verhagen, 2018). Although the ultimate goal of this first approach to Middle Paleolithic spatial patterning in Portugal is not related with prediction, we are aware that: (1) the chosen variables hardly comprise an exhaustive list of potential influencing elements for site location; (2) there is a danger of ecological fallacy by using broad categories of classification of these variables (Contreras, 2017); (3) issues such as landscape taphonomy were not considered. Regarding this latter point, while it is possible to argue that land topography is relatively stable over time (and thus elevation, slope and aspect would be very similar thousands of years ago), it is also true that in the case of rivers and their tributaries courses are altered sometimes in a rather short period of time. From an archaeological point of view is also noteworthy that the results presented below are incorporating data from sites that span for more than 200 thousand years and thus no functional analysis of variability in habitat location will be tried (for previous attempts to characterize settlement changes over time please check Cardoso, 2006; and Zilhão, 2001).
 
 ## Reproducibility and open source materials
 
-The complete R code used for all the analysis and visualizations contained in this paper is available at XXX. To produce those files the procedures described by Marwick et al. XXX for the creation of research compendiums to enhance the reproducibility of research were followed. The files provided contain all the raw data used in our analysis as well as a custom R package XXX holding the code to produce all tables and figures. To enable maximum re-use, code is released under the MIT license, data as CC-0, and figures as CC-BY (for more information see XXX).
+The complete R code used for all the analysis and visualizations contained in this paper is available at our online research compendium: https://osf.io/vw4td/. To produce those files the procedures described by Marwick et al. (2017) for the creation of research compendiums to enhance the reproducibility of research were followed. The files provided contain all the raw data used in our analysis as well as a custom R project (Wickham, 2015) holding the code to produce all tables and figures. To enable maximum re-use, code is released under the MIT license, data as CC-0, and figures as CC-BY (for more information see Marwick, 2016).
 
 
 # Results
 
 ## General Patterns
+Figure 1 presents the location of the 55 sites included in our short sample. A first evaluation of the distribution of the sites across the territory reveals a more dense concentration of sites in Central Portugal, a very weak presence of sites in northern regions, with only one site located in the Côa River valley, and no sites located to the North of the Douro valley. Most of the sites present in this sample are open-air locations (n = 37), being noteworthy that both coastal (using current coastline as reference) and inland territories appear represented. Table 1 summarizes the median and interquartile ranges for each of the extracted variables. Except for Slope, all remaining variables are not significantly different between open-air and cave sites. In terms of elevation, the maximum altitude at which archaeological sites are found is 512 and 487 meters a.c.s.l., corresponding these values to the cave site of Lapa do Picareiro (Benedetti et al., 2019) and the open-air site of Lagoa do Bando (Peça, 2016). Median values indicate that cave sites tend to be located at higher altitudes but closer to water lines. Both open-air and cave locations present median values for Aspect that indicate preference for the occupation of south-facing slopes (i.e., 170-180 degrees).
 
-Figure XXX presents the distribution of the 54 sites included in our short sample. A first evaluation of the distribution of the sites across the territory reveals a more dense concentration of sites in Central Portugal, a very weak presence of sites in northern regions, with only one site located in the Côa River valley (Aubry et al., 2020), and no sites located to the North of the Douro valley. Most of the sites present in this sample are open-air locations (n = 36), being noteworthy that both coastal (using current coastline as reference) and inland territories appear represented. Table \@ref(tab:general-table) summarizes the median and interquartile ranges for each of the extracted variables. Except for Slope, all remaining variables are not significantly different between open-air and cave sites. This is because cave and rockshelter sites tend to be located in areas with steeper slopes than open-air sites. In terms of elevation, the maximum altitude at which archaeological sites are found is 511 meters above current sea level (a.s.l.), corresponding this value to the cave site of Lapa do Picareiro, in central Portugal. Cave sites tend, in fact, to be located at higher altitudes but in closer proximity to water lines. Both open-air and cave locations present median values for Aspect that indicate preference for the occupation of south-facing slopes.
 
-
-```{r general-table, eval = FALSE, echo = FALSE}
+```{r general-table, echo = FALSE}
 
 
 general_table <- as.data.frame(tabmulti(data = as.data.frame(sites_vals), xvarname = "Type",
@@ -271,11 +285,11 @@ knitr::kable(general_table, caption = "Median and Interquartile Range (IQR) for 
 
 
 ## Open-air sites
+The analysis of individual variables comparing open-air sites with randomly resampled background points is presented in Figure 2 and Table 2. Only one of the variables, Elevation, seems to attest that Middle Paleolithic sites are not randomly located in the landscape. In fact, while both curves are right skewed, there seems to be a clear tendency for the location of open-air sites at lower altitudes than the range of available elevations across the territory. The validity of this observation is confirmed by the results of the Mann-Whitney U test, which revealed a p-value of 0.003. The remaining three variables - Slope, Aspect and Distance to rivers - do not revealed any statistically significant differences between sites and the background. In the case of distance to rivers, however, the sites curve presented in Figure 2.D seems to reveal a more pronounced preference for near-river locations when compared with the variability present in the landscape.
 
-Results of the analysis of individual variables comparing open-air sites with randomly resampled background points is presented in Figure \@ref(fig:open-air-plots) and Table \@ref(tab:table-stats-open). Only one of the variables, Elevation, seems to attest that Middle Paleolithic sites are not randomly located in the landscape. In fact, while both curves are right skewed, there seems to be a clear tendency for the location of open-air sites at lower altitudes than the range of available elevations across the territory. The validity of this observation is confirmed by the results of the Mann-Whitney U test, which revealed a p-value of 0.00. The remaining three variables, Slope, Aspect and Distance to rivers, do not revealed any statistically significant differences between sites and the background. In the case of distance to rivers, however, the sites curve seems to reveal a more pronounced preference for near-river locations within the variability present in the landscape.
 
 
-```{r plot-altitude, eval = FALSE, echo = FALSE}
+```{r plot-altitude, echo = FALSE}
 
 # Calculate site altitude densities
 open_air_altitude_densities <- open_air %$%
@@ -331,7 +345,7 @@ open_air_elevation <- ggplot() +
 
 ```
 
-```{r test-altitude, echo = false, eval = FALSE}
+```{r test-altitude, echo = FALSE}
 
 # Draw 1000 random samples from background, and compute two-sample Wilcoxon tests (Mann-Whitney U tests)
 background_altitude_MWU <- foreach(n = 1:1000, .combine = rbind) %do% {
@@ -369,7 +383,7 @@ background_altitude_tab <- background_altitude_tab %>%
 ```
 
 
-```{r plot-slope, eval = FALSE, echo = FALSE}
+```{r plot-slope, echo = FALSE}
 
 # Calculate site altitude densities
 open_air_slope_densities <- open_air %$%
@@ -425,7 +439,7 @@ open_air_slope <- ggplot() +
 
 ```
 
-```{r test-slope, echo = false, eval = FALSE}
+```{r test-slope, echo = FALSE}
 
 # Draw 1000 random samples from background, and compute two-sample Wilcoxon tests (Mann-Whitney U tests)
 background_slope_MWU <- foreach(n = 1:1000, .combine = rbind) %do% {
@@ -462,7 +476,7 @@ background_slope_tab <- background_slope_tab %>%
 ```
 
 
-```{r plot-aspect, eval = FALSE, echo = FALSE}
+```{r plot-aspect, echo = FALSE}
 
 # Calculate site altitude densities
 open_air_aspect_densities <- open_air %$%
@@ -558,7 +572,7 @@ background_aspect_densities_groups <- background_aspect_densities %>%
 
 ```
 
-```{r test-aspect, echo = false, eval = FALSE}
+```{r test-aspect, echo = FALSE}
 
 # Draw 1000 random samples from background, and compute two-sample Wilcoxon tests (Mann-Whitney U tests)
 background_aspect_MWU <- foreach(n = 1:1000, .combine = rbind) %do% {
@@ -595,7 +609,7 @@ background_aspect_tab <- background_aspect_tab %>%
 ```
 
 
-```{r plot-distance, eval = FALSE, echo = FALSE}
+```{r plot-distance, echo = FALSE}
 
 # Calculate site altitude densities
 open_air_distance_densities <- open_air %$%
@@ -651,7 +665,7 @@ open_air_distance <- ggplot() +
 
 ```
 
-```{r test-distance, echo = false, eval = FALSE}
+```{r test-distance, echo = FALSE}
 
 # Draw 1000 random samples from background, and compute two-sample Wilcoxon tests (Mann-Whitney U tests)
 background_distance_MWU <- foreach(n = 1:1000, .combine = rbind) %do% {
@@ -687,13 +701,13 @@ background_distance_tab <- background_distance_tab %>%
 
 ```
 
-```{r open-air-plots, eval = FALSE, echo = FALSE, fig.cap = "Kernel density plots comparing open-air sites (red line) and randomly resampled background points (black line) for A) Elevation, B) Slope, C) Aspect, and D) Distance to rivers. The grey areas represent the 95% confidence interval calculated from the resampling."}
+```{r open-air-plots, echo = FALSE, fig.cap = "Kernel density plots comparing open-air sites (red line) and randomly resampled background points (black line) for A) Elevation, B) Slope, C) Aspect, and D) Distance to rivers. The grey areas represent the 95% confidence interval calculated from the resampling."}
 
 plot_grid(open_air_elevation, open_air_slope, open_air_aspect, open_air_distance, labels = c("A", "B", "C", "D"), nrow = 2, ncol = 2)
 
 ```
 
-```{r table-stats-open, eval = FALSE, echo = FALSE}
+```{r table-stats-open, echo = FALSE}
 
 stats_table_open_air <- rbind(background_altitude_tab, background_slope_tab, background_aspect_tab, background_distance_tab)
 
@@ -704,11 +718,10 @@ knitr::kable(stats_table_open_air, caption = "Mann-Whitney U test results for th
 
 
 ## Caves
+The results of individual variables analysis for the cave sites are presented in Figure 3 and Table 3. Comparisons between Middle Paleolithic caves and all other caves revealed no statistically significant differences in the distribution of all considered variables. In fact, the distribution of Middle Paleolithic sites is always constrained within the variability of the background caves sample, presenting very similar median and interquartile range values. Still, as with the open-air sample, the distribution of the variable Distance to rivers reveals a preference for caves located closer to water courses, particularly when considering the presence of an unparallel series of caves in the background comparison group at distances of more than 4000 meters. Also interesting is the low p-value in the Slope variable, that when checked against the plot in Figure 3.B points to the fact that a considerable number of Middle Paleolithic caves tend to be located in higher slope settings than the comparison group. The repetition of the Mann-Whitney U test, using as alternative hypothesis that the background group has lower values of Slope returns a statistically significant p-value of 0.03, confirming our inference.
 
-The results of individual variables analysis for the cave sites are presented in Figure \@ref(fig:caves-boxplots) and Table \@ref(tab:caves-statistics). Comparisons between Middle Paleolithic caves and all other caves revealed no statistical significant differences in the distribution of all considered variables. In fact, the distribution of Middle Paleolithic sites is always constrained within the variability of the all caves sample, presenting very similar median and interquartile range values across. As with the open-air sample, the distribution of the variable Distance to rivers reveals a preference for caves located closer to rivers, particularly when having into consideration the presence of a number of caves  
 
-
-```{r caves-boxplots, eval = FALSE, echo = FALSE}
+```{r caves-boxplots, echo = FALSE}
 
 
 cave <- caves %>% 
@@ -775,7 +788,9 @@ plot_grid(caves_elevation, caves_slope, caves_aspect, caves_distance, labels=c("
 
 ```
 
-```{r caves-statistics, eval = FALSE, echo = FALSE}
+
+
+```{r caves-statistics, echo = FALSE}
 
 caves_elevation_MWU <- wilcox.test(areaDEM_cut ~ TYPE, data = cave,
                    exact = FALSE)
@@ -810,22 +825,17 @@ knitr::kable(caves_stats, caption = "Results of the Mann-Whitney U test, for eac
 
 ```
 
-
-
 ## Principal Component Analysis
+Principal Component analysis was conducted using all four considered variables as active variables and Latitude as a quantitative supplementary variable. The first two Principal Components (PC) of analysis express 66.25% of the total dataset variability. This percentage is relatively high and greater than the reference value calculated by the FactoMineR package (Sebastien et al., 2008) (i.e., the 0.95-quantile of the inertia percentages distribution obtained by simulating 2072 data tables of equivalent size based on a normal distribution) of 64.66%.
 
-Principal Component analysis was conducted using all four considered variables as active variables, and including Longitude and Latitude as quantitative supplementary variables.
+Table 4 presents the correlation coefficients and significance tests between variables and each of the first two principal components. Slope, Elevation and Aspect all significantly contribute to PC1 positive side, together with Latitude that appears positively associated with the three other variables. Distance to rivers have the smaller contribution to PC1 and is negatively associated with that axis. Having a narrower span of eligible values, Distance to rivers has thus less impact on the variance and can be considered one of the most important variables for settlement location choice, considering that distances from a site to water courses would be one of the most sought-after characteristics, on which less variance would be accepted by Middle Paleolithic populations. For PC2, only two variables present significant positive correlation - Distance to rivers and Elevation. 
 
-The first two Principal Components (PC) of analysis express 67.23% of the total dataset variability. This percentage is relatively high and greater than the reference value (i.e., the 0.95-quantile of the inertia percentages distribution obtained by simulating 1266 data tables of equivalent size on the basis of a normal distribution) of 64.64%.
+The distribution of sites across PC1 and PC2 is represented in Figure 4. A large proportion of the sites plot towards the lower left region of the graphic, represented by low values of all considered variables. Still, there are at least two isolated groups: the two abovementioned outlier sites associated with rather high values for Elevation -  Lapa do Picareiro and Lagoa do Bando; and sites associated with high values of Distance to rivers, most of them located in coastal regions, such as Curva do Belixe, Lagoa Funda 1 and 2, Gruta da Furninha, Gruta da Figueira Brava, and Pedrogão.
 
-Tables X and X present the correlation coefficients and significant test between variables and each one of the first two principal components. Slope, Elevation and Aspect all significantly contribute to PC1 positive side. Latitude and Distance to rivers have smaller contributions, the latter negatively associated with that axis. For PC2, only two variables present significant positive correlation - Distance to rivers and Elevation. 
-
-The distribution of sites within the PC1 and PC2 is presented in Figure \@ref(fig:pca-plot). Most of the sites plot in the center of the graphic, not being clearly associated with any of the components just described. Still, there are at least two clearly isolated groups: sites associated with high values of Elevation, namely the cave site of Lapa do Picareiro and the open-air location of Lagoa do Bando; and sites associated with high values of Distance to rivers, namely the coastal sites of Curva do Belixe, Lagoa Funda 1 and 2, Gruta da Furninha, Pedrogão, and Vale do Pardo, as well as the inland cave of Gruta do Escoural. More interesting, however, is the plotting of Gruta do Escoural with other quartz-dominated Middle Paleolithic assemblages of Gruta da Figueira Brava, and Lagoa Funda as shown by the confidence ellipse based on the dominant raw materials for each site. Also noteworthy regarding the raw material association with the PCA results is the plotting of most of the sites with quartzite dominated lithic assemblages, in the negative section of PC2, corresponding to locations closer to rivers and at lower elevations.
-
+When comparing site location with the dominant raw materials, the most interesting pattern is the grouping of quartz-dominated assemblages of Gruta da Figueira Brava, Lagoa Funda, and Gruta do Escoural in the area of PC2 represented by greater distances to rivers.  Also noteworthy regarding raw materials associations with the PCA results is the plotting of most of the sites with mixed assemblages (i.e., no dominant raw material identified), in the negative section of PC2, corresponding to locations closer to rivers and at the lowest elevations of all sample.
 
 
-
-```{r pca-table, eval = FALSE, echo = FALSE}
+```{r pca-table, echo = FALSE}
 
 # Plot Results
 
@@ -859,7 +869,7 @@ knitr::kable(pca_table, caption = "Correlation coefficients between variables an
 
 ```
 
-```{r pca-plot, eval = FALSE, echo = FALSE}
+```{r pca-plot, echo = FALSE}
 
 groups <- pca_data %>% 
   dplyr::select(Dmn_R_M)
@@ -879,38 +889,182 @@ fviz_pca_biplot(res.pca,
 
 ```
 
-
-groups <- pca_data %>% 
-  dplyr::select(Dmn_R_M) %>% 
-  drop_na()
-groups <- as.factor(groups$Dmn_R_M)
-
-fviz_pca_biplot(res.pca,
-                col.ind = groups,
-                addEllipses = TRUE,
-                ellipse.type = "confidence",
-                legend.title = "Raw Material",
-                repel = TRUE,
-                label = "var",
-                pointsize = 3) +
-                theme(text = element_text(size=15), plot.title = element_text(lineheight=.8, face="bold"),                       plot.margin=unit(c(1,1,1,1),"cm")) +
-  theme_cowplot()
-
-```
-
-
 # Discussion
+Our results show that the Middle Paleolithic occupation in westernmost Iberia is represented across a very diverse range of landscapes and ecosystems. Preference for topographical features does not seem to be significantly different between caves and open-air sites. The only exception being Slope, which can be explained by differences in the geomorphological attributes surrounding the sites, with most of Portuguese caves being found in rugged settings.
 
-# Conclusion
+When compared with the background samples, spatial biases seem to be only present in what concerns sites’ elevation. Altitudes above c. 250 meters a.c.s.l. are underrepresented in our sample, although not completely absent given the upper limit of 512 meters. In the case of open-air sites, this difference is statistically significant, suggesting that higher elevations were very sporadically used and possibly only when shelter was naturally available. 
+
+The environmental and geomorphological history of the region, specifically in what relates to the dynamics of Pleistocene glaciation could have had some impact on settlement location regarding elevation. The minimum altitude for the permafrost limits at the onset of the Last Glacial Maximum is thought to have been around 1650 meters a.c.s.l. in the northern slopes of the Serra da Estrela formation (Daveau, 1980, 1971) and c. 1100/1200 meters in Serra do Gerês (Ferreira, 2012). Terminal moraines in both mountains must have reached altitudes between 680 and 725 meters. Although these data are apparently related with a much later period than the one covered by our study, we cannot exclude the presence of similar glacier extensions during the early stages of the Last Glacial. Ages of c. 125 ka cal BP have in fact been recorded in the Galician Serra da Queixa for the most external moraine (Ferreira et al., 2000). These features would have certainly influenced the altitudinal distribution of sites. Additionally, in the case of caves, there is only two sites of the background sample located above 550 meters, indicating that naturally sheltered locations in very high-altitude environments are particular rare in this territory and were limitedly available for humans and other animal species.
+
+Although not statistically different from the background samples, distance from sites to rivers also revealed some interesting patterns. First, for both open-air and caves there seems to be a preference for locations closer to water courses. Other works across Iberia have demonstrated that distance to freshwater is a significant factor when considering Paleolithic settlement (e.g. Turrero et al., 2013, 2010). The main reason being the fact that rivers provide easier access to potable water, but also to hunting large/medium mammals which would be attracted by the water. A significant number of Middle Paleolithic sites included in our sample have been, in fact, interpreted as riverine locations for herbivore hunting, such as the cases of Foz do Enxarrique (Brugal and Raposo, 1999; Raposo et al., 1985), Santo Antão do Tojal (Figueiredo et al., 2005), Conceição (Raposo and Cardoso, 1998), Porto Meirinho (Carrondo, 2013), or Sapateiros 2 (Cunha-Ribeiro and Cura, 2013).
+
+In this context, our results also add a broader perspective to the work by Burke et al. (2011) on the Paleolithic occupation south of the Sado basin (southern Portugal), whose analysis revealed that distance to water could not be considered a key limiting factor in the region, with all sites located at within a one-hour walk from a permanent water source.
+Second, higher distance to rivers seems to be associated with a series of sites where quartz-dominated assemblages have been described. Most of these sites, including Gruta do Escoural (Otte and Silva, 1996), Gruta da Figueira Brava (Zilhão et al., 2020), and Lagoa Funda (Bicho, 2004), are located in the southern part of the territory. The almost exclusive use of locally available raw materials is one of the main patterns highlighted by different authors when characterizing Middle Paleolithic stone tool production in Portugal (see e.g., Almeida et al., 2008; Bisson et al., 2011; Burke et al., 2011; Cardoso, 2006; Cardoso et al., 2002; Pereira et al., 2011; Raposo, 1995; Zilhão, 2001). This seems to be the case for most of these quartz-dominated sites, in which the underrepresented fine-grain materials are always allochthonous. The intensive use of quartz and its positive correlation with distance to water courses suggested by the Principle Component Analysis might be related to the low availability of other raw materials, which in near-river locations are most of the times accessible as pebbles/cobbles from gravel riverbeds. This trend is very clear in the distribution of sites in which assemblages are marked by a diverse mix of raw materials, invariably associated with riverine environments (Figure 4). Together with other evidence for the exploitation of resources restricted to the immediate environment (e.g., marine resources are only present in coastal sites), it has been suggested that patterns of local procurement of raw materials indicate a high degree of residential mobility inside relatively small territories during the Middle Paleolithic (Zilhão, 2001).
+
+Regional faunal and botanical records for the Middle Paleolithic timeframe show a persistence of a rich biodiversity, with the association of several species of tropical climate, temperate/hot, temperate and temperate/cold, but never arctic, that reveals a resilient ecology, even during the peak of glacial phases (Brugal and Raposo, 1999; Brugal and Valente, 2007; Cardoso, 1993; Diniz, 2003; Fletcher et al., 2010; Haws et al., 2010; Nabais and Zilhão, 2019). These data seem to confirm the general character of westernmost Iberia as a refugium, most likely as a result of the thermo-regulatory effect of the Atlantic Ocean. At a large temporal scale, the diversity of locations used by Neanderthals are in agreement with a diverse and suitable habitat, at least in the westernmost and southernmost regions of the territory. In fact, it is evident from Figure 1 that there are still large areas uncovered by archaeological sites, mostly corresponding to the interior parts of the country. Recent habitat suitability studies for the Last Glacial Maximum in Iberia (Burke et al., 2019, 2017), and the Last Interglacial optimum (MIS 5e) in Europe (Benito et al., 2017) suggest that such regions (mostly composed of mountain ranges and continental plains) were habitats with low suitability values, representing riskier environments to hunter-gatherers. While this seem to corroborate the spatial patterns described in this paper, it cannot be completely discarded the existence of a significant historical research bias towards some of the regions. Rich assemblages recovered from several multi-layered Middle Paleolithic sites located along the upstream sections of the Tagus and Guadiana river valleys, and the Côa region, clearly reveal that the occupation of these territories, possibly limited to near-river environments, was far more frequent than what the current scenario suggests. 
+
+
+# Conclusions
+
+This study aimed to present an initial assessment of the spatial distribution of Middle Paleolithic sites in westernmost Iberia. The variability offered by our analysis is relevant since it provides preliminary evidence on the diversity of landscapes preferentially occupied by Neanderthals, and on the potential bias that previous and future studies face in what regards to biogeographical, paleoecological, and even technological interpretations. This is the case of the abovementioned preferences to low elevations and shorter distance to riverbanks, the latter apparently influencing the availability and exploitation of lithic raw materials.
+
+Due to problems related with the quality, sampling interval, and resolution of the available dataset, detailed studies on the Middle Paleolithic settlement organization across the considered territory are currently very challenging. While studies focused on single sites will be important to understand specific dynamics of Neanderthal behavior across time, only further approaches at a landscape scale, with better chronological control and making use of a modern range of field and laboratory methods, will allow to build a transect of environmental and behavioral variability for the Middle Paleolithic in westernmost Iberia.
+
 
 # Acknowledgements
+
+We would like to thank Milena Carvalho and Nuno Bicho for inviting us to participate in the Society for American Archaeology 2019 thematic symposium dedicated to Peninsular Southern Europe Refugia During the Middle Paleolithic. Thanks to Ariane Burke who provided coordinates for the sites found in the context of the Sado River Drainage Survey project (2004-2008). JC and CG are funded by Fundação para a Ciência e para a Tecnologia (FCT), contract references DL57/2016/CP1361/CT0026 and DL57/2016/CP1361/CT0029. DM is funded by the Interdisciplinary Center for Archaeology and Evolution of Human Behavior (ICArEHB), University of Algarve (project UIDP/04211/2020).
 
 <!-- The following line inserts a page break when the output is MS Word. For page breaks in PDF, use \newpage on its own line.  -->
 ##### pagebreak
 
 # References 
-<!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
-<div id="refs"></div>
+<!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files): 
+<!--<div id="refs"></div>-->
+
+Almeida, N., Deprez, S., De Dapper, M., 2008. The Palaeolithic occupation of the north-eastern Alentejo (Portugal): a geoarchaeological approach, in: Graphical Markers and Megalith Builders in the International Tagus, Iberian Peninsula. Archaeopress, pp. 19–25.
+Angelucci, D.E., Zilhão, J., 2009. Stratigraphy and formation processes of the Upper Pleistocene deposit at Gruta da Oliveira, Almonda karstic system, Torres Novas, Portugal. Geoarchaeology 24, 277–310. https://doi.org/10.1002/gea.20267
+
+Antunes, M.T., Cardoso, J.L., 2000. Gruta Nova da Columbeira, Gruta das  Salemas and Gruta da Figueira Brava: stratigraphy, and chronology of the pleistocene deposits, in: Antunes, M.T. (Ed.), Últimos Neandertais Em Portugal – Evidência, Odontológica e Outra. Academia das Ciências de Lisboa, Lisboa.
+
+Aubry, T., Dimuccio, L.A., Barbosa, A.F., Luís, L., Santos, A.T., Silvestre, M., Thomsen, K.J., Rades, E., Autzen, M., Murray, A.S., 2020. Timing of the Middle-to-Upper Palaeolithic transition in the Iberian inland (Cardina-Salto do Boi, Côa Valley, Portugal). Quat. Res. 1–21. https://doi.org/10.1017/qua.2020.43
+
+Benedetti, M.M., Haws, J.A., Bicho, N.F., Friedl, L., Ellwood, B.B., 2019. Late Pleistocene site formation and paleoclimate at Lapa do Picareiro, Portugal. Geoarchaeology 34, 698–726. https://doi.org/10.1002/gea.21735
+
+Benito, B.M., Svenning, J.-C., Kellberg‐Nielsen, T., Riede, F., Gil‐Romera, G., Mailund, T., Kjaergaard, P.C., Sandel, B.S., 2017. The ecological niche and distribution of Neanderthals during the Last Interglacial. J. Biogeogr. 44, 51–61. https://doi.org/10.1111/jbi.12845
+
+Bicho, N., 2004. The middle Paleolithic occupation of southern Portugal, in: Settlement Dynamics of the Middle Paleolithic and Middle Stone Age. pp. 513–531.
+
+Bisson, M.S., Burke, ARIANE, Meignen, L., Burke, ADRIAN, 2011. Moinhos and Mina do Paço; Middle Palaeolithic lithic chipping stations in the Sado Basin, Alentejo, Portugal. O Arqueólogo Port. 5, 359–394.
+
+Bocinsky, K., 2017. Landscape-based Hypothesis Testing in R, in: How To Do Archaeological Science Using R.
+
+Brugal, J.-P., Raposo, L., 1999. Foz do Enxarrique (Ródão, Portugal): preliminary results of the analysis of a bone assemblage from a Middle Palaeolithic open site. Monogr. Röm.-Ger. Zentralmuseums 42, 367–379.
+
+Brugal, J.-P., Valente, M.J., 2007. Dynamic of large mammalian associations in the Pleistocene of Portugal.
+
+Burke, A., Kageyama, M., Latombe, G., Fasel, M., Vrac, M., Ramstein, G., James, P.M., 2017. Risky business: The impact of climate and climate variability on human population dynamics in Western Europe during the Last Glacial Maximum. Quat. Sci. Rev. 164, 217–229.
+
+Burke, A., Meignen, L., Bisson, M., Pimentel, N., Henriques, V., Andrade, C., Da Conceição Freitas, M., Kageyama, M., Fletcher, W., Parslow, C., Guiducci, D., 2011. The Palaeolithic occupation of southern Alentejo: the Sado River Drainage Survey. Trab. Prehist. 68, 25–49. https://doi.org/10.3989/tp.2011.11057
+
+Burke, A., Riel-Salvatore, J., Barton, C.M., 2019. Human response to habitat suitability during the Last Glacial Maximum in Western Europe. J. Quat. Sci. n/a-n/a. https://doi.org/10.1002/jqs.3004
+
+Burrough, P.A., McDonnell, R., McDonnell, R.A., Lloyd, C.D., 2015. Principles of geographical information systems. Oxford University Press.
+
+Cardoso, J.L., 2006. The Mousterian complex in Portugal. Zephyrus Rev. Prehist. Arqueol. 21–49.
+
+Cardoso, J.L., 1993. Contribuição para o conhecimento dos grandes mamíferos do Plistocénico Superior de Portugal. Câmara municipal de Oeiras.
+
+Cardoso, J.L., Raposo, L., Ferreira, O.V., 2002. A Gruta Nova da Columbeira – Bombarral. Câmara Municipal do Bombarral, Cadaval.
+
+Carrondo, J., 2013. Análise tecnológica da indústria lítica do sítio do Porto Meirinho 1: um sítio do Paleolítico Médio no Baixo Alentejo, in: Almeida, F. (Ed.), Testemunhos Do Paleolítico No Regolfo de Alqueva, Memórias de Odiana. Beja, pp. 57–81.
+
+Carvalho, M., Peireira, T., Manso, C., 2018. Rabbit exploitation in the Middle Paleolithic at Gruta Nova da Columbeira, Portugal. J. Archaeol. Sci. Rep. 21, 821–832. https://doi.org/10.1016/j.jasrep.2018.09.003
+
+Cascalheira, J., Bicho, N., 2018. Testing the impact of environmental change on hunter-gatherer settlement organization during the Upper Paleolithic in western Iberia. J. Quat. Sci. 33, 323–334. https://doi.org/10.1002/jqs.3009
+
+Contreras, D., 2017. Using R as a GIS: working with raster and vector data, in: How To Do Archaeological Science Using R.
+
+Cortés-Sánchez, M., Jiménez-Espejo, F.J., Simón-Vallejo, M.D., Stringer, C., Lozano Francisco, M.C., García-Alix, A., Vera Peláez, J.L., Odriozola, C.P., Riquelme-Cantal, J.A., Parrilla Giráldez, R., Maestro González, A., Ohkouchi, N., Morales-Muñiz, A., 2019. An early Aurignacian arrival in southwestern Europe. Nat. Ecol. Evol. https://doi.org/10.1038/s41559-018-0753-6
+
+Cunha, P., Martins, A., Buylaert, J.-P., Murray, A., Gouveia, M., Font, E., Pereira, T., Figueiredo, S., Ferreira, C., Bridgland, D., Yang, P., Stevaux, J., Mota, R., 2019. The Lowermost Tejo River Terrace at Foz do Enxarrique, Portugal: A Palaeoenvironmental Archive from c. 60–35 ka and Its Implications for the Last Neanderthals in Westernmost Iberia. Quaternary 2, 3. https://doi.org/10.3390/quat2010003
+
+Cunha-Ribeiro, J.P., Cura, S., 2013. A jazida paleolítica de Sapateiros 2 (Reguengos de Monsaraz), in: Almeida, F. (Ed.), Testemunhos Do Paleolítico No Regolfo de Alqueva, Memórias de Odiana. Beja, pp. 36–56.
+
+Dalén, L., Orlando, L., Shapiro, B., Brandström-Durling, M., Quam, R., Gilbert, M.T.P., Díez Fernández-Lomana, J.C., Willerslev, E., Arsuaga, J.L., Götherström, A., 2012. Partial genetic turnover in neandertals: continuity in the east and population replacement in the west. Mol. Biol. Evol. 29, 1893–1897.
+
+Daura, J., Sanz, M., Arsuaga, J.L., Hoffmann, D.L., Quam, R.M., Ortega, M.C., Santos, E., Gómez, S., Rubio, A., Villaescusa, L., Souto, P., Mauricio, J., Rodrigues, F., Ferreira, A., Godinho, P., Trinkaus, E., Zilhão, J., 2017. New Middle Pleistocene hominin cranium from Gruta da Aroeira (Portugal). Proc. Natl. Acad. Sci. 114, 3397–3402. https://doi.org/10.1073/pnas.1619040114
+
+Daura, J., Sanz, M., Deschamps, M., Matias, H., Igreja, M., Villaescusa, L., Gómez, S., Rubio, A., Souto, P., Rodrigues, F., Zilhão, J., 2018. A 400,000-year-old Acheulean assemblage associated with the Aroeira-3 human cranium (Gruta da Aroeira, Almonda karst system, Portugal). Comptes Rendus Palevol 17, 594–615. https://doi.org/10.1016/j.crpv.2018.03.003
+
+Daveau, S., 1980. Espaço e tempo: evolução do ambiente geográfico de Portugal ao longo dos tempos pré-históricos. Clio Rev. Cent. História Universidade Lisb. 2, 13–37.
+
+Daveau, S., 1971. La glaciation de la Serra da Estrela. Finisterra 6.
+de la Torre, I., Martínez-Moreno, J., Mora, R., 2013. Change and Stasis in the Iberian Middle Paleolithic: Considerations on the Significance of Mousterian Technological Variability. Curr. Anthropol. 54, S320–S336. https://doi.org/10.1086/673861
+
+Diniz, F., 2003. The particular aspect of Pleistocene pollen flora from the west coast of Portugal, in: Abstract of Poster Presented at the XVI INQUA Congress, Reno, NV.
+
+Ferreira, A.B., 2012. Considerações acerca do arrefecimento Plistocénico em Portugal. Finisterra 35. https://doi.org/10.18055/Finis1660
+
+Ferreira, A.B., Romaní, J.V., Zêzere, J., Rodrigues, M.L., 2000. A Glaciação plistocénica na Serra do Gerês. Finisterra 35, 39–68.
+
+Figueiredo, S., Carvalho, J., Nobre, L., 2005. A Estação Arqueológica do Campo de Futebol de Santo Antão do Tojal-Loures, in: O Paleolítico: Actas Do IV Congresso de Arqueologia Peninsular. Centro de Estudos de Património, Universidade do Algarve, Faro, pp. 349–364.
+
+Finlayson, C., Giles Pacheco, F., Rodríguez-Vidal, J., Fa, D.A., María Gutierrez López, J., Santiago Pérez, A., Finlayson, G., Allue, E., Baena Preysler, J., Cáceres, I., Carrión, J.S., Fernández Jalvo, Y., Gleed-Owen, C.P., Jimenez Espejo, F.J., López, P., Antonio López Sáez, J., Antonio Riquelme Cantal, J., Sánchez Marco, A., Giles Guzman, F., Brown, K., Fuentes, N., Valarino, C.A., Villalpando, A., Stringer, C.B., Martinez Ruiz, F., Sakamoto, T., 2006. Late survival of Neanderthals at the southernmost extreme of Europe. Nature 443, 850–853. https://doi.org/10.1038/nature05195
+
+Fletcher, W.J., Sánchez Goñi, M.F., Allen, J.R.M., Cheddadi, R., Combourieu-Nebout, N., Huntley, B., Lawson, I., Londeix, L., Magri, D., Margari, V., Müller, U.C., Naughton, F., Novenko, E., Roucoux, K., Tzedakis, P.C., 2010. Millennial-scale variability during the last glacial in vegetation records from Europe. Quat. Sci. Rev. 29, 2839–2864. https://doi.org/10.1016/j.quascirev.2009.11.015
+
+Galván, B., Hernández, C.M., Mallol, C., Mercier, N., Sistiaga, A., Soler, V., 2014. New evidence of early Neanderthal disappearance in the Iberian Peninsula. J. Hum. Evol. 75, 16–27. https://doi.org/10.1016/j.jhevol.2014.06.002
+
+Haws, J., Benedetti, M., Friedl, L., Bicho, N., Cascalheira, J., Carvalho, M., 2018. The Middle-Upper Paleolithic Transition in Southern Iberia: New Data from Lapa do Picareiro, Portugal.
+
+Haws, J.A., Benedetti, M.M., Funk, C.L., Bicho, N.F., Daniels, J.M., Hesp, P.A., Minckley, T.A., Forman, S.L., Jeraj, M., Gibaja, J.F., Hockett, B.S., 2010. Coastal wetlands and the Neanderthal settlement of Portuguese Estremadura. Geoarchaeology 25, 709–744. https://doi.org/10.1002/gea.20330
+
+Haws, J.A., Benedetti, M.M., Funk, C.L., Bicho, N.F., Pereira, T., Marreiros, J., Daniels, J.M., Forman, S.L., Minckley, T.A., Denniston, R.F., 2020. Late Pleistocene Landscape and Settlement Dynamics of Portuguese Estremadura. J. Field Archaeol. 1–27. https://doi.org/10.1080/00934690.2020.1733780
+
+Haws, J.A., Funk, C.L., Benedetti, M.M., Bicho, N.F., Daniels, J.M., Minckley, T.A., Denniston, R.F., Jeraj, M., Gibaja, J.F., Hockett, B.S., Forman, S.L., 2011. Paleolithic Landscapes and Seascapes of the West Coast of Portugal, in: Bicho, N.F., Haws, J.A., Davis, L.G. (Eds.), Trekking the Shore. Springer New York, New York, NY, pp. 203–246. https://doi.org/10.1007/978-1-4419-8219-3_9
+
+Higham, T., Douka, K., Wood, R., Ramsey, C.B., Brock, F., Basell, L., Camps, M., Arrizabalaga, A., Baena, J., Barroso-Ruíz, C., Bergman, C., Boitard, C., Boscato, P., Caparrós, M., Conard, N.J., Draily, C., Froment, A., Galván, B., Gambassini, P., Garcia-Moreno, A., Grimaldi, S., Haesaerts, P., Holt, B., Iriarte-Chiapusso, M.-J., Jelinek, A., Jordá Pardo, J.F., Maíllo-Fernández, J.-M., Marom, A., Maroto, J., Menéndez, M., Metz, L., Morin, E., Moroni, A., Negrino, F., Panagopoulou, E., Peresani, M., Pirson, S., de la Rasilla, M., Riel-Salvatore, J., Ronchitelli, A., Santamaria, D., Semal, P., Slimak, L., Soler, J., Soler, N., Villaluenga, A., Pinhasi, R., Jacobi, R., 2014. The timing and spatiotemporal patterning of Neanderthal disappearance. Nature 512, 306–309. https://doi.org/10.1038/nature13621
+
+Hijmans, R., van Etten, J., 2012. raster: Geographic analysis and modeling with raster data.
+Kvamme, K.L., 2005. There and back again: Revisiting archaeological locational modeling, in: GIS and Archaeological Site Location Modeling. CRC Press, pp. 23–55.
+Manuppella, G., Moreira, J.C., 1975. Panorama dos calcários jurássicos portugueses. Bol. Minas.
+
+Marks, A., Monigal, K., Zilhão, J., 2001. The lithic assemblages of the Late Mousterian at Gruta da Oliveira, Almonda, Portugal, in: Les Premiers Hommes Modernes de La Péninsule Ibérique: Colloque de La Commission. pp. 145–154.
+
+Marks, A., Monigal, K., Zilhao, J., 1998. The lithic assemblages of the Late Mousterian at Gruta da Oliveira, Almonda, Portugal, in: Les Premiers Hommes Modernes de La Péninsule Iberique. Lisboa, pp. 145–154.
+
+Marks, A.E., Brugal, J.-P., Chabai, V.P., Monigal, K., Goldberg, P., Hockett, B., Peman, E., Elorza, M., Mallol, C., 2002a. Le gisement pléistocène moyen de Galeria Pesada (Estrémadure, Portugal): premiers résultats. PALEO Rev. Archéologie Préhistorique 77–100.
+
+Marks, A.E., Monigal, K., Chabai, V., 1999. Report on the initial excavations of Brecha das Lascas and Galeria Pesada (Almonda, Portuguese Estremadura). J. Iber. Archaeol. 1, 237–250.
+
+Marks, A.E., Monigal, K., Chabai, V.P., Brugal, J.P., Goldberg, P., Hockett, B., Pemán, E., Elorza, M., Mallol, C., 2002b. Excavations at the Middle Pleistocene cave site of Galeria Pesada, Portuguese Estremadura: 1997–1999. O Arqueólogo Port. 20, 7–39.
+
+Marwick, B., 2016. Computational Reproducibility in Archaeological Research: Basic Principles and a Case Study of Their Implementation. J. Archaeol. Method Theory 24, 424–450. https://doi.org/10.1007/s10816-015-9272-9
+
+Marwick, B., Boettiger, C., Mullen, L., 2017. Packaging data analytical work reproducibly using R (and friends). Am. Stat. 0–0. https://doi.org/10.1080/00031305.2017.1375986
+Melchionna, M., 2018. Small and isolated: ecology and fragmentation of Neanderthals, in: Fossilia - Reports in Palaeontology. Saverio Bartolini Lucenti, pp. 53–56. https://doi.org/10.32774/FosRepPal.20.1810.075356
+
+Nabais, M., Zilhão, J., 2019. The consumption of tortoise among Last Interglacial Iberian Neanderthals. Quat. Sci. Rev. S0277379118310217. https://doi.org/10.1016/j.quascirev.2019.03.024
+
+Otte, M., Silva, A.C. (Eds.), 1996. Recherches prehistoriques a la grotte d’Escoural, Portugal: sous la direction de Marcel otte et Antonio Carlos da Silva, ERAUL. Sérvice de prehistoire, Université de Liège, Liège.
+
+Peça, P., 2016. A indústria lítica do paleolítico médio da lagoa do bando (mação, alto ribatejo) 8.
+
+Pereira, T., Cunha, P.P., Martins, A.A., Nora, D., Paixão, E., Figueiredo, O., Raposo, L., Henriques, F., Caninas, J., Moura, D., Bridgland, D.R., 2019. Geoarchaeology of the Cobrinhos site (Vila Velha de Ródão, Portugal) - a record of the earliest Mousterian in western Iberia. J. Archaeol. Sci. Rep. 24, 640–654. https://doi.org/10.1016/j.jasrep.2018.11.026
+
+Pereira, T., Haws, J., Bicho, N., 2011. O Paleolítico Médio no território português. Mainake XXXIII, 11–30.
+
+Raposo, L., 1995. Ambientes, territorios y subsistencia en el Paleolitico medio de Portugal. Complutum 6, 57.
+
+Raposo, L., Cardoso, J.L., 1998. O Sítio do Paleolítico Médio da Conceição (Alcochete). CEMA-Centro de Estudos e Monitorização Ambiental.
+
+Raposo, L., Salvador, M., Silva, A.C., 1985. Notícia da descoberta da estação moustierense da Foz do Enxarrique, in: Actas Da I Reunião Do Quaternário Ibérico. APEQ, Lisboa, pp. 78–89.
+
+Ribeiro, A., Antunes, M.T., Ferreira, M.P., Rocha, R.B., Soares, A.F., Zbyszewski, G., De Almeida, F.M., De Carvalho, D., Monteiro, J.H., 1979. Introduction à la géologie générale du Portugal. Serviços geológicos de Portugal.
+
+Sebastien, L., Julie, J., Francoi, H., 2008. FactoMineR: An R Package for Multivariate Analysis. J. Stat. Softw. 25, 1–18.
+
+Turrero, P., Domínguez-Cuesta, M.J., Jiménez-Sánchez, M., García-Vázquez, E., 2013. The spatial distribution of Palaeolithic human settlements and its influence on palaeoecological studies: a case from Northern Iberia. J. Archaeol. Sci. 40, 4127–4138. https://doi.org/10.1016/j.jas.2013.06.003
+
+Turrero, P., García-Vázquez, E., Arbizu, M., Adán, G.E., 2010. Location, location, location: changes in the diversity of animal resources exploited by Tardiglacial humans in northern Spain. J. Quat. Sci. 25, 214–221. https://doi.org/10.1002/jqs.1301
+
+Verhagen, P., 2018. Spatial Analysis in Archaeology: Moving into New Territories, in: Siart, C., Forbriger, M., Bubenzer, O. (Eds.), Digital Geoarchaeology. Springer International Publishing, Cham, pp. 11–25. https://doi.org/10.1007/978-3-319-25316-9_2
+
+Wickham, H., 2015. R packages: organize, test, document, and share your code. O’Reilly Media, Inc., Sebastopol, CA.
+
+Wood, R.E., Barroso-Ruiz, C., Caparros, M., Jorda Pardo, J.F., Galvan Santos, B., Higham, T.F., 2013. Radiocarbon dating casts doubt on the late chronology of the Middle to Upper Palaeolithic transition in southern Iberia. Proc Natl Acad Sci U A 110, 2781–6. https://doi.org/10.1073/pnas.1207656110
+
+Zilhão, J., 2009. The Ebro frontier revisited. Mediterr. From 50, 293–312.
+Zilhão, J., 2001. Middle Paleolithic settlement patterns in Portugal, in: Conard, N. (Ed.), Settlement Dynamics of the Middle Paleolithic and Middle Stone Age. Kerns Verlag, Tubingen, pp. 597–606.
+
+Zilhão, J., 2000. The Ebro frontier: a model for the late extinction of Iberian Neanderthals. Neanderthals Edge Oxbow Books Oxf. 111–121.
+
+Zilhão, J., Anesin, D., Aubry, T., Badal, E., Cabanes, D., Kehl, M., Klasen, N., Lucena, A., Martín-Lerma, I., Martínez, S., 2017. Precise dating of the Middle-to-Upper Paleolithic transition in Murcia (Spain) supports late Neandertal persistence in Iberia. Heliyon 3, e00435.
+
+Zilhão, J., Angelucci, D.E., Igreja, M.A., Arnold, L.J., Badal, E., Callapez, P., Cardoso, J.L., d’Errico, F., Daura, J., Demuro, M., Deschamps, M., Dupont, C., Gabriel, S., Hoffmann, D.L., Legoinha, P., Matias, H., Monge Soares, A.M., Nabais, M., Portela, P., Queffelec, A., Rodrigues, F., Souto, P., 2020. Last Interglacial Iberian Neandertals as fisher-hunter-gatherers. Science 367, eaaz7943. https://doi.org/10.1126/science.aaz7943
+
+Zilhão, J., Cardoso, J.L., Pike, A.W.G., Weninger, B., 2011. Gruta Nova da Columbeira (Bombarral, Portugal): Site stratigraphy, age of the Mousterian sequence, and implications for the timing of Neanderthal extinction in Iberia 24.
 
 ##### pagebreak
 
