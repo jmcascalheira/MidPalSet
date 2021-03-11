@@ -9,8 +9,8 @@ This repository contains the data and code for our paper:
 
 > Cascalheira, J., Gonçalves, C. and Maio D. (2020). *The spatial
 > patterning of Middle Paleolithic human settlement in westernmost
-> Iberia*. Quaternary International
-> <https://doi.org/10.1016/j.quaint.2020.08.027>
+> Iberia*. Journal of Quaternary Science 
+> <https://doi.org/10.1002/jqs.3286>
 
 ### How to cite
 
